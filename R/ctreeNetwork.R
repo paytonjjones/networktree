@@ -14,16 +14,17 @@
 #' with a matrix response {y}. \code{x1} and \code{x2} are used as
 #' partitioning variables.
 #' @param data a data frame containing the variables in the model
+#' @param weights weights
+#' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
 #' @param na.action a function which indicates what should happen when the data
 #' contain missing values (\code{NA}s).
-#' @param splitBy if "network", splits only by the correlations between variables.
-#' if "data", considers means and variances of each variable (i.e., mu and sigma)
 #' @param ... arguments passed to \code{\link[partykit]{mob_control}}
 #'
 #' @return \code{\link{ctreeNetwork}} returns a list of class "\code{}" which contains:
 #'
 #'@export
-ctreeNetwork <- function(formula, data, na.action, splitBy ="network", ...)
+ctreeNetwork <- function(formula, data, weights=NULL, type=c("cor", "pcor", "EBICglasso"), 
+                         na.action, ...)
 {
   charformulaLHS <-   strsplit(as.character(formula), "+", fixed=T)[[2]]
   n <- length(charformulaLHS)

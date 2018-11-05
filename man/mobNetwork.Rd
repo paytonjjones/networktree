@@ -4,7 +4,8 @@
 \alias{mobNetwork}
 \title{Model-based recursive partitioning for networks}
 \usage{
-mobNetwork(formula, data, na.action, splitBy = "network", ...)
+mobNetwork(formula, data, type = c("cor", "pcor", "EBICglasso"), na.action,
+  splitBy = "network", ...)
 }
 \arguments{
 \item{formula}{A symbolic description of the model to be fit. This
@@ -14,6 +15,8 @@ with a matrix response {y}. \code{x1} and \code{x2} are used as
 partitioning variables.}
 
 \item{data}{a data frame containing the variables in the model}
+
+\item{type}{the type of network to compute. Can be "cor", "pcor", or "EBICglasso"}
 
 \item{na.action}{a function which indicates what should happen when the data
 contain missing values (\code{NA}s).}

@@ -4,7 +4,8 @@
 \alias{ctreeNetwork}
 \title{Conditional inference trees for networks}
 \usage{
-ctreeNetwork(formula, data, na.action, splitBy = "network", ...)
+ctreeNetwork(formula, data, weights = NULL, type = c("cor", "pcor",
+  "EBICglasso"), na.action, ...)
 }
 \arguments{
 \item{formula}{A symbolic description of the model to be fit. This
@@ -15,11 +16,12 @@ partitioning variables.}
 
 \item{data}{a data frame containing the variables in the model}
 
+\item{weights}{weights}
+
+\item{type}{the type of network to compute. Can be "cor", "pcor", or "EBICglasso"}
+
 \item{na.action}{a function which indicates what should happen when the data
 contain missing values (\code{NA}s).}
-
-\item{splitBy}{if "network", splits only by the correlations between variables.
-if "data", considers means and variances of each variable (i.e., mu and sigma)}
 
 \item{...}{arguments passed to \code{\link[partykit]{mob_control}}}
 }

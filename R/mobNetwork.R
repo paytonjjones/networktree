@@ -14,6 +14,7 @@
 #' with a matrix response {y}. \code{x1} and \code{x2} are used as
 #' partitioning variables.
 #' @param data a data frame containing the variables in the model
+#' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
 #' @param na.action a function which indicates what should happen when the data
 #' contain missing values (\code{NA}s).
 #' @param splitBy if "network", splits only by the correlations between variables.
@@ -40,7 +41,7 @@
 #' @return \code{\link{networktreeConditional}} returns a list of class "\code{}" which contains:
 #'
 #'@export
-mobNetwork <- function(formula, data, na.action, splitBy ="network", ...)
+mobNetwork <- function(formula, data, type=c("cor", "pcor", "EBICglasso"), na.action, splitBy ="network", ...)
 {
   ## manage splitBy
   cor <- switch(splitBy,
@@ -68,7 +69,7 @@ mobNetwork <- function(formula, data, na.action, splitBy ="network", ...)
 
   ## extend class and keep original call
   rval$info$call <- cl
-  class(rval) <- c("networktree", "modelbased", class(rval))
+  class(rval) <- c("networktree", "modelbased", type[1], class(rval))
   return(rval)
 }
 

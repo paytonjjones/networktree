@@ -55,4 +55,30 @@ print.networktree<- function(x,
   partykit::print.modelparty(x, title = title, objfun = objfun, ...)
 }
 
+#' Plotting 'treenetwork' objects
+#'
+#' Wraps plot.party to plot a tree model with networks on the ends. Networks
+#' are plotted with qgraph, and additional arguments are passed there
+#'
+#' @param x an object of type 'networktree'
+#' @param type "cor", "pcor", or "EBICglasso". If set to NULL, type detected from x
+#' @param layout argument passed to qgraph. Can be set to custom layout.
+#' @param ... additional arguments passed qgraph
+#'
+#'@export
+plot.networktree <- function(x, type=NULL,layout="circle", ...) {
+  
+  if(is.null(type)) {
+    type <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
+    } else if("EBICglasso" %in% class(x)) {"EBICglasso"
+    } else {"EBICglasso";
+      warning("Type of network could not be detected, plotting EBICglasso networks")}
+  }
+
+  net_terminal_inner <- function(obj, ...) {
+    net_terminal(obj,type=type,layout=layout, ...)
+  }
+  class(net_terminal_inner) <- "grapcon_generator"
+  partykit::plot.party(x, terminal_panel=net_terminal_inner,...)
+}
 

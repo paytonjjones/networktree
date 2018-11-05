@@ -4,15 +4,13 @@
 \alias{networktreeModelBased}
 \title{Model-based recursive partitioning for networks}
 \usage{
-networktreeModelBased(data, splitVars, weights = NULL, type = c("cor",
-  "pcor", "EBICglasso"), na.action, splitBy = "network", ...)
+networktreeModelBased(data, splitVars, type = c("cor", "pcor", "EBICglasso"),
+  na.action, splitBy = "network", ...)
 }
 \arguments{
 \item{data}{the cross-sectional dataset from which to compute the network}
 
 \item{splitVars}{the variables with which to test network splitting. Can be vector, matrix, or dataframe}
-
-\item{weights}{weights}
 
 \item{type}{the type of network to compute. Can be "cor", "pcor", or "EBICglasso"}
 

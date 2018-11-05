@@ -6,7 +6,6 @@
 #'
 #' @param data the cross-sectional dataset from which to compute the network
 #' @param splitVars the variables with which to test network splitting. Can be vector, matrix, or dataframe
-#' @param weights weights
 #' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
 #' @param na.action a function which indicates what should happen when the data
 #' contain missing values (\code{NA}s).
@@ -33,7 +32,7 @@
 #' @return \code{\link{networktreeModelBased}} returns a list of class "\code{}" which contains:
 #'
 #'@export
-networktreeModelBased <- function(data, splitVars, weights=NULL, type=c("cor", "pcor", "EBICglasso"),
+networktreeModelBased <- function(data, splitVars, type=c("cor", "pcor", "EBICglasso"),
                                   na.action, splitBy="network",...){
   if(is.null(colnames(data))){colnames(data) <- paste('data',1:ncol(data))}
   if(is.null(colnames(splitVars))){colnames(data) <- paste('splitVars',1:ncol(data))}
@@ -41,6 +40,6 @@ networktreeModelBased <- function(data, splitVars, weights=NULL, type=c("cor", "
   d <- cbind(data,splitVars)
   form <- paste(paste(colnames(data), collapse=" + "), "~",paste(colnames(splitVars), collapse=" + "))
 
-  tr <- mobNetwork(form, data = d, na.action=na.action, splitBy = splitBy, ...)
+  tr <- mobNetwork(form, data = d, na.action=na.action, splitBy = splitBy, type=type, ...)
   return(tr)
 }
