@@ -115,7 +115,7 @@ get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EB
 terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EBICglasso"),layout="circle",...){
   info <- get_cormat(terminal_node=terminal_node, method=method, type=type,layout=layout)
   net <- switch(info$type,
-                "cor"=qgraph::qgraph(info$cormat, graph="cor", layout=info$layout, DoNotPlot=T,...),
+                "cor"=qgraph::qgraph(info$cormat, graph="default", layout=info$layout, DoNotPlot=T,...),
                 "pcor"=qgraph::qgraph(info$cormat, graph="pcor", layout=info$layout, DoNotPlot=T,...),
                 "EBICglasso"=qgraph::qgraph(Matrix::nearPD(info$cormat)$mat, graph="glasso", sampleSize=info$sampleSize, layout=info$layout, DoNotPlot=T,...))
   return(net)

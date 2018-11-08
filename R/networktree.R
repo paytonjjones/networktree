@@ -39,10 +39,9 @@ networktree <- function(data, splitVars, type=c("cor", "pcor", "EBICglasso"),
                                    method=c("ModelBased","Conditional"),
                                    weights=NULL,...){
   if(method[1]=="ModelBased"){
-    res <- networktreeModelBased(data, splitVars, type=c("cor", "pcor", "EBICglasso"),
-                                  weights=NULL,...)
+    res <- networktreeModelBased(data, splitVars, type=type,...)
   } else if(method[1]=="Conditional"){
-    res <- networktreeConditional(data, splitVars, type=c("cor", "pcor", "EBICglasso"),
+    res <- networktreeConditional(data, splitVars, type=type,
                                   weights=NULL,...)
   }
   return(res)
