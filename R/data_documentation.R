@@ -32,9 +32,9 @@
 #' 
 #' ## Example networktree with OCI-R scale
 #' data(workaholic)
-#' netVars <- paste("OCIR",1:18,sep="")
+#' nodeVars <- paste("OCIR",1:18,sep="")
 #' splitVars <- c("Workaholism_diagnosis","Gender")
-#' myTree<-networktree(data=workaholic[,netVars], splitVars=workaholic[,splitVars])
+#' myTree<-networktree(workaholic[,nodeVars], workaholic[,splitVars])
 #' myTree
 #' plot(myTree)
 #' 

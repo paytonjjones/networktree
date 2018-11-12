@@ -9,12 +9,12 @@
 #' For interfaces more consistent with the partykit standard, see
 #' the mobNetwork() and ctreeNetwork() functions
 #'
-#' @param data the cross-sectional dataset from which to compute the network
+#' @param nodeVars the variables with which to compute the network. Can be vector, matrix, or dataframe
 #' @param splitVars the variables with which to test split the network. Can be vector, matrix, or dataframe
 #' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
 #' @param method "ModelBased" or "Conditional"
 #' @param weights weights
-#' @param ... additional arguments passed cortrafo
+#' @param ... additional arguments passed to mob_control (ModelBased) or cortrafo (Conditional)
 #'
 #' @examples
 #' \donttest{
@@ -29,19 +29,19 @@
 #' colnames(d)[3:5] <- paste0("y", 1:3)
 #'
 #' ## Now use the function
-#' tree1 <- networktree(netdata=d[,3:5], splitVars=d[,1:2])
+#' tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
 #'
 #'}
 #' @return \code{\link{networktree}} returns a list of class "\code{}" which contains:
 #'
 #'@export
-networktree <- function(data, splitVars, type=c("cor", "pcor", "EBICglasso"),
+networktree <- function(nodeVars, splitVars, type=c("cor", "pcor", "EBICglasso"),
                                    method=c("ModelBased","Conditional"),
                                    weights=NULL,...){
   if(method[1]=="ModelBased"){
-    res <- networktreeModelBased(data, splitVars, type=type,...)
+    res <- networktreeModelBased(nodeVars, splitVars, type=type,...)
   } else if(method[1]=="Conditional"){
-    res <- networktreeConditional(data, splitVars, type=type,
+    res <- networktreeConditional(nodeVars, splitVars, type=type,
                                   weights=NULL,...)
   }
   return(res)

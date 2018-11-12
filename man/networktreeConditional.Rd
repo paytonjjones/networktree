@@ -4,11 +4,11 @@
 \alias{networktreeConditional}
 \title{Conditional inference trees for networks}
 \usage{
-networktreeConditional(data, splitVars, weights = NULL, type = c("cor",
+networktreeConditional(nodeVars, splitVars, weights = NULL, type = c("cor",
   "pcor", "EBICglasso"), na.action, ...)
 }
 \arguments{
-\item{data}{the cross-sectional dataset from which to compute the network}
+\item{nodeVars}{the cross-sectional dataset from which to compute the network}
 
 \item{splitVars}{the variables with which to test network splitting. Can be vector, matrix, or dataframe}
 
@@ -42,7 +42,7 @@ d <- cbind(d, rbind(
 colnames(d)[3:5] <- paste0("y", 1:3)
 
 ## Now use the function
-tree1 <- networktreeConditional(netdata=d[,3:5], splitVars=d[,1:2])
+tree1 <- networktreeConditional(nodeVars=d[,3:5], splitVars=d[,1:2])
 
 }
 }

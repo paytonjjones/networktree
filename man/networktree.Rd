@@ -7,11 +7,11 @@
 \alias{networktree}
 \title{networktree.}
 \usage{
-networktree(data, splitVars, type = c("cor", "pcor", "EBICglasso"),
+networktree(nodeVars, splitVars, type = c("cor", "pcor", "EBICglasso"),
   method = c("ModelBased", "Conditional"), weights = NULL, ...)
 }
 \arguments{
-\item{data}{the cross-sectional dataset from which to compute the network}
+\item{nodeVars}{the variables with which to compute the network. Can be vector, matrix, or dataframe}
 
 \item{splitVars}{the variables with which to test split the network. Can be vector, matrix, or dataframe}
 
@@ -21,7 +21,7 @@ networktree(data, splitVars, type = c("cor", "pcor", "EBICglasso"),
 
 \item{weights}{weights}
 
-\item{...}{additional arguments passed cortrafo}
+\item{...}{additional arguments passed to mob_control (ModelBased) or cortrafo (Conditional)}
 }
 \value{
 \code{\link{networktree}} returns a list of class "\code{}" which contains:
@@ -60,7 +60,7 @@ d <- cbind(d, rbind(
 colnames(d)[3:5] <- paste0("y", 1:3)
 
 ## Now use the function
-tree1 <- networktree(netdata=d[,3:5], splitVars=d[,1:2])
+tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
 
 }
 }

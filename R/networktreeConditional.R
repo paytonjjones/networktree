@@ -4,7 +4,7 @@
 #' Wraps the ctree function from partykit. This approach is slow; for a faster method
 #' see networkModelBased.
 #'
-#' @param data the cross-sectional dataset from which to compute the network
+#' @param nodeVars the cross-sectional dataset from which to compute the network
 #' @param splitVars the variables with which to test network splitting. Can be vector, matrix, or dataframe
 #' @param weights weights
 #' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
@@ -25,15 +25,15 @@
 #' colnames(d)[3:5] <- paste0("y", 1:3)
 #'
 #' ## Now use the function
-#' tree1 <- networktreeConditional(netdata=d[,3:5], splitVars=d[,1:2])
+#' tree1 <- networktreeConditional(nodeVars=d[,3:5], splitVars=d[,1:2])
 #'
 #'}
 #' @return \code{\link{networktreeConditional}} returns a list of class "\code{}" which contains:
 #'
 #'@export
-networktreeConditional <- function(data, splitVars, weights=NULL, type=c("cor", "pcor", "EBICglasso"),
+networktreeConditional <- function(nodeVars, splitVars, weights=NULL, type=c("cor", "pcor", "EBICglasso"),
                                    na.action,...){
-  netdata <- as.data.frame(data); splitVars <- as.data.frame(splitVars)
+  netdata <- as.data.frame(nodeVars); splitVars <- as.data.frame(splitVars)
   if(is.null(colnames(netdata))){colnames(netdata) <- paste("var",1:ncol(netdata), sep="")}
   if(is.null(colnames(splitVars))){colnames(splitVars) <- paste("s.var",1:ncol(netdata), sep="")}
   d <- cbind(netdata, splitVars)
