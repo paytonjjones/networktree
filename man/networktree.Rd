@@ -2,12 +2,23 @@
 % Please edit documentation in R/networktree.R
 \name{networktree}
 \alias{networktree}
-\title{Tree model (partitioning) with networks at the end of branches}
+\alias{networktree.default}
+\alias{networktree.formula}
+\title{networktree: Partitioning of network models}
 \usage{
 networktree(...)
+
+\method{networktree}{default}(nodeVars, splitVars, type = c("cor", "pcor",
+  "EBICglasso"), method = c("ModelBased", "Conditional"),
+  splitBy = "network", na.action = na.pass, weights = NULL, ...)
+
+\method{networktree}{formula}(formula, data, type = c("cor", "pcor",
+  "EBICglasso"), method = c("ModelBased", "Conditional"),
+  na.action = na.pass, splitBy = "network", ...)
 }
 \arguments{
-\item{...}{additional arguments passed to mob_control (ModelBased) or cortrafo (Conditional)}
+\item{...}{additional arguments passed to \code{\link[partykit]{mob_control}} (ModelBased) 
+or \code{\link[partykit]{ctree_control}} (Conditional)}
 
 \item{nodeVars}{the variables with which to compute the network. Can be vector, matrix, or dataframe}
 
@@ -27,15 +38,20 @@ Available for method="ModelBased" only.}
 contain missing values (\code{NA}s).}
 
 \item{weights}{weights}
+
+\item{formula}{A symbolic description of the model to be fit. This
+should either be of type \code{y1 + y2 + y3 ~ x1 + x2} with node
+vectors \code{y1}, \code{y2}, and \code{y3} or \code{y ~ x1 + x2}
+with a matrix response {y}. \code{x1} and \code{x2} are used as
+partitioning variables.}
+
+\item{data}{a data frame containing the variables in the model}
 }
 \description{
 Computes a tree model with networks at the end of branches. Can use
 model-based recursive partitioning or conditional inference.
-}
-\details{
-Wraps the mob() and ctree() functions from the partykit package.
 
-Default S3 method shown here. For a formula interface, see ?networktree.formula
+Wraps the mob() and ctree() functions from the partykit package.
 }
 \examples{
 \donttest{
@@ -52,5 +68,15 @@ colnames(d)[3:5] <- paste0("y", 1:3)
 ## Now use the function
 tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
 
+## Formula interface
+tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
+
+## Conditional version
+tree3 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2], 
+                     method="Conditional")
+
+## Change control arguments
+tree4 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2],
+                     alpha=0.01)
 }
 }

@@ -1,28 +1,15 @@
+utils::globalVariables(c("na.pass"))
 
 # S3 generic
 
-#' Tree model (partitioning) with networks at the end of branches
-#'
+#' @title networktree: Partitioning of network models
+#' 
+#' @description 
 #' Computes a tree model with networks at the end of branches. Can use
 #' model-based recursive partitioning or conditional inference.
 #'
 #' Wraps the mob() and ctree() functions from the partykit package.
 #'
-#' Default S3 method shown here. For a formula interface, see ?networktree.formula
-#'
-#' @param nodeVars the variables with which to compute the network. Can be vector, matrix, or dataframe
-#' @param splitVars the variables with which to test split the network. Can be vector, matrix, or dataframe
-#' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso". Note that networks
-#' are always stored internally as correlation matrices, but will be auto-adjusted in plots etc. according
-#' to type
-#' @param method "ModelBased" or "Conditional"
-#' @param splitBy if "network", splits only by the correlations between variables.
-#' if "data", considers means and variances of each variable (i.e., mu and sigma).
-#' Available for method="ModelBased" only.
-#' @param na.action a function which indicates what should happen when the data
-#' contain missing values (\code{NA}s).
-#' @param weights weights
-#' @param ... additional arguments passed to mob_control (ModelBased) or cortrafo (Conditional)
 #' @examples
 #' \donttest{
 #' set.seed(1)
@@ -37,20 +24,23 @@
 #'
 #' ## Now use the function
 #' tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
-#'
+#' 
+#' ## Formula interface
+#' tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
+#' 
+#' ## Conditional version
+#' tree3 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2], 
+#'                      method="Conditional")
+#' 
+#' ## Change control arguments
+#' tree4 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2],
+#'                      alpha=0.01)
 #'}
 #'@export
 networktree <- function(...) UseMethod("networktree")
 
-#' Tree model (partitioning) with networks at the end of branches
-#'
-#' Computes a tree model with networks at the end of branches. Can use
-#' model-based recursive partitioning or conditional inference.
-#'
-#' Wraps the mob() and ctree() functions from the partykit package.
-#'
-#' Default S3 method shown here. For a formula interface, see ?networktree.formula
-#'
+# Default method
+
 #' @param nodeVars the variables with which to compute the network. Can be vector, matrix, or dataframe
 #' @param splitVars the variables with which to test split the network. Can be vector, matrix, or dataframe
 #' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso". Note that networks
@@ -63,30 +53,17 @@ networktree <- function(...) UseMethod("networktree")
 #' @param na.action a function which indicates what should happen when the data
 #' contain missing values (\code{NA}s).
 #' @param weights weights
-#' @param ... additional arguments passed to mob_control (ModelBased) or cortrafo (Conditional)
+#' @param ... additional arguments passed to \code{\link[partykit]{mob_control}} (ModelBased) 
+#' or \code{\link[partykit]{ctree_control}} (Conditional)
 #'
-#' @examples
-#' \donttest{
-#' set.seed(1)
-#' d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
-#' d <- cbind(d, rbind(
-#'   rmvnorm(100, mean = c(0, 0, 0),
-#'           sigma = matrix(c(1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 1), ncol = 3)),
-#'   rmvnorm(100, mean = c(0, 0, 0),
-#'           sigma = matrix(c(1, 0, 0.5, 0, 1, 0.5, 0.5, 0.5, 1), ncol = 3))
-#' ))
-#' colnames(d)[3:5] <- paste0("y", 1:3)
-#'
-#' ## Now use the function
-#' tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
-#'
-#'}
+#'@rdname networktree
 #'@export
-networktree.default <- function(nodeVars, splitVars, type=c("cor", "pcor", "EBICglasso"),
-                                   method=c("ModelBased","Conditional"),
-                                   splitBy ="network",
-                                   na.action,
-                                   weights=NULL,...){
+networktree.default <- function(nodeVars, splitVars, 
+                                type=c("cor", "pcor", "EBICglasso"),
+                                method=c("ModelBased","Conditional"),
+                                splitBy ="network",
+                                na.action=na.pass,
+                                weights=NULL,...){
   if(method[1]=="ModelBased"){
     if(is.null(colnames(nodeVars))){colnames(nodeVars) <- paste('nodeVars',1:ncol(nodeVars))}
     if(is.null(colnames(splitVars))){colnames(splitVars) <- paste('splitVars',1:ncol(splitVars))}
@@ -104,8 +81,8 @@ networktree.default <- function(nodeVars, splitVars, type=c("cor", "pcor", "EBIC
     control<-NULL
     # Need to include n so cortrafo can count vars on left hand side
     tree <- partykit::ctree(formula=f1, data=d,
-                            ytrafo=function(data, weights,control,...) {cortrafo(data=data, weights=weights, control=control, n=n,...)},
-                            weights, na.action=na.action, ...)
+                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n)},
+                             na.action=na.action, control=partykit::ctree_control(...))
     class(tree) <- c("networktree", "conditional", type[1], class(tree))
     res <- tree
   }
@@ -114,47 +91,17 @@ networktree.default <- function(nodeVars, splitVars, type=c("cor", "pcor", "EBIC
 
 ## formula interface
 
-#' Tree model (partitioning) with networks at the end of branches
-#'
-#' Computes a tree model with networks at the end of branches. Can use
-#' model-based recursive partitioning or conditional inference.
-#'
-#' Wraps the mob() and ctree() functions from the partykit package.
-#'
 #' @param formula A symbolic description of the model to be fit. This
 #' should either be of type \code{y1 + y2 + y3 ~ x1 + x2} with node
 #' vectors \code{y1}, \code{y2}, and \code{y3} or \code{y ~ x1 + x2}
 #' with a matrix response {y}. \code{x1} and \code{x2} are used as
 #' partitioning variables.
 #' @param data a data frame containing the variables in the model
-#' @param type the type of network to compute. Can be "cor", "pcor", or "EBICglasso"
-#' @param method "ModelBased" or "Conditional"
-#' @param na.action a function which indicates what should happen when the data
-#' contain missing values (\code{NA}s).
-#' @param splitBy if "network", splits only by the correlations between variables.
-#' if "data", considers means and variances of each variable (i.e., mu and sigma)
-#' @param ... arguments passed to \code{\link[partykit]{mob_control}}
-#'
-#' @examples
-#' \donttest{
-#' set.seed(1)
-#' d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
-#' d <- cbind(d, rbind(
-#'   rmvnorm(100, mean = c(0, 0, 0),
-#'           sigma = matrix(c(1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 1), ncol = 3)),
-#'   rmvnorm(100, mean = c(0, 0, 0),
-#'           sigma = matrix(c(1, 0, 0.5, 0, 1, 0.5, 0.5, 0.5, 1), ncol = 3))
-#' ))
-#' colnames(d)[3:5] <- paste0("y", 1:3)
-#'
-#' ## Now use the function
-#' tree1 <- networktree(formula = y1 + y2 + y3 ~ trend + foo, data=d)
-#'
-#'}
+#'@rdname networktree
 #'@export
 networktree.formula <- function(formula, data, type=c("cor", "pcor", "EBICglasso"), 
                                 method=c("ModelBased","Conditional"),
-                                na.action, splitBy ="network", ...)
+                                na.action=na.pass, splitBy ="network", ...)
 {
   if(method[1]=="ModelBased"){
     ## manage splitBy
@@ -191,8 +138,8 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "EBICglasso
     control<-NULL
     # Need to include n so cortrafo can count vars on left hand side
     res <- partykit::ctree(formula=formula, data=data,
-                            ytrafo=function(data, weights,control,...) {cortrafo(data=data, weights=weights, control=control, n=n,...)},
-                            weights,na.action=na.action, ...)
+                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n)},
+                            na.action=na.action, control=partykit::ctree_control(...))
     class(res) <- c("networktree", "conditional", type[1], class(res))
   }
   return(res)
