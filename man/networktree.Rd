@@ -8,8 +8,8 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(nodeVars, splitVars, type = c("cor", "pcor",
-  "EBICglasso"), method = c("ModelBased", "Conditional"),
+\method{networktree}{default}(nodeVars, splitVars, type = c("cor",
+  "pcor", "EBICglasso"), method = c("ModelBased", "Conditional"),
   splitBy = "network", na.action = na.pass, weights = NULL, ...)
 
 \method{networktree}{formula}(formula, data, type = c("cor", "pcor",
