@@ -19,14 +19,14 @@ mvnfit(y, x = NULL, start = NULL, weights = NULL, offset = NULL,
 
 \item{offset}{Not used yet}
 
+\item{model}{Vector of characters. Specifies which estimated parameters are returned.}
+
 \item{...}{Not used yet}
 
 \item{estfun}{Logical. Should the matrix of score contributions (aka estimating
 functions) be returned?}
 
 \item{object}{Not used yet}
-
-\item{cor}{Vector of characters. Specifies which estimated parameters are returned.}
 }
 \description{
 Fit a multivariate normal model without covariates or covariance restrictions.

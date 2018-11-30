@@ -11,7 +11,7 @@
 #' @param start Not used yet
 #' @param weights Not used yet
 #' @param offset Not used yet
-#' @param cor Vector of characters. Specifies which estimated parameters are returned.
+#' @param model Vector of characters. Specifies which estimated parameters are returned.
 #' @param estfun Logical. Should the matrix of score contributions (aka estimating
 #' functions) be returned?
 #' @param object Not used yet
