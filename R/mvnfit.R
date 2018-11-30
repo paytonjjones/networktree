@@ -32,6 +32,11 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
     k <- ncol(y)
     ynam <- if(is.null(colnames(y))) 1L:k else colnames(y)
 
+    ### check if correlation matrix is identified
+    if(n <= k*(k-1)/2) {
+        stop("mvnfit: n < k*(k-1)/2, correlation matrix is not identified.")
+    }
+
     ### MLE mu
     coef   <- colMeans(y)
     pnames <- paste0("mu_", ynam)
