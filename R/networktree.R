@@ -66,24 +66,25 @@ networktree.default <- function(nodevars, splitvars,
                                 model ="correlation",
                                 na.action=na.pass,
                                 weights=NULL,...){
+  nodevars <- as.matrix(nodevars)
+  splitvars <- as.matrix(splitvars)
+  if(is.null(colnames(nodevars))){colnames(nodevars) <- paste('nodevars',1:ncol(nodevars))}
+  if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars))}
+  
   if(method[1]=="mob"){
-    if(is.null(colnames(nodevars))){colnames(nodevars) <- paste('nodevars',1:ncol(nodevars))}
-    if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars))}
-    
     d <- cbind(nodevars,splitvars)
     form <- paste(paste(colnames(nodevars), collapse=" + "), "~",paste(colnames(splitvars), collapse=" + "))
     res <- networktree.formula(form, data = d, type=type, method=method, na.action=na.action, model = model, ...)
+    
   } else if(method[1]=="ctree"){
     netdata <- as.data.frame(nodevars); splitvars <- as.data.frame(splitvars)
-    if(is.null(colnames(netdata))){colnames(netdata) <- paste("var",1:ncol(netdata), sep="")}
-    if(is.null(colnames(splitvars))){colnames(splitvars) <- paste("s.var",1:ncol(netdata), sep="")}
     d <- cbind(netdata, splitvars)
     f1 <- Formula::as.Formula(paste(c(paste(colnames(netdata),collapse=" + "), " ~ ", paste(colnames(splitvars), collapse=" + ")), collapse=""))
     n <- ncol(netdata)
     control<-NULL
     # Need to include n so cortrafo can count vars on left hand side
     tree <- partykit::ctree(formula=f1, data=d,
-                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n)},
+                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                              na.action=na.action, control=partykit::ctree_control(...))
     class(tree) <- c("networktree", "ctree_networktree", type[1], class(tree))
     res <- tree
@@ -103,15 +104,9 @@ networktree.default <- function(nodevars, splitvars,
 #'@export
 networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"), 
                                 method=c("mob","ctree"),
-                                na.action=na.pass, model ="network", ...)
+                                na.action=na.pass, model="correlation", ...)
 {
   if(method[1]=="mob"){
-    ## manage model
-    if(length(model) == 1 && "correlation" %in% model){
-      cor <- TRUE
-    } else {
-      cor <- FALSE
-    }
     
     ## keep call
     cl <- match.call(expand.dots = TRUE)
@@ -142,7 +137,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
     control<-NULL
     # Need to include n so cortrafo can count vars on left hand side
     res <- partykit::ctree(formula=formula, data=data,
-                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n)},
+                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                             na.action=na.action, control=partykit::ctree_control(...))
     class(res) <- c("networktree", "ctree_networktree", type[1], class(res))
   }

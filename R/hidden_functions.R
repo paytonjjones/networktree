@@ -127,19 +127,25 @@ terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor"
 ## is equal to the correlation between y1 and y2, y1 and y3, etc.
 ## used internally in ctree_net
 # new cortrafo
-cortrafo <- function(data, weights,control,n,...){
+cortrafo <- function(data, weights,control,n,model,...){
   data <- data$data[,data$variables$y,drop=FALSE]
   obs <- nrow(data)
   vars <- n
   function(subset,weights,info,estfun,object,...){
     ef <- {
-      mymat <- matrix(list(), n,n)
-      for(i in 1:n){
-        for(j in 1:n){
-          mymat[[i,j]] <- scale(data[[i]]) * scale(data[[j]])
+      scores <- NULL
+      if(any("mean"        == model)) scores <- c(scores, data)
+      if(any("variance"    == model)) scores <- c(scores, (data - mean(data))^2)
+      if(any("correlation" == model)) {
+        mymat <- matrix(list(), n,n)
+        for(i in 1:n){
+          for(j in 1:n){
+            mymat[[i,j]] <- scale(data[,i]) * scale(data[,j])
+          }
         }
+        scores <- c(scores, matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2))
       }
-      matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2)
+      return(scores)
     }
     list(estfun=ef, unweighted=TRUE)
   }
