@@ -82,9 +82,9 @@ net_terminal <- function (obj, type, layout=NULL, which = NULL, id = TRUE, pop =
 }
 
 ## get cormat retrieves the cormat and related info
-## from a "conditional" or "modelbased" object
-get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EBICglasso"),layout="circle",...){
-  if("conditional" %in% class(terminal_node)){
+## from a "ctree_networktree" or "mob_networktree" object
+get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "glasso"),layout="circle",...){
+  if("ctree_networktree" %in% class(terminal_node)){
     n <- ncol(terminal_node$fitted[['(response)']])
     sampleSize <- nrow(terminal_node$fitted[['(response)']])
     node_trans <- useCortrafo(data= terminal_node$fitted[['(response)']],
@@ -92,7 +92,7 @@ get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EB
                               n=n)
     cors <- apply(node_trans, 2, mean, na.rm=T)
     matnames <- names(terminal_node$fitted[['(response)']])
-  } else if ("modelbased" %in% class(terminal_node)){
+  } else if ("mob_networktree" %in% class(terminal_node)){
     out <- unlist(terminal_node)
     cors <- unlist(out[grep('node.info.coefficients', names(out))])
     matnames <- strsplit(as.character(out$info.Formula), "+", fixed=T)[[2]]
@@ -112,12 +112,12 @@ get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EB
 
 ## terminal_qgraph converts a terminal node into qgraph format
 ## used internally in plotting
-terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "EBICglasso"),layout="circle",...){
+terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "glasso"),layout="circle",...){
   info <- get_cormat(terminal_node=terminal_node, method=method, type=type,layout=layout)
   net <- switch(info$type,
                 "cor"=qgraph::qgraph(info$cormat, graph="default", layout=info$layout, DoNotPlot=T,...),
                 "pcor"=qgraph::qgraph(info$cormat, graph="pcor", layout=info$layout, DoNotPlot=T,...),
-                "EBICglasso"=qgraph::qgraph(Matrix::nearPD(info$cormat)$mat, graph="glasso", sampleSize=info$sampleSize, layout=info$layout, DoNotPlot=T,...))
+                "glasso"=qgraph::qgraph(Matrix::nearPD(info$cormat)$mat, graph="glasso", sampleSize=info$sampleSize, layout=info$layout, DoNotPlot=T,...))
   return(net)
 }
 

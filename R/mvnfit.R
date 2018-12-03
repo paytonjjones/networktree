@@ -4,7 +4,7 @@
 #' In addition to the (straightforward) parameter estimates the fitted log-likelihood
 #' and corresponding score contributions are computed.
 #'
-#' Used internally in mobNetwork and networktreeModelBased
+#' Used internally in when method="mob"
 #'
 #' @param y A matrix or data.frame where each row corresponds to a k-dim observation.
 #' @param x Not used yet
