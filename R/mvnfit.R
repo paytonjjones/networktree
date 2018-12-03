@@ -11,8 +11,7 @@
 #' @param start Not used yet
 #' @param weights Not used yet
 #' @param offset Not used yet
-#' @param cor Logical. Should only be the parameter estimates and scores pertaining
-#' to the correlations be returned (i.e., those for mu and sigma omitted)?
+#' @param model Vector of characters. Specifies which estimated parameters are returned.
 #' @param estfun Logical. Should the matrix of score contributions (aka estimating
 #' functions) be returned?
 #' @param object Not used yet
@@ -20,7 +19,7 @@
 #'
 #'@export
 mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
-                   offset = NULL, cor = FALSE, ...,
+                   offset = NULL, model = c("correlation", "mean", "variance"), ...,
                    estfun = FALSE, object = FALSE)
 {
     # TODO:
@@ -31,6 +30,14 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
     n <- nrow(y)
     k <- ncol(y)
     ynam <- if(is.null(colnames(y))) 1L:k else colnames(y)
+
+    ### put dots in a list
+    dotlist <- list(...)
+
+    ### check if correlation matrix is identified
+    if(n <= k*(k-1)/2) {
+        stop("mvnfit: n < k*(k-1)/2, correlation matrix is not identified.")
+    }
 
     ### MLE mu
     coef   <- colMeans(y)
@@ -86,11 +93,17 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
         colnames(ef) <- names(coef)
     }
 
-    ### skip mu and sigma results if requested
-    if(cor) {
-        coef <- coef[1:(k*(k-1)/2) + 2*k]
-        ef   <- ef[, 1:(k*(k-1)/2) + 2*k]
+    ### select requested parameters
+    if(!is.null(dotlist$cor)) {
+        model <- if(dotlist$cor) "correlation" else c("mean", "variance", "correlation")
     }
+    id <- NULL
+    if(any("mean"        == model)) id <- c(id, 1:k)
+    if(any("variance"    == model)) id <- c(id, 1:k + k)
+    if(any("correlation" == model)) id <- c(id, 1:(k*(k-1)/2) + 2*k)
+
+    coef <- coef[id]
+    ef   <- ef[, id]
 
 #    ### estimate vcov based on OPG
     vc <- NULL

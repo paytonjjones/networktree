@@ -5,7 +5,8 @@
 \title{Maximum Likelihood Estimation for Multivariate Normal Model}
 \usage{
 mvnfit(y, x = NULL, start = NULL, weights = NULL, offset = NULL,
-  cor = FALSE, ..., estfun = FALSE, object = FALSE)
+  model = c("correlation", "mean", "variance"), ..., estfun = FALSE,
+  object = FALSE)
 }
 \arguments{
 \item{y}{A matrix or data.frame where each row corresponds to a k-dim observation.}
@@ -18,8 +19,7 @@ mvnfit(y, x = NULL, start = NULL, weights = NULL, offset = NULL,
 
 \item{offset}{Not used yet}
 
-\item{cor}{Logical. Should only be the parameter estimates and scores pertaining
-to the correlations be returned (i.e., those for mu and sigma omitted)?}
+\item{model}{Vector of characters. Specifies which estimated parameters are returned.}
 
 \item{...}{Not used yet}
 
