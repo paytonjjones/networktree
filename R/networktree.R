@@ -72,7 +72,7 @@ networktree.default <- function(nodevars, splitvars,
   if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars))}
   
   if(method[1]=="mob"){
-    d <- cbind(nodevars,splitvars)
+    d <- as.data.frame(cbind(nodevars,splitvars))
     form <- paste(paste(colnames(nodevars), collapse=" + "), "~",paste(colnames(splitvars), collapse=" + "))
     res <- networktree.formula(form, data = d, type=type, method=method, na.action=na.action, model = model, ...)
     
@@ -87,6 +87,7 @@ networktree.default <- function(nodevars, splitvars,
                             ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                              na.action=na.action, control=partykit::ctree_control(...))
     class(tree) <- c("networktree", "ctree_networktree", type[1], class(tree))
+    class(tree$info$call) <- model ## discreetly store model
     res <- tree
   }
   return(res)
@@ -116,7 +117,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
     control$ytype <- "matrix"
     
     ## control options for mvnfit
-    mvncontrol <- list(cor = cor)
+    mvncontrol <- list(model=model)
     
     ## call mob
     m <- match.call(expand.dots = FALSE)
@@ -140,6 +141,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
                             ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                             na.action=na.action, control=partykit::ctree_control(...))
     class(res) <- c("networktree", "ctree_networktree", type[1], class(res))
+    class(res$info$call) <- model ## discreetly store model
   }
   return(res)
 }
@@ -171,17 +173,28 @@ plot.networktree <- function(x, type=NULL,layout="circle", ...) {
     } else {"glasso";
       warning("Type of network could not be detected, plotting glasso networks")}
   }
-
-  net_terminal_inner <- function(obj, ...) {
-    net_terminal(obj,type=type,layout=layout, ...)
+  
+  if("mob_networktree" %in% class(x)){
+    model <- x[[1]]$info$dots$model
+  } else {
+    model <- class(x[[1]]$info$call)
   }
-  class(net_terminal_inner) <- "grapcon_generator"
-  partykit::plot.party(x, terminal_panel=net_terminal_inner,...)
+  if("variance" %in% model | "mean" %in% model){
+    message("Network plotting not yet implemented for splits by variance and mean")
+    partykit::plot.party(x)
+  } else {
+    ## plotting network (when model == "correlation")
+    net_terminal_inner <- function(obj, ...) {
+      net_terminal(obj,type=type,layout=layout, ...)
+    }
+    class(net_terminal_inner) <- "grapcon_generator"
+    partykit::plot.party(x, terminal_panel=net_terminal_inner,...)
+  }
 }
 
 
 # Package documentation
-# TODO: fix this. causes a conflict w/networktree function documentation
+# TODO: fix package documentation. causes a conflict w/networktree function documentation
 #       because they have the same name
 
 # networktree

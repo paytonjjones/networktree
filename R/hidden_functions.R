@@ -128,14 +128,13 @@ terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor"
 ## used internally in ctree_net
 # new cortrafo
 cortrafo <- function(data, weights,control,n,model,...){
-  data <- data$data[,data$variables$y,drop=FALSE]
+  data <- as.matrix(data$data[,data$variables$y,drop=FALSE])
   obs <- nrow(data)
-  vars <- n
   function(subset,weights,info,estfun,object,...){
     ef <- {
       scores <- NULL
-      if(any("mean"        == model)) scores <- c(scores, data)
-      if(any("variance"    == model)) scores <- c(scores, (data - mean(data))^2)
+      if(any("mean"        == model)) scores <- cbind(scores, data)
+      if(any("variance"    == model)) scores <- cbind(scores, (data - mean(data))^2)
       if(any("correlation" == model)) {
         mymat <- matrix(list(), n,n)
         for(i in 1:n){
@@ -143,9 +142,9 @@ cortrafo <- function(data, weights,control,n,model,...){
             mymat[[i,j]] <- scale(data[,i]) * scale(data[,j])
           }
         }
-        scores <- c(scores, matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2))
+        scores <- cbind(scores, matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2))
       }
-      return(scores)
+      scores
     }
     list(estfun=ef, unweighted=TRUE)
   }
@@ -161,126 +160,3 @@ useCortrafo <- function(data, weights,n,...){
   }
   matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2)
 }
-
-
-
-
-
-
-
-
-
-
-
-################################################################################
-################################################################################
-################################################################################
-################################################################################
-
-
-
-
-
-
-# 
-# 
-# ## generates a png qgraph file
-# ctree_qgraph_png <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "GLASSO"),layout="circle",...){
-#   n <- ncol(terminal_node$fitted[['(response)']])
-#   sampleSize <- nrow(terminal_node$fitted[['(response)']])
-#   node_trans <- useCortrafo(data= terminal_node$fitted[['(response)']],
-#                             weights=terminal_node$fitted[['(weights)']],
-#                             n=n)
-#   cors <- apply(node_trans, 2, mean)
-#   cormat <- matrix(as.numeric(),n,n); diag(cormat) <- rep(1, n)
-#   cormat[upper.tri(cormat)]<- cors
-#   cormat[lower.tri(cormat)] <- t(cormat)[lower.tri(cormat)]
-#   colnames(cormat) <- rownames(cormat) <- names(terminal_node$fitted[['(response)']])
-#   net <- switch(type[1],
-#                 "cor"=qgraph(cormat, graph="cor", layout=layout,...),
-#                 "pcor"=qgraph(cormat, graph="pcor", layout=layout,...),
-#                 "glasso"=qgraph(Matrix::nearPD(cormat)$mat, graph="glasso", sampleSize=sampleSize, layout=layout,...))
-#   return(net)
-# }
-# 
-# ## net_terminal is a new function I'm writing which will be used internally, but will use a png
-# ## created by qgraph instead of plotting with grid
-# net_terminal_temp <- function(obj, ...){
-# 
-#   y <- obj$fitted[["(response)"]]
-#   if(is.null(layout)) {layout <- "circle"}
-# 
-#   if (is.null(which))
-#     which <- 1L:NCOL(y)
-#   k <- length(which)
-#   rval <- function(node) {
-#     tid <- partykit::id_node(node)
-#     .nobs_party <- function(party, id=1L){
-#       dat <- partykit::data_party(party, id=id)
-#       if("(weights)" %in% names(dat)) {
-#         sum(dat[["(weights)"]])
-#       } else {nrow(dat)}
-#     }
-#     nobs <- .nobs_party(obj, id = tid)
-#     data <- partykit::data_party(obj, id=tid)
-# 
-#     g <- ctree_qgraph(obj[[tid]], type=type, layout=layout,...)
-#     adj <- qgraph::getWmat(g) ## Note: recent untested change from coerce_to_adjacency
-#     adj.sc <- 5*scale(adj, center=F)/max(scale(adj, center=F))
-#     vals <- adj[lower.tri(adj)]
-#     pts <- g$layout/4 + 0.5
-#     nms <- colnames(adj)
-#     fitted <- obj$fitted[["(fitted)"]]
-# 
-# 
-#     if (is.null(mainlab)) {
-#       mainlab <- if (id) {
-#         function(id, nobs) sprintf("Node %s (n = %s)",
-#                                    id, nobs)
-#       }
-#       else {
-#         function(id, nobs) sprintf("n = %s", nobs)
-#       }
-#     }
-#     if (is.function(mainlab)) {
-#       mainlab <- mainlab(tid, nobs)
-#     }
-#     for (i in 1L:k) {
-#       tmp <- obj
-#       tmp$fitted[["(response)"]] <- y[, which[i]]
-#       if (varlab) {
-#         nm <- names(y)[which[i]]
-#         if (i == 1L)
-#           nm <- paste(mainlab, nm, sep = ": ")
-#       }
-#       else {
-#         nm <- if (i == 1L)
-#           mainlab
-#         else ""
-#       }
-#     }
-#   }
-#   return(rval)
-# }
-# 
-
-
-# ## ctree_qgraph converts a terminal node into qgraph format
-# ## used internally in plotting
-# ctree_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "GLASSO"),layout="circle",...){
-#   n <- ncol(terminal_node$fitted[['(response)']])
-#   sampleSize <- nrow(terminal_node$fitted[['(response)']])
-#   node_trans <- useCortrafo(data= terminal_node$fitted[['(response)']],
-#                          weights=terminal_node$fitted[['(weights)']],
-#                          n=n)
-#   cors <- apply(node_trans, 2, mean)
-#   cormat <- matrix(as.numeric(),n,n); diag(cormat) <- rep(1, n)
-#   cormat[upper.tri(cormat)]<- cors
-#   cormat[lower.tri(cormat)] <- t(cormat)[lower.tri(cormat)]
-#   colnames(cormat) <- rownames(cormat) <- names(terminal_node$fitted[['(response)']])
-#   net <- switch(type[1],
-#                 "cor"=qgraph(cormat, graph="cor", layout=layout, DoNotPlot=T,...),
-#                 "pcor"=qgraph(cormat, graph="pcor", layout=layout, DoNotPlot=T,...),
-#                 "glasso"=qgraph(Matrix::nearPD(cormat)$mat, graph="glasso", sampleSize=sampleSize, layout=layout, DoNotPlot=T,...))
-#   return(net)
-# }
