@@ -2,7 +2,7 @@
 title: "cran-comments"
 author: "Payton Jones"
 date: "October 24, 2018"
-output: html_document
+output: md_document
 ---
 
 ## Test environments

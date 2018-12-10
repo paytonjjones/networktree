@@ -8,8 +8,8 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(nodevars, splitvars, type = c("cor", "pcor",
-  "glasso"), method = c("mob", "ctree"), model = "correlation",
+\method{networktree}{default}(nodevars, splitvars, type = c("cor",
+  "pcor", "glasso"), method = c("mob", "ctree"), model = "correlation",
   na.action = na.pass, weights = NULL, ...)
 
 \method{networktree}{formula}(formula, data, type = c("cor", "pcor",
@@ -60,9 +60,9 @@ for future versions.
 set.seed(1)
 d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
 d <- cbind(d, rbind(
-  rmvnorm(100, mean = c(0, 0, 0),
+  mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
           sigma = matrix(c(1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 1), ncol = 3)),
-  rmvnorm(100, mean = c(0, 0, 0),
+  mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
           sigma = matrix(c(1, 0, 0.5, 0, 1, 0.5, 0.5, 0.5, 1), ncol = 3))
 ))
 colnames(d)[3:5] <- paste0("y", 1:3)

@@ -18,9 +18,9 @@ utils::globalVariables(c("na.pass"))
 #' set.seed(1)
 #' d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
 #' d <- cbind(d, rbind(
-#'   rmvnorm(100, mean = c(0, 0, 0),
+#'   mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
 #'           sigma = matrix(c(1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 1), ncol = 3)),
-#'   rmvnorm(100, mean = c(0, 0, 0),
+#'   mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
 #'           sigma = matrix(c(1, 0, 0.5, 0, 1, 0.5, 0.5, 0.5, 1), ncol = 3))
 #' ))
 #' colnames(d)[3:5] <- paste0("y", 1:3)
