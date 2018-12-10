@@ -8,31 +8,30 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(nodeVars, splitVars, type = c("cor",
-  "pcor", "EBICglasso"), method = c("ModelBased", "Conditional"),
-  splitBy = "network", na.action = na.pass, weights = NULL, ...)
+\method{networktree}{default}(nodevars, splitvars, type = c("cor", "pcor",
+  "glasso"), method = c("mob", "ctree"), model = "correlation",
+  na.action = na.pass, weights = NULL, ...)
 
 \method{networktree}{formula}(formula, data, type = c("cor", "pcor",
-  "EBICglasso"), method = c("ModelBased", "Conditional"),
-  na.action = na.pass, splitBy = "network", ...)
+  "glasso"), method = c("mob", "ctree"), na.action = na.pass,
+  model = "correlation", ...)
 }
 \arguments{
-\item{...}{additional arguments passed to \code{\link[partykit]{mob_control}} (ModelBased) 
-or \code{\link[partykit]{ctree_control}} (Conditional)}
+\item{...}{additional arguments passed to \code{\link[partykit]{mob_control}} (mob) 
+or \code{\link[partykit]{ctree_control}} (ctree)}
 
-\item{nodeVars}{the variables with which to compute the network. Can be vector, matrix, or dataframe}
+\item{nodevars}{the variables with which to compute the network. Can be vector, matrix, or dataframe}
 
-\item{splitVars}{the variables with which to test split the network. Can be vector, matrix, or dataframe}
+\item{splitvars}{the variables with which to test split the network. Can be vector, matrix, or dataframe}
 
-\item{type}{the type of network to compute. Can be "cor", "pcor", or "EBICglasso". Note that networks
+\item{type}{the type of network to compute. Can be "cor", "pcor", or "glasso". Note that networks
 are always stored internally as correlation matrices, but will be auto-adjusted in plots etc. according
 to type}
 
-\item{method}{"ModelBased" or "Conditional"}
+\item{method}{"mob" or "ctree"}
 
-\item{splitBy}{if "network", splits only by the correlations between variables.
-if "data", considers means and variances of each variable (i.e., mu and sigma).
-Available for method="ModelBased" only.}
+\item{model}{can be any combination of c("correlation", "mean", "variance")
+splits are determined based on the specified characteristics}
 
 \item{na.action}{a function which indicates what should happen when the data
 contain missing values (\code{NA}s).}
@@ -52,6 +51,9 @@ Computes a tree model with networks at the end of branches. Can use
 model-based recursive partitioning or conditional inference.
 
 Wraps the mob() and ctree() functions from the partykit package.
+
+Note: this package is in its early stages and the interface may change
+for future versions.
 }
 \examples{
 \donttest{
@@ -66,17 +68,17 @@ d <- cbind(d, rbind(
 colnames(d)[3:5] <- paste0("y", 1:3)
 
 ## Now use the function
-tree1 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2])
+tree1 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2])
 
 ## Formula interface
 tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
 
 ## Conditional version
-tree3 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2], 
-                     method="Conditional")
+tree3 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2], 
+                     method="ctree")
 
 ## Change control arguments
-tree4 <- networktree(nodeVars=d[,3:5], splitVars=d[,1:2],
+tree4 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2],
                      alpha=0.01)
 }
 }

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{an object of type 'networktree'}
 
-\item{type}{"cor", "pcor", or "EBICglasso". If set to NULL, type detected from x}
+\item{type}{"cor", "pcor", or "glasso". If set to NULL, type detected from x}
 
 \item{layout}{argument passed to qgraph. Can be set to custom layout.}
 

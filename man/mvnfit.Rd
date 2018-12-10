@@ -34,5 +34,5 @@ In addition to the (straightforward) parameter estimates the fitted log-likeliho
 and corresponding score contributions are computed.
 }
 \details{
-Used internally in mobNetwork and networktreeModelBased
+Used internally in when method="mob"
 }
