@@ -68,8 +68,8 @@ networktree.default <- function(nodevars, splitvars,
                                 weights=NULL,...){
   nodevars <- as.matrix(nodevars)
   splitvars <- as.matrix(splitvars)
-  if(is.null(colnames(nodevars))){colnames(nodevars) <- paste('nodevars',1:ncol(nodevars))}
-  if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars))}
+  if(is.null(colnames(nodevars))){colnames(nodevars) <- paste('nodevars',1:ncol(nodevars),sep="")}
+  if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars),sep="")}
   
   if(method[1]=="mob"){
     d <- as.data.frame(cbind(nodevars,splitvars))
