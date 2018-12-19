@@ -14,7 +14,7 @@ utils::globalVariables(c("na.pass"))
 #' for future versions.
 #'
 #' @examples
-#' \donttest{
+#' 
 #' set.seed(1)
 #' d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
 #' d <- cbind(d, rbind(
@@ -31,6 +31,7 @@ utils::globalVariables(c("na.pass"))
 #' ## Formula interface
 #' tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
 #' 
+#' \donttest{
 #' ## Conditional version
 #' tree3 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2], 
 #'                      method="ctree")

@@ -4,7 +4,11 @@ author: "Payton Jones"
 date: "October 24, 2018"
 output: md_document
 ---
+## Resubmission
+This is a resubmission. In this version I have:
 
+* removed \donttest{} from toy examples
+  
 ## Test environments
 * local windows, R 3.5.0
 * ubuntu 12.04 (on travis-ci), R 3.5.1

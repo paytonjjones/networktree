@@ -1,3 +1,10 @@
+Resubmission
+------------
+
+This is a resubmission. In this version I have:
+
+-   removed from toy examples
+
 Test environments
 -----------------
 
