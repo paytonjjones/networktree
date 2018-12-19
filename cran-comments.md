@@ -1,3 +1,10 @@
+Resubmission
+------------
+
+This is a resubmission. In this version I have:
+
+-   added toy examples that are not wrapped by donttest{}
+
 Test environments
 -----------------
 
