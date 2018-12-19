@@ -8,7 +8,7 @@ output: md_document
 This is a resubmission. In this version I have:
 
 * added toy examples that are not wrapped by donttest{}
-  
+
 ## Test environments
 * local windows, R 3.5.0
 * ubuntu 12.04 (on travis-ci), R 3.5.1
