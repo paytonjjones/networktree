@@ -93,20 +93,19 @@ get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "gl
     cors <- apply(node_trans, 2, mean, na.rm=T)
     matnames <- names(terminal_node$fitted[['(response)']])
   } else if ("mob_networktree" %in% class(terminal_node)){
-    out <- unlist(terminal_node)
-    cors <- unlist(out[grep('node.info.coefficients', names(out))])
-    matnames <- strsplit(as.character(out$info.Formula), "+", fixed=T)[[2]]
-    n <- length(matnames)
-    sampleSize <- nrow(terminal_node$data)
+    cors       <- terminal_node$node$info$coefficients
+    matnames   <- attr(terminal_node$info$terms$response, "term.labels")
+    n          <- length(matnames)
+    sampleSize <- terminal_node$node$info$nobs
   }
   cormat <- matrix(as.numeric(),n,n); diag(cormat) <- rep(1, n)
-  cormat[upper.tri(cormat)]<- cors
-  cormat[lower.tri(cormat)] <- t(cormat)[lower.tri(cormat)]
+  cormat[lower.tri(cormat)] <- cors
+  cormat[upper.tri(cormat)] <- t(cormat)[upper.tri(cormat)]
   colnames(cormat) <- rownames(cormat) <- matnames
-  res <- list(cormat = cormat,
-              type = type[1],
-              sampleSize=sampleSize,
-              layout=layout)
+  res <- list(cormat     = cormat,
+              type       = type[1],
+              sampleSize = sampleSize,
+              layout     = layout)
   return(res)
 }
 
