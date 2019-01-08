@@ -166,8 +166,10 @@ print.networktree<- function(x,
 #' @param ... additional arguments passed qgraph
 #'
 #'@export
-plot.networktree <- function(x, type=NULL,layout="circle", ...) {
+plot.networktree <- function(x, type = NULL, layout = "circle", ...) {
   
+  dots <- list(...)
+
   if(is.null(type)) {
     type <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
     } else if("glasso" %in% class(x)) {"glasso"
@@ -186,10 +188,10 @@ plot.networktree <- function(x, type=NULL,layout="circle", ...) {
   } else {
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
-      net_terminal(obj,type=type,layout=layout, ...)
+      net_terminal(obj, type = type, layout = layout, ...)
     }
     class(net_terminal_inner) <- "grapcon_generator"
-    partykit::plot.party(x, terminal_panel=net_terminal_inner,...)
+    partykit::plot.party(x, terminal_panel = net_terminal_inner, tp_args = dots)
   }
 }
 
