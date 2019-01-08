@@ -2,11 +2,10 @@
 
 ## net_terminal is a plotting function for the terminal nodes which is used internally in plot.networktree
 ## This uses grid package (with gridBase for qgraph)
-net_terminal <- function (obj, type, layout=NULL, which = NULL, id = TRUE, pop = TRUE, ylines = NULL,
+net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines = NULL,
                           mainlab = NULL, varlab = TRUE, bg = "white", ...) {
 
   y <- obj$fitted[["(response)"]]
-  if(is.null(layout)) {layout <- "circle"}
 
   if (is.null(which))
     which <- 1L:NCOL(y)
@@ -22,24 +21,25 @@ net_terminal <- function (obj, type, layout=NULL, which = NULL, id = TRUE, pop =
     nobs <- .nobs_party(obj, id = tid)
     data <- partykit::data_party(obj, id=tid)
     top_vp <- grid::viewport(layout = grid::grid.layout(nrow = k, ncol = 2,
-                                            widths = grid::unit(c(ylines, 1), c("lines", "null")),
-                                            heights = grid::unit(k, "null")), width = grid::unit(1, "npc"),
-                       height = grid::unit(1, "npc") - grid::unit(2, "lines"), name = paste("node_mvar",
-                                                                                tid, sep = ""))
+                               widths  = grid::unit(c(ylines, 1), c("lines", "null")),
+                               heights = grid::unit(k, "null")),
+                             width  = grid::unit(1, "npc"),
+                             height = grid::unit(1, "npc") - grid::unit(2, "lines"),
+                             name   = paste("node_mvar", tid, sep = ""))
     grid::pushViewport(top_vp)
 
-    g <- terminal_qgraph(obj[[tid]], type=type, layout=layout,...)
+    g   <- terminal_qgraph(obj[[tid]], type = type, ...)
     adj <- qgraph::getWmat(g) 
    
     ## gridBase version
     ###########################
     
     ## plot white rectangle beneath qgraph
-    grid::grid.rect(gp=grid::gpar(col=NA, fill="white"))
+    grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
     
     ## plot qgraph
     graphics::par(fig = gridBase::gridFIG(), mar = rep(0, 4), new = TRUE)
-    qgraph::qgraph(adj,noPar=TRUE,layout=layout,...)
+    qgraph::qgraph(adj, noPar = TRUE, ...)
     
     ###########################
 
@@ -83,7 +83,8 @@ net_terminal <- function (obj, type, layout=NULL, which = NULL, id = TRUE, pop =
 
 ## get cormat retrieves the cormat and related info
 ## from a "ctree_networktree" or "mob_networktree" object
-get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "glasso"),layout="circle",...){
+get_cormat <- function(terminal_node, method = "qgraph", type = c("cor", "pcor", "glasso"), ...){
+
   if("ctree_networktree" %in% class(terminal_node)){
     n <- ncol(terminal_node$fitted[['(response)']])
     sampleSize <- nrow(terminal_node$fitted[['(response)']])
@@ -103,20 +104,26 @@ get_cormat <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "gl
   cormat[upper.tri(cormat)] <- t(cormat)[upper.tri(cormat)]
   colnames(cormat) <- rownames(cormat) <- matnames
   res <- list(cormat     = cormat,
-              type       = type[1],
-              sampleSize = sampleSize,
-              layout     = layout)
+              sampleSize = sampleSize)
   return(res)
 }
 
 ## terminal_qgraph converts a terminal node into qgraph format
 ## used internally in plotting
-terminal_qgraph <- function(terminal_node, method="qgraph", type=c("cor", "pcor", "glasso"),layout="circle",...){
-  info <- get_cormat(terminal_node=terminal_node, method=method, type=type,layout=layout)
-  net <- switch(info$type,
-                "cor"=qgraph::qgraph(info$cormat, graph="default", layout=info$layout, DoNotPlot=T,...),
-                "pcor"=qgraph::qgraph(info$cormat, graph="pcor", layout=info$layout, DoNotPlot=T,...),
-                "glasso"=qgraph::qgraph(Matrix::nearPD(info$cormat)$mat, graph="glasso", sampleSize=info$sampleSize, layout=info$layout, DoNotPlot=T,...))
+terminal_qgraph <- function(terminal_node, method = "qgraph",
+                            type = c("cor", "pcor", "glasso"), ...){
+
+  info <- get_cormat(terminal_node = terminal_node, method = method)
+
+  net  <- switch(type[1],
+                 "cor"    = qgraph::qgraph(info$cormat, graph = "default",
+                                DoNotPlot = TRUE, ...),
+                 "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
+                                DoNotPlot = TRUE, ...),
+                 "glasso" = qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
+                                graph = "glasso", sampleSize = info$sampleSize,
+                                DoNotPlot = TRUE, ...))
+
   return(net)
 }
 

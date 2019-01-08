@@ -4,14 +4,12 @@
 \alias{plot.networktree}
 \title{Plotting 'treenetwork' objects}
 \usage{
-\method{plot}{networktree}(x, type = NULL, layout = "circle", ...)
+\method{plot}{networktree}(x, type = NULL, ...)
 }
 \arguments{
 \item{x}{an object of type 'networktree'}
 
 \item{type}{"cor", "pcor", or "glasso". If set to NULL, type detected from x}
-
-\item{layout}{argument passed to qgraph. Can be set to custom layout.}
 
 \item{...}{additional arguments passed qgraph}
 }

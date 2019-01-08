@@ -162,11 +162,10 @@ print.networktree<- function(x,
 #'
 #' @param x an object of type 'networktree'
 #' @param type "cor", "pcor", or "glasso". If set to NULL, type detected from x
-#' @param layout argument passed to qgraph. Can be set to custom layout.
 #' @param ... additional arguments passed qgraph
 #'
 #'@export
-plot.networktree <- function(x, type = NULL, layout = "circle", ...) {
+plot.networktree <- function(x, type = NULL, ...) {
   
   dots <- list(...)
 
@@ -188,7 +187,7 @@ plot.networktree <- function(x, type = NULL, layout = "circle", ...) {
   } else {
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
-      net_terminal(obj, type = type, layout = layout, ...)
+      net_terminal(obj, type = type, ...)
     }
     class(net_terminal_inner) <- "grapcon_generator"
     partykit::plot.party(x, terminal_panel = net_terminal_inner, tp_args = dots)
