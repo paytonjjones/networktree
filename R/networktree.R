@@ -73,7 +73,7 @@ networktree.default <- function(nodevars, splitvars,
   if(is.null(colnames(splitvars))){colnames(splitvars) <- paste('splitvars',1:ncol(splitvars),sep="")}
   
   if(method[1]=="mob"){
-    d <- as.data.frame(cbind(nodevars,splitvars))
+    d <- data.frame(nodevars,splitvars)
     form <- paste(paste(colnames(nodevars), collapse=" + "), "~",paste(colnames(splitvars), collapse=" + "))
     res <- networktree.formula(form, data = d, type=type, method=method, na.action=na.action, model = model, ...)
     
