@@ -66,7 +66,7 @@ getnetwork <- function(tree, id=1L, type = "detect", ...){
   info <- list(cormat     = cormat,
               sampleSize = sampleSize)
   
-  net  <- getWmat(switch(type[1],
+  net  <- qgraph::getWmat(switch(type[1],
                  "cor"    = qgraph::qgraph(info$cormat, graph = "default",
                                            DoNotPlot = TRUE, ...),
                  "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
