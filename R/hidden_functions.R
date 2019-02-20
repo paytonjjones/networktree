@@ -27,9 +27,12 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
                              height = grid::unit(1, "npc") - grid::unit(2, "lines"),
                              name   = paste("node_mvar", tid, sep = ""))
     grid::pushViewport(top_vp)
-
-    g   <- terminal_qgraph(obj[[tid]], type = type, ...)
-    adj <- qgraph::getWmat(g) 
+    
+    adj <- getnetwork(obj[[tid]], type=type)
+    # Todo: delete lines below if working
+    #net <- getnetwork(obj[[tid]], type=type)
+    #g <- qgraph::qgraph(net, graph = "default", DoNotPlot = TRUE, ...)
+    #adj <- qgraph::getWmat(g) 
    
     ## gridBase version
     ###########################
@@ -79,52 +82,6 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
     else grid::upViewport()
   }
   return(rval)
-}
-
-## get cormat retrieves the cormat and related info
-## from a "ctree_networktree" or "mob_networktree" object
-get_cormat <- function(terminal_node, method = "qgraph", type = c("cor", "pcor", "glasso"), ...){
-
-  if("ctree_networktree" %in% class(terminal_node)){
-    n <- ncol(terminal_node$fitted[['(response)']])
-    sampleSize <- nrow(terminal_node$fitted[['(response)']])
-    node_trans <- useCortrafo(data= terminal_node$fitted[['(response)']],
-                              weights=terminal_node$fitted[['(weights)']],
-                              n=n)
-    cors <- apply(node_trans, 2, mean, na.rm=T)
-    matnames <- names(terminal_node$fitted[['(response)']])
-  } else if ("mob_networktree" %in% class(terminal_node)){
-    cors       <- terminal_node$node$info$coefficients
-    matnames   <- attr(terminal_node$info$terms$response, "term.labels")
-    n          <- length(matnames)
-    sampleSize <- terminal_node$node$info$nobs
-  }
-  cormat <- matrix(as.numeric(),n,n); diag(cormat) <- rep(1, n)
-  cormat[lower.tri(cormat)] <- cors
-  cormat[upper.tri(cormat)] <- t(cormat)[upper.tri(cormat)]
-  colnames(cormat) <- rownames(cormat) <- matnames
-  res <- list(cormat     = cormat,
-              sampleSize = sampleSize)
-  return(res)
-}
-
-## terminal_qgraph converts a terminal node into qgraph format
-## used internally in plotting
-terminal_qgraph <- function(terminal_node, method = "qgraph",
-                            type = c("cor", "pcor", "glasso"), ...){
-
-  info <- get_cormat(terminal_node = terminal_node, method = method)
-
-  net  <- switch(type[1],
-                 "cor"    = qgraph::qgraph(info$cormat, graph = "default",
-                                DoNotPlot = TRUE, ...),
-                 "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
-                                DoNotPlot = TRUE, ...),
-                 "glasso" = qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
-                                graph = "glasso", sampleSize = info$sampleSize,
-                                DoNotPlot = TRUE, ...))
-
-  return(net)
 }
 
 ## cortrafo is a general function for transforming a set of variables y1, y2, y3...
