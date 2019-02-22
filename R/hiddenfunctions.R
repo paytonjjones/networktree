@@ -29,10 +29,6 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
     grid::pushViewport(top_vp)
     
     adj <- getnetwork(obj[[tid]], type=type)
-    # Todo: delete lines below if working
-    #net <- getnetwork(obj[[tid]], type=type)
-    #g <- qgraph::qgraph(net, graph = "default", DoNotPlot = TRUE, ...)
-    #adj <- qgraph::getWmat(g) 
    
     ## gridBase version
     ###########################
