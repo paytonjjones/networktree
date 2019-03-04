@@ -1,0 +1,112 @@
+---
+title: "Exchange Rates Networks"
+author: "Thorsten Simon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{Exchange Rates Networks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteDepends{networktree}
+  %\VignetteKeywords{regression trees, networks, exchange rates}
+  %\VignettePackage{bamlss}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library("networktree")
+# library("zoo")
+set.seed(111)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##"
+)
+```
+
+We use the `FXRatesCHF` data from package **fxregime** [@fxregime],
+which is a  zoo series containing 25 daily time series over four decades.
+The columns correspond to the prices for various currencies w.r.t. CHF
+(Swiss Franc)
+as unit currency.
+
+Here, we aim at investigating the network of weekly returns for
+seven currencies:
+
+| Abbreviation | Full name  |
+|:---|:--------------------------------------------------------------------|
+| USD  | US Dollar |
+| JPY  | Japanese Yen |
+| DUR  | A mixture of the German Mark (DEM, before 1999) and the Euro (EUR, since 1999)   |
+| CNY  | Chinese Yuan |
+| INR  | Indian Rupee |
+| GBP  | Great British Pound |
+| ZAR  | South African Rand |
+
+
+```{r data}
+data("FXRatesCHF", package = "fxregime")
+currencies <- c("USD", "JPY", "DUR", "CNY", "INR", "GBP", "ZAR")
+returns <- fxregime::fxreturns(currencies, data = FXRatesCHF)
+returns <- na.omit(returns)
+```
+
+```{r look-at-data, fig.height = 7, fig.width = 12, out.width = "100%"}
+plot(returns)
+```
+
+A quick look reveals that data are on hand from `r head(zoo::index(returns), 1)`
+to `r tail(zoo::index(returns), 1)`. Over the whole period the mean of each time
+series is around zero. Further the spread for each time series is relatively
+constant over time. However, the correlation structure between these seven
+variables might change within this period of time.
+
+Before modelling the _networktree_ we compute a numeric variable for the
+decimal time and put it in a column `time`.
+
+```{r data2}
+returns$year   <- as.POSIXlt(zoo::index(returns))$year
+returns$isLeap <- (returns$year %% 4) == 0
+returns$yday   <- as.POSIXlt(zoo::index(returns))$yday
+returns$time   <- 1900 + returns$year + returns$yday / ifelse(returns$isLeap, 366, 365)
+```
+
+Then we specify the formula object for our _networktree_. On the left hand side we put
+the variables among which the correlation structure has to be investigated,
+i.e. the currencies. On the right hand side the split variables are placed. Here,
+only `time`.
+
+```{r formula}
+f  <- paste(paste(currencies, collapse = " + "), "~ time")
+f  <- as.formula(f)
+f
+```
+
+We put this formula into the `networktree()` function, where we also
+specify that only the correlations should be considered while splitting `cor = TRUE`
+(not the means and standard deviations). Further the tree should only grow to a maximum
+depth of three `maxdepth = 3`.
+
+```{r model}
+tr <- networktree(f, data = returns, cor = TRUE, maxdepth = 3)
+```
+
+```{r output}
+print(tr, digits = 2)
+```
+
+```{r output2, fig.align = "left", fig.height = 16, fig.width = 24, dpi = 48, out.width = "100%"}
+# plot(tr, type = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
+### FIXME: An error occurs while building the package because of the plot command above.
+###
+### * creating vignettes ... ERROR
+### Warning in replayPlot(x) : calling par(new=TRUE) with no plot
+### Quitting from lines 51-52 (returns.Rmd) 
+### Error: processing vignette 'returns.Rmd' failed with diagnostics:
+### cannot pop the top-level viewport ('grid' and 'graphics' output mixed?)
+### Execution halted
+###
+```
+
+## References
+
+
