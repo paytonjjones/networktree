@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteDepends{networktree}
   %\VignetteKeywords{regression trees, networks, exchange rates}
-  %\VignettePackage{bamlss}
+  %\VignettePackage{networktree}
   %\VignetteEncoding{UTF-8}
 ---
 
