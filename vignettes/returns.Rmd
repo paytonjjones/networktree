@@ -1,6 +1,6 @@
 ---
 title: "Exchange Rates Networks"
-author: "Thorsten Simon"
+author: "Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: references.bib
@@ -144,10 +144,16 @@ was that weak before that point of time.
 #   FUN = function(n){ summary(lm( CNY ~ USD, data = n$data ))$r.squared })
 
 par(mfrow = c(2, 2))
-for (i in c(3, 4, 6, 7)) {
+for (i in partykit::nodeids(tr, terminal = TRUE)) {
+  sfm <- summary(fm <- lm(CNY ~ USD, data = tr[[i]]$data))
   plot(CNY ~ USD, data = tr[[i]]$data, main = sprintf("node %d", i))
-  legend("topleft", bty = "n",  legend = sprintf("R squared: %.2f",
-    summary(lm( CNY ~ USD, data = tr[[i]]$data ))$r.squared))
+  abline(fm, col = "darkred")
+  legend("topleft", bty = "n",
+    legend = sprintf("b0 = %.3f (%.3f)\nb1 = %.3f (%.3f)\nR2 = %.3f",
+                     sfm$coefficients[1, 1], sfm$coefficients[1, 2],
+                     sfm$coefficients[2, 1], sfm$coefficients[2, 2],
+                     sfm$r.squared))
+  
 }
 ```
 
