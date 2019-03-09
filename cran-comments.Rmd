@@ -7,7 +7,8 @@ output: md_document
 
 ## Test environments
 * local windows, R 3.5.2
-* ubuntu 12.04 (on travis-ci), R 3.5.2
+* ubuntu 14.04 (on travis-ci), R 3.5.2
+* win-builder (current)
 
 ## R CMD Check results
 There were no ERRORS, WARNINGS, or NOTES
