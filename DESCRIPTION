@@ -12,6 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: partykit, qgraph, stats, utils, Matrix, mvtnorm, Formula, grid, graphics, gridBase
 RoxygenNote: 6.1.1
-Suggests: R.rsp
+Suggests: R.rsp, knitr, rmarkdown, fxregime, zoo
 URL: NA
 BugReports: http://github.com/paytonjjones/networktree/issues
+VignetteBuilder: knitr
