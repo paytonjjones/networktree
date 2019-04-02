@@ -4,3 +4,4 @@
 ^cran-comments\.Rmd$
 ^\.travis\.yml$
 ^README\.md$
+^vignettes\.*
