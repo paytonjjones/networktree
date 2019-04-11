@@ -148,6 +148,8 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
 }
 
 
+# TODO: bug where if only 1 split variable, the name gets lost in the plot (and data file?)
+
 ## methods for networktree class
 print.networktree<- function(x,
                              title = "Network tree", objfun = "negative log-likelihood", ...)
@@ -190,10 +192,21 @@ plot.networktree <- function(x, type = NULL, ...) {
       net_terminal(obj, type = type, ...)
     }
     class(net_terminal_inner) <- "grapcon_generator"
-    if(dev.cur()>1){
-      partykit::plot.party(x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots)
-    } else {
+    needNewPlot <- tryCatch(
+      {
+        par(new=TRUE)
+        FALSE
+      }, 
+      warning=function(cond){
+        return(TRUE)
+      },
+      silent=T
+    )
+    if(needNewPlot){
       plot.new()
+      partykit::plot.party(x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots)
+      
+    } else {
       partykit::plot.party(x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots)
     }
   }
