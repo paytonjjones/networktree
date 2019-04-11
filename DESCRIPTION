@@ -15,3 +15,4 @@ RoxygenNote: 6.1.1
 Suggests: R.rsp, knitr, rmarkdown, fxregime, zoo
 URL: NA
 BugReports: http://github.com/paytonjjones/networktree/issues
+VignetteBuilder: knitr
