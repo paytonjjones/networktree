@@ -10,10 +10,10 @@ networktree(...)
 
 \method{networktree}{default}(nodevars, splitvars, type = c("cor",
   "pcor", "glasso"), method = c("mob", "ctree"), model = "correlation",
-  na.action = na.pass, weights = NULL, ...)
+  na.action = na.omit, weights = NULL, ...)
 
 \method{networktree}{formula}(formula, data, type = c("cor", "pcor",
-  "glasso"), method = c("mob", "ctree"), na.action = na.pass,
+  "glasso"), method = c("mob", "ctree"), na.action = na.omit,
   model = "correlation", ...)
 }
 \arguments{

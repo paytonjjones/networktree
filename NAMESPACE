@@ -3,6 +3,7 @@
 S3method(networktree,default)
 S3method(networktree,formula)
 S3method(plot,networktree)
+S3method(print,networktree)
 export(comparetree)
 export(getnetwork)
 export(mvnfit)

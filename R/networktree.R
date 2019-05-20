@@ -65,7 +65,7 @@ networktree.default <- function(nodevars, splitvars,
                                 type=c("cor", "pcor", "glasso"),
                                 method=c("mob","ctree"),
                                 model ="correlation",
-                                na.action=na.pass,
+                                na.action=na.omit,
                                 weights=NULL,...){
   nodevars <- as.matrix(nodevars)
   splitvars <- as.matrix(splitvars)
@@ -107,7 +107,7 @@ networktree.default <- function(nodevars, splitvars,
 #'@export
 networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"), 
                                 method=c("mob","ctree"),
-                                na.action=na.pass, model="correlation", ...)
+                                na.action=na.omit, model="correlation", ...)
 {
   if(method[1]=="mob"){
     
@@ -159,13 +159,26 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
 }
 
 
-# TODO: bug where if only 1 split variable, the name gets lost in the plot (and data file?)
-
 ## methods for networktree class
+
+#' Printing 'treenetwork' objects
+#'
+#' Wraps print.modelparty to print a tree model with networks on the ends. 
+#'
+#' @param x an object of type 'networktree'
+#' @param parameters print parameters for each partition? 
+#' See getnetwork function for extracting parameters conveniently
+#' @param FUN only evaluated if parameters=TRUE, passed to print.modelparty
+#' @param ... additional arguments passed print.modelparty
+#'
+#'@export
 print.networktree<- function(x,
-                             title = "Network tree", objfun = "negative log-likelihood", ...)
+                             parameters=FALSE,
+                             FUN=NULL,
+                             ...)
 {
-  partykit::print.modelparty(x, title = title, objfun = objfun, ...)
+  FUN <- ifelse(!parameters, function(x){""}, FUN)
+  partykit::print.modelparty(x, title = "Network tree object", FUN=FUN, ...)
 }
 
 #' Plotting 'treenetwork' objects
@@ -175,10 +188,12 @@ print.networktree<- function(x,
 #'
 #' @param x an object of type 'networktree'
 #' @param type "cor", "pcor", or "glasso". If set to NULL, type detected from x
+#' @param layout network layout, passed to qgraph. Default "lock" computes spring 
+#' layout for the full sample and applies this to all graphs
 #' @param ... additional arguments passed qgraph
 #'
 #'@export
-plot.networktree <- function(x, type = NULL, ...) {
+plot.networktree <- function(x, type = NULL, layout="lock",...) {
   
   dots <- list(...)
 
@@ -187,6 +202,10 @@ plot.networktree <- function(x, type = NULL, ...) {
     } else if("glasso" %in% class(x)) {"glasso"
     } else {"glasso";
       warning("Type of network could not be detected, plotting glasso networks")}
+  }
+  
+  if(layout[1]=="lock"){
+    layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
   }
   
   if("mob_networktree" %in% class(x)){
@@ -200,7 +219,7 @@ plot.networktree <- function(x, type = NULL, ...) {
   } else {
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
-      net_terminal(obj, type = type, ...)
+      net_terminal(obj, type = type,layout = layout, ...)
     }
     class(net_terminal_inner) <- "grapcon_generator"
     needNewPlot <- tryCatch(

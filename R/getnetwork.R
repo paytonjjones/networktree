@@ -67,13 +67,13 @@ getnetwork <- function(tree, id=1L, type = "detect", ...){
               sampleSize = sampleSize)
   
   net  <- qgraph::getWmat(switch(type[1],
-                 "cor"    = qgraph::qgraph(info$cormat, graph = "default",
-                                           DoNotPlot = TRUE, ...),
-                 "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
-                                           DoNotPlot = TRUE, ...),
-                 "glasso" = qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
+                 "cor"    = suppressWarnings(qgraph::qgraph(info$cormat, graph = "default",
+                                           DoNotPlot = TRUE, ...)),
+                 "pcor"   = suppressWarnings(qgraph::qgraph(info$cormat, graph = "pcor",
+                                           DoNotPlot = TRUE, ...)),
+                 "glasso" = suppressWarnings(qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
                                            graph = "glasso", sampleSize = info$sampleSize,
-                                           DoNotPlot = TRUE, ...)))
+                                           DoNotPlot = TRUE, ...))))
   return(net)
 }
 

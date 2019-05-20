@@ -29,5 +29,26 @@ FR layout from the full dataset}
 Quickly compares two partitions of a networktree object
 }
 \examples{
+set.seed(1)
+d <- data.frame(trend = 1:200, foo = runif(200, -1, 1))
+d <- cbind(d, rbind(
+  mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
+          sigma = matrix(c(1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 1), ncol = 3)),
+  mvtnorm::rmvnorm(100, mean = c(0, 0, 0),
+          sigma = matrix(c(1, 0, 0.5, 0, 1, 0.5, 0.5, 0.5, 1), ncol = 3))
+))
+colnames(d)[3:5] <- paste0("y", 1:3)
+
+## Generate a networktree
+tree1 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2])
+
+## Print out the structure
+tree1
+
+## Compare any two partitions
+comparetree(tree1, id1=2, id2=3, highlights=3)
+
+## Add a comparison plot
+comparetree(tree1, id1=2, id2=3, plot=TRUE)
 
 }
