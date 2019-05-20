@@ -62,19 +62,19 @@ getnetwork <- function(tree, id=1L, type = "detect", ...){
   cormat <- matrix(as.numeric(),n,n); diag(cormat) <- rep(1, n)
   cormat[lower.tri(cormat)] <- cors
   cormat[upper.tri(cormat)] <- t(cormat)[upper.tri(cormat)]
-  colnames(cormat) <- rownames(cormat) <- matnames
   info <- list(cormat     = cormat,
               sampleSize = sampleSize)
-  
+  dots <- list(...)
+  labels <- if(is.null(dots$labels)){matnames}else{dots$labels}
   net  <- qgraph::getWmat(switch(type[1],
                  "cor"    = suppressWarnings(qgraph::qgraph(info$cormat, graph = "default",
-                                           DoNotPlot = TRUE, ...)),
+                                           DoNotPlot = TRUE, labels = labels, ...)),
                  "pcor"   = suppressWarnings(qgraph::qgraph(info$cormat, graph = "pcor",
-                                           DoNotPlot = TRUE, ...)),
+                                           DoNotPlot = TRUE, labels = labels, ...)),
                  "glasso" = suppressWarnings(qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
                                            graph = "glasso", sampleSize = info$sampleSize,
-                                           DoNotPlot = TRUE, ...))))
-  return(net)
+                                           DoNotPlot = TRUE, labels = labels, ...))))
+   return(net)
 }
 
 

@@ -29,6 +29,8 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
     grid::pushViewport(top_vp)
     
     adj <- getnetwork(obj[[tid]], type=type)
+    dots <- list(...)
+    labels <- if(is.null(dots$labels)){colnames(adj)}else{dots$labels}
    
     ## gridBase version
     ###########################
@@ -38,7 +40,7 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
     
     ## plot qgraph
     graphics::par(fig = gridBase::gridFIG(), mar = rep(0, 4), new = TRUE)
-    qgraph::qgraph(adj, noPar = TRUE, ...)
+    qgraph::qgraph(adj, noPar = TRUE, labels=labels, ...)
     
     ###########################
 

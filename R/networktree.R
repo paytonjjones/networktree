@@ -120,12 +120,11 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
 
     ## set default for minsize if not specified
     if(is.null(control$minsize)) { 
-	F <- Formula::Formula(formula)
-
-	k <- ncol(stats::model.matrix(~ 0 + .,
-		 model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
-	))
-	control$minsize <- k * (k-1) / 2 + 1
+	    F <- Formula::Formula(formula)
+	    k <- ncol(stats::model.matrix(~ 0 + .,
+		              model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
+	              ))
+	    control$minsize <- k * (k-1) / 2 + 1
     }
     
     ## control options for mvnfit
