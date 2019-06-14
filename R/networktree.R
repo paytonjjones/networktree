@@ -189,13 +189,14 @@ print.networktree<- function(x,
 #' @param type "cor", "pcor", or "glasso". If set to NULL, type detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
+#' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
 #' @param ... additional arguments passed qgraph
 #'
 #'@export
-plot.networktree <- function(x, type = NULL, layout="lock",...) {
+plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ...) {
   
   dots <- list(...)
-
+  
   if(is.null(type)) {
     type <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
     } else if("glasso" %in% class(x)) {"glasso"
@@ -214,7 +215,8 @@ plot.networktree <- function(x, type = NULL, layout="lock",...) {
   }
   if("variance" %in% model | "mean" %in% model){
     message("Network plotting not yet implemented for splits by variance and mean")
-    partykit::plot.party(x)
+    partyargs <- c(partyargs, list(x=x))
+    do.call(what=partykit::plot.party,args=partyargs)
   } else {
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
@@ -233,10 +235,11 @@ plot.networktree <- function(x, type = NULL, layout="lock",...) {
     )
     if(needNewPlot){
       plot.new()
-      partykit::plot.party(x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots)
-      
+      partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots))
+      do.call(what=partykit::plot.party,args=partyargs)
     } else {
-      partykit::plot.party(x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots)
+      partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots))
+      do.call(what=partykit::plot.party,args=partyargs)
     }
   }
 }

@@ -4,7 +4,8 @@
 \alias{plot.networktree}
 \title{Plotting 'treenetwork' objects}
 \usage{
-\method{plot}{networktree}(x, type = NULL, layout = "lock", ...)
+\method{plot}{networktree}(x, type = NULL, layout = "lock",
+  partyargs = list(), ...)
 }
 \arguments{
 \item{x}{an object of type 'networktree'}
@@ -13,6 +14,8 @@
 
 \item{layout}{network layout, passed to qgraph. Default "lock" computes spring 
 layout for the full sample and applies this to all graphs}
+
+\item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}}
 
 \item{...}{additional arguments passed qgraph}
 }
