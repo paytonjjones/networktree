@@ -1,6 +1,8 @@
 inst/doc
 vignettes/*.html
 vignettes/*.R
+vignettes/16PF.Rmd
+vignettes/16PF/*
 .Rproj.user
 .Rhistory
 .RData
