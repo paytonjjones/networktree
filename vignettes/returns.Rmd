@@ -23,6 +23,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Data
+
 We use the `FXRatesCHF` data from package **fxregime** [@fxregime],
 which is a  zoo series containing 25 daily time series over four decades.
 The columns correspond to the prices for various currencies w.r.t. CHF
@@ -73,6 +75,8 @@ returns$time   <- 1900 + returns$year + returns$yday / ifelse(returns$isLeap, 36
 returns$foo    <- rnorm(nrow(returns))
 ```
 
+## Networktree Model
+
 Then we specify the formula object for our _networktree_. On the left hand side we put
 the variables among which the correlation structure has to be investigated,
 i.e. the currencies. On the right hand side the split variables are placed. Here,
@@ -111,7 +115,6 @@ respectively.
 
 
 ```{r output2, fig.align = "left", fig.height = 16, fig.width = 24, dpi = 72, out.width = "100%"}
-plot.new()
 plot(tr, type = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
@@ -136,6 +139,7 @@ Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.
 The split in April 1994 raises the question why the coupling of CNY to USD
 was that weak before that point of time.
 
+<!--
 ```{r investigate-split, fig.align = "left", fig.height = 9, fig.width = 9, dpi = 144, out.width = "100%"}
 # partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
 #   FUN = function(n){ plot(CNY ~ USD, data = n$data) })
@@ -156,6 +160,12 @@ for (i in partykit::nodeids(tr, terminal = TRUE)) {
   
 }
 ```
+-->
+
+## License
+
+This content is published under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## References
 
