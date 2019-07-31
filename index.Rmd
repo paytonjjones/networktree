@@ -1,8 +1,13 @@
+---
+title: ""
+bibliography: vignettes/references.bib
+---
 
 ### Recursive Partitioning of Network Models
 
-networktree provides tools to fit and analyse regression trees
+**networktree** provides tools to fit and analyse regression trees
 with correlation-based network models (multivariate normal distributions).
+The methods are described in @networktree.
 
 ### Installation
 
@@ -18,4 +23,5 @@ From [GitHub](https://github.com/paytonjjones/networktree):
 devtools::install_github("paytonjjones/networktree")
 ```
 
+## References
 

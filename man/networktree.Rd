@@ -83,3 +83,8 @@ tree4 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2],
                      alpha=0.01)
 }
 }
+\references{
+Jones PJ, Mair P, Simon T, Zeileis A (2019). “Network Model Trees.” OSF
+ha4cw, OSF Preprints. doi: 10.31219/osf.io/ha4cw (URL:
+https://doi.org/10.31219/osf.io/ha4cw).
+}

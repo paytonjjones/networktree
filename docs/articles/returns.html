@@ -73,7 +73,7 @@
       <h1>Exchange Rates Networks</h1>
                         <h4 class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 class="date">2019-07-26</h4>
+            <h4 class="date">2019-07-31</h4>
       
       
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -180,8 +180,10 @@ f
 <p>The <code><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
 <p>The partial correlation reveals a very strong link between the Chinese Yuan and the US Dollar after April 1994, but a weaker link before that point of time.</p>
 <p>The split which was found in the second part of the data was July 2005 which coincide with an announcement of the People’s Bank of China (PBC) to shift away from a fixed exchange rate to the US Dollar to a basket of currencies with greater flexibility <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. Earlier studies also found that CNY was still strongly coupled to the USD after July 2005 <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. However, the split detected in mid 2005 by the <em>networktree</em> does not show a big change in the coupling of CNY to USD, but reveals that coupling of Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.</p>
-<p>The split in April 1994 raises the question why the coupling of CNY to USD was that weak before that point of time.</p>
 <!--
+The split in April 1994 raises the question why the coupling of CNY to USD
+was that weak before that point of time.
+
 
 ```r
 # partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
@@ -221,6 +223,9 @@ for (i in partykit::nodeids(tr, terminal = TRUE)) {
 </div>
 <div id="ref-partykit">
 <p>Hothorn, Torsten, and Achim Zeileis. 2015. “partykit: A Modular Toolkit for Recursive Partytioning in R.” <em>Journal of Machine Learning Research</em> 16: 3905–9. <a href="http://jmlr.org/papers/v16/hothorn15a.html" class="uri">http://jmlr.org/papers/v16/hothorn15a.html</a>.</p>
+</div>
+<div id="ref-networktree">
+<p>Jones, Payton J., Patrick Mair, Thorsten Simon, and Achim Zeileis. 2019. “Network Model Trees.” OSF ha4cw. OSF Preprints. doi:<a href="https://doi.org/10.31219/osf.io/ha4cw">10.31219/osf.io/ha4cw</a>.</p>
 </div>
 <div id="ref-mob">
 <p>Zeileis, Achim, Torsten Hothorn, and Kurt Hornik. 2008. “Model-Based Recursive Partitioning.” <em>Journal of Computational and Graphical Statistics</em> 17 (2): 492–514. doi:<a href="https://doi.org/10.1198/106186008X319331">10.1198/106186008X319331</a>.</p>

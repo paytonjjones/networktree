@@ -13,6 +13,12 @@ utils::globalVariables(c("na.pass"))
 #' Note: this package is in its early stages and the interface may change
 #' for future versions.
 #'
+#' @references
+#'
+#' Jones PJ, Mair P, Simon T, Zeileis A (2019). “Network Model Trees.” OSF
+#' ha4cw, OSF Preprints. doi: 10.31219/osf.io/ha4cw (URL:
+#' https://doi.org/10.31219/osf.io/ha4cw).
+#'
 #' @examples
 #' 
 #' set.seed(1)

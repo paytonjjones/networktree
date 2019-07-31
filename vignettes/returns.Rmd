@@ -4,6 +4,7 @@ author: "Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: references.bib
+nocite: '@networktree'
 vignette: >
   %\VignetteIndexEntry{Exchange Rates Networks}
   %\VignetteEngine{knitr::rmarkdown}
@@ -136,10 +137,10 @@ However, the split detected in mid 2005 by the _networktree_ does not show
 a big change in the coupling of CNY to USD, but reveals that coupling of
 Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.
 
+<!--
 The split in April 1994 raises the question why the coupling of CNY to USD
 was that weak before that point of time.
 
-<!--
 ```{r investigate-split, fig.align = "left", fig.height = 9, fig.width = 9, dpi = 144, out.width = "100%"}
 # partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
 #   FUN = function(n){ plot(CNY ~ USD, data = n$data) })
