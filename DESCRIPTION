@@ -13,6 +13,6 @@ LazyData: true
 Imports: partykit, qgraph, stats, utils, Matrix, mvtnorm, Formula, grid, graphics, gridBase, reshape2
 RoxygenNote: 6.1.1
 Suggests: R.rsp, knitr, rmarkdown, fxregime, zoo
-URL: https://CRAN.R-project.org/package=networktree
+URL: https://paytonjjones.github.io/networktree
 BugReports: http://github.com/paytonjjones/networktree/issues
 VignetteBuilder: knitr
