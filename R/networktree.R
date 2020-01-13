@@ -130,7 +130,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
 	    k <- ncol(stats::model.matrix(~ 0 + .,
 		              model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
 	              ))
-	    control$minsize <- k * (k-1) / 2 + 1
+	    control$minsize <- 2 * k + k * (k-1) / 2
     }
     
     ## control options for mvnfit
