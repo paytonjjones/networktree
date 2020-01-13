@@ -4,8 +4,16 @@
 \alias{comparetree}
 \title{comparetree}
 \usage{
-comparetree(tree, id1 = 2L, id2 = 3L, type = "detect",
-  highlights = 5, plot = FALSE, layout = "constrained", ...)
+comparetree(
+  tree,
+  id1 = 2L,
+  id2 = 3L,
+  type = "detect",
+  highlights = 5,
+  plot = FALSE,
+  layout = "constrained",
+  ...
+)
 }
 \arguments{
 \item{tree}{a networktree object}

@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exchange Rates Networks • networktree</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Exchange Rates Networks">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -67,13 +68,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Exchange Rates Networks</h1>
                         <h4 class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 class="date">2019-07-31</h4>
+            <h4 class="date">2020-01-13</h4>
       
       
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -127,31 +129,31 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"FXRatesCHF"</span>, <span class="dt">package =</span> <span class="st">"fxregime"</span>)
-currencies &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"USD"</span>, <span class="st">"JPY"</span>, <span class="st">"DUR"</span>, <span class="st">"CNY"</span>, <span class="st">"INR"</span>, <span class="st">"GBP"</span>, <span class="st">"ZAR"</span>)
-returns &lt;-<span class="st"> </span>fxregime::<span class="kw">fxreturns</span>(currencies, <span class="dt">data =</span> FXRatesCHF)
-returns &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(returns)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(returns)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"FXRatesCHF"</span>, <span class="dt">package =</span> <span class="st">"fxregime"</span>)
+currencies &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"USD"</span>, <span class="st">"JPY"</span>, <span class="st">"DUR"</span>, <span class="st">"CNY"</span>, <span class="st">"INR"</span>, <span class="st">"GBP"</span>, <span class="st">"ZAR"</span>)
+returns &lt;-<span class="st"> </span>fxregime<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/fxregime/man/fxreturns.html">fxreturns</a></span>(currencies, <span class="dt">data =</span> FXRatesCHF)
+returns &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(returns)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(returns)</code></pre></div>
 <p><img src="returns_files/figure-html/look-at-data-1.png" width="100%"></p>
 <p>A quick look reveals that data are on hand from 1981-01-09 to 2010-02-12. Over the whole period the mean of each time series is around zero. Further the spread for each time series is relatively constant over time. However, the correlation structure between these seven variables might change within this period of time.</p>
 <p>Before modelling the <em>networktree</em> we compute a numeric variable for the decimal time and put it in a column <code>time</code>, and for illustration we also add a nosie variable <code>foo</code>. Obviously, one can expect that <code>time</code> will be selected for splitting the data, but <code>foo</code> will not be selected.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">returns$year   &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.POSIXlt">as.POSIXlt</a></span>(zoo::<span class="kw">index</span>(returns))$year
-returns$isLeap &lt;-<span class="st"> </span>(returns$year %%<span class="st"> </span><span class="dv">4</span>) ==<span class="st"> </span><span class="dv">0</span>
-returns$yday   &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.POSIXlt">as.POSIXlt</a></span>(zoo::<span class="kw">index</span>(returns))$yday
-returns$time   &lt;-<span class="st"> </span><span class="dv">1900</span> +<span class="st"> </span>returns$year +<span class="st"> </span>returns$yday /<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(returns$isLeap, <span class="dv">366</span>, <span class="dv">365</span>)
-returns$foo    &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(returns))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">returns<span class="op">$</span>year   &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span>(zoo<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span>(returns))<span class="op">$</span>year
+returns<span class="op">$</span>isLeap &lt;-<span class="st"> </span>(returns<span class="op">$</span>year <span class="op">%%</span><span class="st"> </span><span class="dv">4</span>) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>
+returns<span class="op">$</span>yday   &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span>(zoo<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span>(returns))<span class="op">$</span>yday
+returns<span class="op">$</span>time   &lt;-<span class="st"> </span><span class="dv">1900</span> <span class="op">+</span><span class="st"> </span>returns<span class="op">$</span>year <span class="op">+</span><span class="st"> </span>returns<span class="op">$</span>yday <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(returns<span class="op">$</span>isLeap, <span class="dv">366</span>, <span class="dv">365</span>)
+returns<span class="op">$</span>foo    &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(returns))</code></pre></div>
 </div>
 <div id="networktree-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#networktree-model" class="anchor"></a>Networktree Model</h2>
 <p>Then we specify the formula object for our <em>networktree</em>. On the left hand side we put the variables among which the correlation structure has to be investigated, i.e. the currencies. On the right hand side the split variables are placed. Here, <code>time</code> and <code>foo</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(currencies, <span class="dt">collapse =</span> <span class="st">" + "</span>), <span class="st">"~ time + foo"</span>)
-f  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/formula">as.formula</a></span>(f)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(currencies, <span class="dt">collapse =</span> <span class="st">" + "</span>), <span class="st">"~ time + foo"</span>)
+f  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span>(f)
 f
 ## USD + JPY + DUR + CNY + INR + GBP + ZAR ~ time + foo</code></pre></div>
 <p>We put this formula into the <code><a href="../reference/networktree.html">networktree()</a></code> function, where we also specify that only the correlations should be considered while splitting <code>cor = TRUE</code> (not the means and standard deviations). Further the tree should only grow to a maximum depth of three <code>maxdepth = 3</code>. The default method for the recursive partitioning is the <em>model-based recursive partitioning</em> <span class="citation">(Zeileis, Hothorn, and Hornik 2008)</span> implemented in the function <code>mob()</code> of the <strong>partykit</strong> package <span class="citation">(Hothorn and Zeileis 2015)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/networktree.html">networktree</a></span>(f, <span class="dt">data =</span> returns, <span class="dt">cor =</span> <span class="ot">TRUE</span>, <span class="dt">maxdepth =</span> <span class="dv">3</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tr, <span class="dt">digits =</span> <span class="dv">2</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/networktree.html">networktree</a></span>(f, <span class="dt">data =</span> returns, <span class="dt">model =</span> <span class="st">"correlation"</span>, <span class="dt">maxdepth =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(tr, <span class="dt">digits =</span> <span class="dv">2</span>)
 ## Network tree object
 ## 
 ## Model formula:
@@ -170,14 +172,14 @@ f
 ## Number of terminal nodes: 4
 ## Number of parameters per node: 21
 ## Objective function: 14073.5</code></pre></div>
-<p>The <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(tr, <span class="dt">type =</span> <span class="st">"pcor"</span>, <span class="dt">posCol =</span> <span class="st">"#008585"</span>, <span class="dt">negCol =</span> <span class="st">"#C7522B"</span>, <span class="dt">maximum =</span> <span class="dv">1</span>)
+<p>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tr, <span class="dt">type =</span> <span class="st">"pcor"</span>, <span class="dt">posCol =</span> <span class="st">"#008585"</span>, <span class="dt">negCol =</span> <span class="st">"#C7522B"</span>, <span class="dt">maximum =</span> <span class="dv">1</span>)
 ## Registered S3 methods overwritten by 'huge':
 ##   method    from   
 ##   plot.sim  BDgraph
 ##   print.sim BDgraph</code></pre></div>
 <p><img src="returns_files/figure-html/output2-1.png" width="100%" style="display: block; margin: auto auto auto 0;"></p>
-<p>The <code><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
+<p>The <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
 <p>The partial correlation reveals a very strong link between the Chinese Yuan and the US Dollar after April 1994, but a weaker link before that point of time.</p>
 <p>The split which was found in the second part of the data was July 2005 which coincide with an announcement of the People’s Bank of China (PBC) to shift away from a fixed exchange rate to the US Dollar to a basket of currencies with greater flexibility <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. Earlier studies also found that CNY was still strongly coupled to the USD after July 2005 <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. However, the split detected in mid 2005 by the <em>networktree</em> does not show a big change in the coupling of CNY to USD, but reveals that coupling of Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.</p>
 <!--
@@ -241,6 +243,7 @@ for (i in partykit::nodeids(tr, terminal = TRUE)) {
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -256,17 +259,20 @@ for (i in partykit::nodeids(tr, terminal = TRUE)) {
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Payton Jones, Thorsten Simon, Achim Zeileis.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

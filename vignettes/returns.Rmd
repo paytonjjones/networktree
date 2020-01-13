@@ -97,7 +97,7 @@ is the _model-based recursive partitioning_ [@mob] implemented in the
 function `mob()` of the **partykit** package [@partykit].
 
 ```{r model}
-tr <- networktree(f, data = returns, cor = TRUE, maxdepth = 3)
+tr <- networktree(f, data = returns, model = "correlation", maxdepth = 3)
 ```
 
 ```{r output}

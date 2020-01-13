@@ -220,7 +220,7 @@ plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ..
     model <- class(x[[1]]$info$call)
   }
   if("variance" %in% model | "mean" %in% model){
-    message("Network plotting not yet implemented for splits by variance and mean")
+    warning("Network plotting not yet implemented for splits by variance and mean.\nPrinting summary.")
     partyargs <- c(partyargs, list(x=x))
     do.call(what=partykit::plot.party,args=partyargs)
   } else {

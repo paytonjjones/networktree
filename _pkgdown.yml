@@ -15,8 +15,8 @@ reference:
     - title: "High-level interface"
       contents:
         - networktree
-        - networktree.plot
-        - networktree.print
+        - plot.networktree
+        - print.networktree
     - title: "Fitter"
       contents:
         - mvnfit
