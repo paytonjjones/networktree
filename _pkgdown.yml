@@ -17,6 +17,7 @@ reference:
         - networktree
         - plot.networktree
         - print.networktree
+        - predict.networktree
     - title: "Fitter"
       contents:
         - mvnfit
