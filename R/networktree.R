@@ -251,6 +251,32 @@ plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ..
 }
 
 
+#' Predict 'networktree' objects
+#'
+#' Wraps predict.party
+#'
+#' @param object a fitted 'networktree'
+#' @param newdata An optional data frame in which to look for variables with
+#'        which to predict.  If omitted, the fitted values are used.
+#' @param type "node", or "parameter". Specifies whether to predict nodes
+#'        (return value is a vector) or parameters (matrix).
+#' @param ... not used
+#'
+#'@export
+predict.networktree <- function(object, newdata = NULL,
+				type = c("node", "parameter"), ...) {
+  type <- match.arg(type)
+
+  ## predict node ids
+  node <- predict.party(object, newdata = newdata)
+  if(identical(type, "node")) {
+    return(node)
+  }
+
+  ## obtain coefs
+  coef(object)[as.character(node), ]
+}
+
 # Package documentation
 # TODO: fix package documentation. causes a conflict w/networktree function documentation
 #       because they have the same name
