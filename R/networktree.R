@@ -262,19 +262,20 @@ plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ..
 #'        (return value is a vector) or parameters (matrix).
 #' @param ... not used
 #'
+#' @method predict networktree
 #'@export
 predict.networktree <- function(object, newdata = NULL,
 				type = c("node", "parameter"), ...) {
   type <- match.arg(type)
 
   ## predict node ids
-  node <- predict.party(object, newdata = newdata)
+  node <- partykit::predict.party(object, newdata = newdata)
   if(identical(type, "node")) {
     return(node)
   }
 
   ## obtain coefs
-  coef(object)[as.character(node), ]
+  stats::coef(object)[as.character(node), ]
 }
 
 # Package documentation

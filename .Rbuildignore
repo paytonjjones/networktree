@@ -5,3 +5,6 @@
 ^\.travis\.yml$
 ^README\.md$
 ^vignettes\.*
+^index\.Rmd$
+^docs
+^_pkgdown\.yml$
