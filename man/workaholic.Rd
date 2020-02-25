@@ -18,7 +18,7 @@ Inventory-Revised, Hospital Anxiety and Depression Scale, and the Bergen
 Work Addiction Scale.
 
 Also includes demographics such as age, gender, work status, position, sector,
-annual income.
+annual income. 
 
 The dataset is publicly available at https://doi.org/10.1371/journal.pone.0152978
 and can be cited as:

@@ -13,6 +13,12 @@ utils::globalVariables(c("na.pass"))
 #' Note: this package is in its early stages and the interface may change
 #' for future versions.
 #'
+#' @references
+#'
+#' Jones PJ, Mair P, Simon T, Zeileis A (2019). “Network Model Trees.” OSF
+#' ha4cw, OSF Preprints. doi: 10.31219/osf.io/ha4cw (URL:
+#' https://doi.org/10.31219/osf.io/ha4cw).
+#'
 #' @examples
 #' 
 #' set.seed(1)
@@ -123,7 +129,7 @@ networktree.formula <- function(formula, data, transform=c("cor", "pcor", "glass
 	    k <- ncol(stats::model.matrix(~ 0 + .,
 		              model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
 	              ))
-	    control$minsize <- k * (k-1) / 2 + 1
+	    control$minsize <- 2 * k + k * (k-1) / 2
     }
     
     ## control options for mvnfit
@@ -213,7 +219,7 @@ plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(
     model <- class(x[[1]]$info$call)
   }
   if("variance" %in% model | "mean" %in% model){
-    message("Network plotting not yet implemented for splits by variance and mean")
+    warning("Network plotting not yet implemented for splits by variance and mean.\nPrinting summary.")
     partyargs <- c(partyargs, list(x=x))
     do.call(what=partykit::plot.party,args=partyargs)
   } else {
@@ -243,6 +249,33 @@ plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(
   }
 }
 
+
+#' Predict 'networktree' objects
+#'
+#' Wraps predict.party
+#'
+#' @param object a fitted 'networktree'
+#' @param newdata An optional data frame in which to look for variables with
+#'        which to predict.  If omitted, the fitted values are used.
+#' @param type "node", or "parameter". Specifies whether to predict nodes
+#'        (return value is a vector) or parameters (matrix).
+#' @param ... not used
+#'
+#' @method predict networktree
+#'@export
+predict.networktree <- function(object, newdata = NULL,
+				type = c("node", "parameter"), ...) {
+  type <- match.arg(type)
+
+  ## predict node ids
+  node <- partykit::predict.party(object, newdata = newdata)
+  if(identical(type, "node")) {
+    return(node)
+  }
+
+  ## obtain coefs
+  stats::coef(object)[as.character(node), ]
+}
 
 # Package documentation
 # TODO: fix package documentation. causes a conflict w/networktree function documentation

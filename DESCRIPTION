@@ -6,13 +6,13 @@ Authors@R: c(person("Payton", "Jones", email = "payton_jones@g.harvard.edu", rol
              person(given = "Thorsten", family = "Simon", role = c("aut"), email = "thorsten.simon@uibk.ac.at", comment = c(ORCID = "0000-0002-3778-7738")),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")))
 Description: Methods to create tree models with correlation-based network models (multivariate normal distributions). 
-Depends: R (>= 3.0.0)
+Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: partykit, qgraph, stats, utils, Matrix, mvtnorm, Formula, grid, graphics, gridBase, reshape2
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: R.rsp, knitr, rmarkdown, fxregime, zoo
-URL: https://CRAN.R-project.org/package=networktree
+URL: https://paytonjjones.github.io/networktree
 BugReports: http://github.com/paytonjjones/networktree/issues
 VignetteBuilder: knitr

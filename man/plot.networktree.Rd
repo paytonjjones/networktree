@@ -4,8 +4,7 @@
 \alias{plot.networktree}
 \title{Plotting 'treenetwork' objects}
 \usage{
-\method{plot}{networktree}(x, transform = NULL, layout = "lock",
-  partyargs = list(), ...)
+\method{plot}{networktree}(x, transform = NULL, layout = "lock", partyargs = list(), ...)
 }
 \arguments{
 \item{x}{an object of type 'networktree'}

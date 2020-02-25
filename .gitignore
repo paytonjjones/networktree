@@ -1,7 +1,15 @@
 inst/doc
+
 vignettes/*.html
 vignettes/*.R
+vignettes/16PF.Rmd
+vignettes/16PF/*
+
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+docs/articles/16PF.html
+docs/articles/16PF_files/
+
