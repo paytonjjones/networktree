@@ -4,17 +4,9 @@
 \alias{mvnfit}
 \title{Maximum Likelihood Estimation for Multivariate Normal Model}
 \usage{
-mvnfit(
-  y,
-  x = NULL,
-  start = NULL,
-  weights = NULL,
-  offset = NULL,
-  model = c("correlation", "mean", "variance"),
-  ...,
-  estfun = FALSE,
-  object = FALSE
-)
+mvnfit(y, x = NULL, start = NULL, weights = NULL, offset = NULL,
+  model = c("correlation", "mean", "variance"), ..., estfun = FALSE,
+  object = FALSE)
 }
 \arguments{
 \item{y}{A matrix or data.frame where each row corresponds to a k-dim observation.}

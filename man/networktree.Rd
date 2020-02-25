@@ -8,26 +8,13 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(
-  nodevars,
-  splitvars,
-  method = c("mob", "ctree"),
-  model = "correlation",
-  transform = c("cor", "pcor", "glasso"),
-  na.action = na.omit,
-  weights = NULL,
-  ...
-)
+\method{networktree}{default}(nodevars, splitvars, method = c("mob",
+  "ctree"), model = "correlation", transform = c("cor", "pcor",
+  "glasso"), na.action = na.omit, weights = NULL, ...)
 
-\method{networktree}{formula}(
-  formula,
-  data,
-  method = c("mob", "ctree"),
-  model = "correlation",
-  transform = c("cor", "pcor", "glasso"),
-  na.action = na.omit,
-  ...
-)
+\method{networktree}{formula}(formula, data, transform = c("cor", "pcor",
+  "glasso"), method = c("mob", "ctree"), na.action = na.omit,
+  model = "correlation", ...)
 }
 \arguments{
 \item{...}{additional arguments passed to \code{\link[partykit]{mob_control}} (mob) 

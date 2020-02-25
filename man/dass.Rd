@@ -23,13 +23,13 @@ Each of 42 items falls into one of the three corresponding subscales.
 
 Labels for DASS items in this dataset are denoted by the prefix 
 "dass" and the suffix "_D", "_A", or "_S", indicating the depression,
-anxiety, or stress subscale. 
+anxiety, or stress subscale.
 
 Also includes demographics such as country, education level, 
 rearing environment (urban/suburban/rural), gender, 
 English as a native language, age, religion, sexual orientation, 
 race, voting status, marriage status, and number of children 
-in one's family during childhood. 
+in one's family during childhood.
 
 The full dataset is publicly available at https://openpsychometrics.org/_rawdata/DASS_data_21.02.19.zip
 and can be cited as:
