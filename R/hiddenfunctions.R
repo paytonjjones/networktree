@@ -2,7 +2,7 @@
 
 ## net_terminal is a plotting function for the terminal nodes which is used internally in plot.networktree
 ## This uses grid package (with gridBase for qgraph)
-net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines = NULL,
+net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, ylines = NULL,
                           mainlab = NULL, varlab = TRUE, bg = "white", ...) {
 
   y <- obj$fitted[["(response)"]]
@@ -28,7 +28,7 @@ net_terminal <- function (obj, type, which = NULL, id = TRUE, pop = TRUE, ylines
                              name   = paste("node_mvar", tid, sep = ""))
     grid::pushViewport(top_vp)
     
-    adj <- getnetwork(obj[[tid]], type=type)
+    adj <- getnetwork(obj[[tid]], transform=transform)
     dots <- list(...)
     labels <- if(is.null(dots$labels)){colnames(adj)}else{dots$labels}
    

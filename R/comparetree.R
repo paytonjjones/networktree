@@ -7,9 +7,13 @@
 #' @param tree a networktree object
 #' @param id1 the first partition
 #' @param id2 the second partition
-#' @param type "cor", "pcor", or "glasso". Defaults to automatic detection
+#' @param transform should stored correlation matrices be transformed to partial correlations 
+#' or graphical lasso? Can be set to "cor", "pcor", or "glasso". Defaults to automatic detection
 #' @param highlights the number of comparisons to highlight
 #' @param plot plot a comparison of the two partitions?
+#' @param plot.type "compare" or "subtract". "compare" plots the two networks
+#' side by side. "subtract" subtracts network 2 from network 1, and plots
+#' a network where edge weights indicate the difference
 #' @param layout layout for the plots. The default "constrained" uses a
 #' FR layout from the full dataset 
 #' @param ... additional arguments passed to qgraph
@@ -39,14 +43,15 @@
 #' 
 #'@export
 comparetree <- function(tree, id1=2L, id2=3L, 
-                        type = "detect", 
+                        transform = "detect", 
                         highlights=5,
                         plot=FALSE,
+                        plot.type=c("compare","subtract"),
                         layout="constrained",
                         ...){
   
-  part1 <- getnetwork(tree, id1, type=type)
-  part2 <- getnetwork(tree, id2, type=type)
+  part1 <- getnetwork(tree, id1, transform=transform)
+  part2 <- getnetwork(tree, id2, transform=transform)
   comparison <- part1 - part2
   
   # create data table of top differences
@@ -69,12 +74,16 @@ comparetree <- function(tree, id1=2L, id2=3L,
       plot0 <- qgraph::qgraph(getnetwork(tree, id=1),DoNotPlot=T,layout="spring")
       layout <- plot0$layout
     }
-    op <- par(mfrow=c(1,2))
-    plot1 <- qgraph::qgraph(part1, layout=layout,...)
-    plot2 <- qgraph::qgraph(part2, layout=layout,...)
-    par(op)
+    if(plot.type=="compare"){
+      op <- par(mfrow=c(1,2))
+      plot1 <- qgraph::qgraph(part1, layout=layout,...)
+      plot2 <- qgraph::qgraph(part2, layout=layout,...)
+      par(op)
+    } else if (plot.type=="subtract"){
+      qgraph::qgraph(part1-part2, layout=layout,
+                     title=paste("Node ",id1, " - Node ", id2, sep=""),...)
+    }
   }
-  
   return(res)
 }
 

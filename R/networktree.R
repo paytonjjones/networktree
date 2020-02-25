@@ -47,12 +47,11 @@ networktree <- function(...) UseMethod("networktree")
 
 #' @param nodevars the variables with which to compute the network. Can be vector, matrix, or dataframe
 #' @param splitvars the variables with which to test split the network. Can be vector, matrix, or dataframe
-#' @param type the type of network to compute. Can be "cor", "pcor", or "glasso". Note that networks
-#' are always stored internally as correlation matrices, but will be auto-adjusted in plots etc. according
-#' to type
 #' @param method "mob" or "ctree"
 #' @param model can be any combination of c("correlation", "mean", "variance")
 #' splits are determined based on the specified characteristics
+#' @param transform should stored correlation matrices be transformed to partial correlations
+#' or a graphical lasso for plotting? Can be set to "cor" (default), "pcor", or "glasso"
 #' @param na.action a function which indicates what should happen when the data
 #' contain missing values (\code{NA}s).
 #' @param weights weights
@@ -62,9 +61,9 @@ networktree <- function(...) UseMethod("networktree")
 #'@rdname networktree
 #'@export
 networktree.default <- function(nodevars, splitvars, 
-                                type=c("cor", "pcor", "glasso"),
                                 method=c("mob","ctree"),
                                 model ="correlation",
+                                transform=c("cor", "pcor", "glasso"),
                                 na.action=na.omit,
                                 weights=NULL,...){
   nodevars <- as.matrix(nodevars)
@@ -76,7 +75,7 @@ networktree.default <- function(nodevars, splitvars,
     d <- data.frame(nodevars,splitvars)
     form <- paste(paste(colnames(nodevars), collapse=" + "), "~",paste(colnames(splitvars), collapse=" + "))
     form <- as.formula(form)
-    res <- networktree.formula(form, data = d, type=type, method=method, na.action=na.action, model = model, ...)
+    res <- networktree.formula(form, data = d, transform=transform, method=method, na.action=na.action, model = model, ...)
     
   } else if(method[1]=="ctree"){
     netdata <- as.data.frame(nodevars); splitvars <- as.data.frame(splitvars)
@@ -88,7 +87,7 @@ networktree.default <- function(nodevars, splitvars,
     tree <- partykit::ctree(formula=f1, data=d,
                             ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                              na.action=na.action, control=partykit::ctree_control(...))
-    class(tree) <- c("networktree", "ctree_networktree", type[1], class(tree))
+    class(tree) <- c("networktree", "ctree_networktree", transform[1], class(tree))
     class(tree$info$call) <- model ## discreetly store model
     res <- tree
   }
@@ -105,7 +104,7 @@ networktree.default <- function(nodevars, splitvars,
 #' @param data a data frame containing the variables in the model
 #'@rdname networktree
 #'@export
-networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"), 
+networktree.formula <- function(formula, data, transform=c("cor", "pcor", "glasso"), 
                                 method=c("mob","ctree"),
                                 na.action=na.omit, model="correlation", ...)
 {
@@ -141,7 +140,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
     
     ## extend class and keep original call
     rval$info$call <- cl
-    class(rval) <- c("networktree", "mob_networktree", type[1], class(rval))
+    class(rval) <- c("networktree", "mob_networktree", transform[1], class(rval))
     res <- rval
   } else if(method[1]=="ctree"){
     charformulaLHS <-   strsplit(as.character(formula), "+", fixed=T)[[2]]
@@ -151,7 +150,7 @@ networktree.formula <- function(formula, data, type=c("cor", "pcor", "glasso"),
     res <- partykit::ctree(formula=formula, data=data,
                             ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
                             na.action=na.action, control=partykit::ctree_control(...))
-    class(res) <- c("networktree", "ctree_networktree", type[1], class(res))
+    class(res) <- c("networktree", "ctree_networktree", transform[1], class(res))
     class(res$info$call) <- model ## discreetly store model
   }
   return(res)
@@ -186,19 +185,19 @@ print.networktree<- function(x,
 #' are plotted with qgraph, and additional arguments are passed there
 #'
 #' @param x an object of type 'networktree'
-#' @param type "cor", "pcor", or "glasso". If set to NULL, type detected from x
+#' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
 #' @param ... additional arguments passed qgraph
 #'
 #'@export
-plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ...) {
+plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(), ...) {
   
   dots <- list(...)
   
-  if(is.null(type)) {
-    type <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
+  if(is.null(transform)) {
+    transform <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
     } else if("glasso" %in% class(x)) {"glasso"
     } else {"glasso";
       warning("Type of network could not be detected, plotting glasso networks")}
@@ -220,7 +219,7 @@ plot.networktree <- function(x, type = NULL, layout="lock", partyargs=list(), ..
   } else {
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
-      net_terminal(obj, type = type,layout = layout, ...)
+      net_terminal(obj, transform = transform,layout = layout, ...)
     }
     class(net_terminal_inner) <- "grapcon_generator"
     needNewPlot <- tryCatch(

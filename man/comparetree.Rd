@@ -4,8 +4,9 @@
 \alias{comparetree}
 \title{comparetree}
 \usage{
-comparetree(tree, id1 = 2L, id2 = 3L, type = "detect",
-  highlights = 5, plot = FALSE, layout = "constrained", ...)
+comparetree(tree, id1 = 2L, id2 = 3L, transform = "detect",
+  highlights = 5, plot = FALSE, plot.type = c("compare", "subtract"),
+  layout = "constrained", ...)
 }
 \arguments{
 \item{tree}{a networktree object}
@@ -14,11 +15,16 @@ comparetree(tree, id1 = 2L, id2 = 3L, type = "detect",
 
 \item{id2}{the second partition}
 
-\item{type}{"cor", "pcor", or "glasso". Defaults to automatic detection}
+\item{transform}{should stored correlation matrices be transformed to partial correlations 
+or graphical lasso? Can be set to "cor", "pcor", or "glasso". Defaults to automatic detection}
 
 \item{highlights}{the number of comparisons to highlight}
 
 \item{plot}{plot a comparison of the two partitions?}
+
+\item{plot.type}{"compare" or "subtract". "compare" plots the two networks
+side by side. "subtract" subtracts network 2 from network 1, and plots
+a network where edge weights indicate the difference}
 
 \item{layout}{layout for the plots. The default "constrained" uses a
 FR layout from the full dataset}

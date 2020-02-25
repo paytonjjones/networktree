@@ -8,11 +8,11 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(nodevars, splitvars, type = c("cor",
-  "pcor", "glasso"), method = c("mob", "ctree"), model = "correlation",
-  na.action = na.omit, weights = NULL, ...)
+\method{networktree}{default}(nodevars, splitvars, method = c("mob",
+  "ctree"), model = "correlation", transform = c("cor", "pcor",
+  "glasso"), na.action = na.omit, weights = NULL, ...)
 
-\method{networktree}{formula}(formula, data, type = c("cor", "pcor",
+\method{networktree}{formula}(formula, data, transform = c("cor", "pcor",
   "glasso"), method = c("mob", "ctree"), na.action = na.omit,
   model = "correlation", ...)
 }
@@ -24,14 +24,13 @@ or \code{\link[partykit]{ctree_control}} (ctree)}
 
 \item{splitvars}{the variables with which to test split the network. Can be vector, matrix, or dataframe}
 
-\item{type}{the type of network to compute. Can be "cor", "pcor", or "glasso". Note that networks
-are always stored internally as correlation matrices, but will be auto-adjusted in plots etc. according
-to type}
-
 \item{method}{"mob" or "ctree"}
 
 \item{model}{can be any combination of c("correlation", "mean", "variance")
 splits are determined based on the specified characteristics}
+
+\item{transform}{should stored correlation matrices be transformed to partial correlations
+or a graphical lasso for plotting? Can be set to "cor" (default), "pcor", or "glasso"}
 
 \item{na.action}{a function which indicates what should happen when the data
 contain missing values (\code{NA}s).}
