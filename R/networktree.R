@@ -15,9 +15,8 @@ utils::globalVariables(c("na.pass"))
 #'
 #' @references
 #'
-#' Jones PJ, Mair P, Simon T, Zeileis A (2019). “Network Model Trees.” OSF
-#' ha4cw, OSF Preprints. doi: 10.31219/osf.io/ha4cw (URL:
-#' https://doi.org/10.31219/osf.io/ha4cw).
+#' Jones PJ, Mair P, Simon T, Zeileis A (2019). Network Model Trees. OSF
+#' Preprints. https://doi.org/10.31219/osf.io/ha4cw
 #'
 #' @examples
 #' 
@@ -209,20 +208,19 @@ plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(
       warning("Type of network could not be detected, plotting glasso networks")}
   }
   
-  if(layout[1]=="lock"){
-    layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
-  }
-  
   if("mob_networktree" %in% class(x)){
     model <- x[[1]]$info$dots$model
   } else {
     model <- class(x[[1]]$info$call)
   }
   if("variance" %in% model | "mean" %in% model){
-    warning("Network plotting not yet implemented for splits by variance and mean.\nPrinting summary.")
+    warning("Network plotting not yet implemented for splits by variance and mean.\nPlotting partykit summary.")
     partyargs <- c(partyargs, list(x=x))
     do.call(what=partykit::plot.party,args=partyargs)
   } else {
+    if(layout[1]=="lock"){
+      layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
+    }
     ## plotting network (when model == "correlation")
     net_terminal_inner <- function(obj, ...) {
       net_terminal(obj, transform = transform,layout = layout, ...)

@@ -56,6 +56,7 @@ getnetwork <- function(tree, id=1L, transform = "detect", ...){
     matnames <- names(terminal_node$fitted[['(response)']])
   } else if ("mob_networktree" %in% class(terminal_node)){
     cors       <- terminal_node$node$info$coefficients
+    cors       <- cors[grepl("rho", names(cors))] # select only cors, not mean/var
     matnames   <- attr(terminal_node$info$terms$response, "term.labels")
     n          <- length(matnames)
     sampleSize <- terminal_node$node$info$nobs

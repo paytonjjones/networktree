@@ -70,16 +70,18 @@ comparetree <- function(tree, id1=2L, id2=3L,
   class(res) <- "comparetree"
   
   if(plot){
-    if(layout=="constrained"){
+    if(is.character(layout)){
+      if(layout=="constrained"){
       plot0 <- qgraph::qgraph(getnetwork(tree, id=1),DoNotPlot=T,layout="spring")
       layout <- plot0$layout
+      }
     }
-    if(plot.type=="compare"){
+    if(match.arg(plot.type)=="compare"){
       op <- par(mfrow=c(1,2))
       plot1 <- qgraph::qgraph(part1, layout=layout,...)
       plot2 <- qgraph::qgraph(part2, layout=layout,...)
       par(op)
-    } else if (plot.type=="subtract"){
+    } else if (match.arg(plot.type)=="subtract"){
       qgraph::qgraph(part1-part2, layout=layout,
                      title=paste("Node ",id1, " - Node ", id2, sep=""),...)
     }
