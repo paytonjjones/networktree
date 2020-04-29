@@ -116,7 +116,7 @@ respectively.
 
 
 ```{r output2, fig.align = "left", fig.height = 16, fig.width = 24, dpi = 72, out.width = "100%"}
-plot(tr, type = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
+plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
 The `plot()` method uses `qgraph()` of the **qgraph** package [@qgraph] for

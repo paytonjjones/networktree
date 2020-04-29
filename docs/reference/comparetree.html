@@ -121,16 +121,9 @@
     <p>Quickly compares two partitions of a networktree object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>comparetree</span>(
-  <span class='no'>tree</span>,
-  <span class='kw'>id1</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
-  <span class='kw'>id2</span> <span class='kw'>=</span> <span class='fl'>3L</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"detect"</span>,
-  <span class='kw'>highlights</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"constrained"</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>comparetree</span>(<span class='no'>tree</span>, <span class='kw'>id1</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>id2</span> <span class='kw'>=</span> <span class='fl'>3L</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"detect"</span>,
+  <span class='kw'>highlights</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>plot.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"compare"</span>, <span class='st'>"subtract"</span>),
+  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"constrained"</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,8 +141,9 @@
       <td><p>the second partition</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>"cor", "pcor", or "glasso". Defaults to automatic detection</p></td>
+      <th>transform</th>
+      <td><p>should stored correlation matrices be transformed to partial correlations 
+or graphical lasso? Can be set to "cor", "pcor", or "glasso". Defaults to automatic detection</p></td>
     </tr>
     <tr>
       <th>highlights</th>
@@ -158,6 +152,12 @@
     <tr>
       <th>plot</th>
       <td><p>plot a comparison of the two partitions?</p></td>
+    </tr>
+    <tr>
+      <th>plot.type</th>
+      <td><p>"compare" or "subtract". "compare" plots the two networks
+side by side. "subtract" subtracts network 2 from network 1, and plots
+a network where edge weights indicate the difference</p></td>
     </tr>
     <tr>
       <th>layout</th>

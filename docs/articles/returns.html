@@ -75,7 +75,7 @@
       <h1>Exchange Rates Networks</h1>
                         <h4 class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 class="date">2020-01-14</h4>
+            <h4 class="date">2020-04-29</h4>
       
       
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -173,7 +173,7 @@ f
 ## Number of parameters per node: 21
 ## Objective function: 14073.5</code></pre></div>
 <p>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tr, <span class="dt">type =</span> <span class="st">"pcor"</span>, <span class="dt">posCol =</span> <span class="st">"#008585"</span>, <span class="dt">negCol =</span> <span class="st">"#C7522B"</span>, <span class="dt">maximum =</span> <span class="dv">1</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tr, <span class="dt">transform =</span> <span class="st">"pcor"</span>, <span class="dt">posCol =</span> <span class="st">"#008585"</span>, <span class="dt">negCol =</span> <span class="st">"#C7522B"</span>, <span class="dt">maximum =</span> <span class="dv">1</span>)
 ## Registered S3 methods overwritten by 'huge':
 ##   method    from   
 ##   plot.sim  BDgraph

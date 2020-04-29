@@ -124,7 +124,8 @@ are plotted with qgraph, and additional arguments are passed there</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for networktree</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"lock"</span>, <span class='kw'>partyargs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"lock"</span>,
+  <span class='kw'>partyargs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,8 +135,8 @@ are plotted with qgraph, and additional arguments are passed there</p>
       <td><p>an object of type 'networktree'</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>"cor", "pcor", or "glasso". If set to NULL, type detected from x</p></td>
+      <th>transform</th>
+      <td><p>"cor", "pcor", or "glasso". If set to NULL, transform detected from x</p></td>
     </tr>
     <tr>
       <th>layout</th>
