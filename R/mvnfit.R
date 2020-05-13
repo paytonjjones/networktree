@@ -60,8 +60,7 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
     dec <- tryCatch(chol(Om), error = function(e) e)
     if(inherits(dec, "error")) {
         loglik <- Inf
-    }
-    else {
+    } else {
         tmp <- backsolve(dec, y, transpose = TRUE)
         loglik <- -n * (.5 * k * log(2*pi) + sum(log(coef[1L:k + k])) +
                   sum(log(diag(dec)))) - .5 * sum(tmp^2)
