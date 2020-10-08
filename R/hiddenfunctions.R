@@ -35,12 +35,37 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
     ## gridBase version
     ###########################
     
+    # gridBase's integration seems to persistently fail in RStudio for Mac
+    # this function modified to provide a more specific warning
+    gridFIG_modified <- function() {
+      cvp <- gridBase:::currentViewportLoc() # the issue occurs here (traced to grid::grid.Call)
+      din <- par("din")
+      omi <- par("omi")
+
+      if(gridBase:::badOMI(cvp, omi, din)) {
+        warning("The gridBase package cannot accurately detect your plotting space. Try using x11() or pdf() to plot.")
+        cvp$right <- min(cvp$right, din[1])
+      }
+        
+      width <- din[1] - omi[2] - omi[4]
+      height <- din[2] - omi[1] - omi[3]
+      
+      fig <- round(c((cvp$left - omi[1])/width, (cvp$right - omi[1])/width, 
+                     (cvp$bottom - omi[2])/height, (cvp$top - omi[2])/height), 
+                   digits = 4)
+      return(fig)
+    }
+    
     ## plot white rectangle beneath qgraph
     grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
     
     ## plot qgraph
-    graphics::par(fig = gridBase::gridFIG(), mar = rep(0, 4), new = TRUE)
+    op <- graphics::par(no.readonly=TRUE)
+    graphics::par(fig = gridFIG_modified(), mar = rep(0, 4), new = TRUE)
     qgraph::qgraph(adj, noPar = TRUE, labels=labels, ...)
+    
+    ## reset graphics to original settings
+    graphics::par(op)
     
     ###########################
 

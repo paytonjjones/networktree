@@ -141,7 +141,7 @@ networktree.formula <- function(formula, data, transform=c("cor", "pcor", "glass
     if(is.null(control$minsize)) { 
 	    F <- Formula::Formula(formula)
 	    k <- ncol(stats::model.matrix(~ 0 + .,
-		              model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
+		              Formula::model.part(F, stats::model.frame(F, data = data, rhs = 0), lhs = TRUE)
 	              ))
 	    control$minsize <- 2 * k + k * (k-1) / 2
     }
