@@ -10,13 +10,9 @@ utils::globalVariables(c("na.pass"))
 #'
 #' Wraps the mob() and ctree() functions from the partykit package.
 #' 
-#' Note: this package is in its early stages and the interface may change
-#' for future versions.
-#'
 #' @references
 #'
-#' Jones PJ, Mair P, Simon T, Zeileis A (2019). Network Model Trees. OSF
-#' Preprints. https://doi.org/10.31219/osf.io/ha4cw
+#' Jones, P.J., Mair, P., Simon, T., Zeileis, A. (2020). Network trees: A method for recursively partitioning covariance structures. Psychometrika. 
 #'
 #' @examples
 #' 
@@ -289,24 +285,3 @@ predict.networktree <- function(object, newdata = NULL,
   ## obtain coefs
   stats::coef(object)[as.character(node), ]
 }
-
-# Package documentation
-# TODO: fix package documentation. causes a conflict w/networktree function documentation
-#       because they have the same name
-
-# networktree
-#
-#Recursive partitioning (tree models) of psychometric networks
-#
-#@details
-#
-#Includes methods for creating tree models with networks on the final branches.
-#The methods use recursive partitioning on a multivariate normal distribution estimated
-#from the data in order to separate distinct networks from one another.
-#
-#For a complete list of functions, use library(help = "networktree")
-#
-#For a complete list of vignettes, use browseVignettes("networktree")
-#
-# @author Payton J. Jones, Thorsten Simon, & Achim Zeleis
-#"_PACKAGE"

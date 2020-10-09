@@ -1,13 +1,9 @@
 bibentry("TechReport",
-  title = "Network Model Trees",
+  title = "Network Trees: A Method for Recursively Partitioning Covariance Structures",
   author = "Payton J. Jones and Patrick Mair and Thorsten Simon and Achim Zeileis",
-  institution = "OSF Preprints",
-  year = "2019",
-  type = "OSF",
-  number = "ha4cw",
-  month = "July",
-  doi = "10.31219/osf.io/ha4cw",
-
+  journal = "Psychometrika",
+  year = "2020",
+  textVersion  = "Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network trees: A method for recursively partitioning covariance structures. Psychometrika."
   header = "To cite networktree, please use:"
 )
 
