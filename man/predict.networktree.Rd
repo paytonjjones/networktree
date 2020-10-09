@@ -4,8 +4,7 @@
 \alias{predict.networktree}
 \title{Predict 'networktree' objects}
 \usage{
-\method{predict}{networktree}(object, newdata = NULL, type = c("node",
-  "parameter"), ...)
+\method{predict}{networktree}(object, newdata = NULL, type = c("node", "parameter"), ...)
 }
 \arguments{
 \item{object}{a fitted 'networktree'}

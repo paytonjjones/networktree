@@ -4,7 +4,9 @@
 \name{tipi}
 \alias{tipi}
 \title{Ten Item Personality Questionnaire}
-\format{a dataframe. Columns represent questionnaire items and rows represent individuals}
+\format{
+a dataframe. Columns represent questionnaire items and rows represent individuals
+}
 \usage{
 tipi
 }
@@ -31,7 +33,7 @@ Also includes demographics such as education level,
 rearing environment (urban/suburban/rural), gender, 
 English as a native language, age, religion, sexual orientation, 
 race, voting status, marriage status, and number of children 
-in one's family during childhood.
+in one's family during childhood. 
 
 The dataset is publicly available at http://openpsychometrics.org/_rawdata/GCBS.zip
 and can be cited as:

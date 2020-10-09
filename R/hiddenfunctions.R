@@ -31,20 +31,27 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
     adj <- getnetwork(obj[[tid]], transform=transform)
     dots <- list(...)
     labels <- if(is.null(dots$labels)){colnames(adj)}else{dots$labels}
-   
-    ## gridBase version
+    
+    
+    ## gridBase plotting of qgraph
     ###########################
     
-    # gridBase's integration seems to persistently fail in RStudio for Mac
-    # this function modified to provide a more specific warning
-    gridFIG_modified <- function() {
-      cvp <- gridBase:::currentViewportLoc() # the issue occurs here (traced to grid::grid.Call)
+    # grid.Call() persistently fails in RStudio for Mac's default plot device
+    # the detectPlotDimensions function catches this to provide a specific warning.
+    #   It is adapted from gridBase::gridFIG()
+    
+    detectPlotDimensions <- function() {
+      badFIG <- try(gridBase::gridFIG(), silent=TRUE)
+      
+      cvp <- currentViewportLoc() # the issue occurs here (traced to grid::grid.Call)
       din <- par("din")
       omi <- par("omi")
-
-      if(gridBase:::badOMI(cvp, omi, din)) {
-        warning("The gridBase package cannot accurately detect your plotting space. Try using x11() or pdf() to plot.")
+      
+      if(inherits(badFIG, "try-error")) {
+        warning("The grid package cannot accurately detect your plotting space. Use x11() or pdf() to plot.")
+        partialWidth <- cvp$right - cvp$left
         cvp$right <- min(cvp$right, din[1])
+        cvp$left <- cvp$right - partialWidth
       }
         
       width <- din[1] - omi[2] - omi[4]
@@ -56,12 +63,28 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
       return(fig)
     }
     
+    # this function is an internal from gridBase::: needed for detectPlotDimensions
+    currentViewportLoc <- function() {
+      transform <- grid::current.transform()
+      width <- grid::convertWidth(grid::unit(1, "npc"), "inches", valueOnly = TRUE)
+      height <- grid::convertHeight(grid::unit(1, "npc"), "inches", valueOnly = TRUE)
+      bottomleft <- c(0, 0, 1) %*% transform
+      left <- bottomleft[1]/bottomleft[3]
+      bottom <- bottomleft[2]/bottomleft[3]
+      topright <- c(width, height, 1) %*% transform
+      right <- topright[1]/topright[3]
+      top <- topright[2]/topright[3]
+      list(left = left, bottom = bottom, right = right, top = top)
+    }
+    
+    # PLOTTING
+    
     ## plot white rectangle beneath qgraph
     grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
     
     ## plot qgraph
     op <- graphics::par(no.readonly=TRUE)
-    graphics::par(fig = gridFIG_modified(), mar = rep(0, 4), new = TRUE)
+    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
     qgraph::qgraph(adj, noPar = TRUE, labels=labels, ...)
     
     ## reset graphics to original settings

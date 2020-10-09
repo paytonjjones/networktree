@@ -10,6 +10,7 @@
 #' id numbers for each split
 #' @param transform should stored correlation matrices be transformed to partial correlations 
 #' or graphical lasso? Can be set to "cor", "pcor", or "glasso". Defaults to automatic detection
+#' @param verbose should warnings and messages from transformation functions (qgraph) be printed?
 #' @param ... arguments passed to qgraph (e.g., "tuning", "threshold")
 #'
 #' @examples
@@ -30,7 +31,7 @@
 #' getnetwork(tree1, id=1)
 #'
 #'@export
-getnetwork <- function(tree, id=1L, transform = "detect", ...){
+getnetwork <- function(tree, id=1L, transform = "detect", verbose = FALSE,...){
 
   terminal_node <- tree[id]
   
@@ -43,6 +44,14 @@ getnetwork <- function(tree, id=1L, transform = "detect", ...){
       transform <- "glasso"
     } else {
       stop("Unable to detect transform")
+    }
+  }
+  
+  verbose_switch <- function(func){
+    if(verbose){
+      return(func)
+    } else {
+      return(suppressWarnings(suppressMessages(func)))
     }
   }
   
@@ -68,12 +77,15 @@ getnetwork <- function(tree, id=1L, transform = "detect", ...){
               sampleSize = sampleSize)
   dots <- list(...)
   labels <- if(is.null(dots$labels)){matnames}else{dots$labels}
-  net  <- qgraph::getWmat(switch(transform[1],
-                 "cor"    = suppressWarnings(qgraph::qgraph(info$cormat, graph = "default",
-                                           DoNotPlot = TRUE, labels = labels, ...)),
-                 "pcor"   = suppressWarnings(qgraph::qgraph(info$cormat, graph = "pcor",
-                                           DoNotPlot = TRUE, labels = labels, ...)),
-                 "glasso" = suppressWarnings(qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
+  
+  net  <- verbose_switch(
+            qgraph::getWmat(
+              switch(transform[1],
+                 "cor"    = qgraph::qgraph(info$cormat, graph = "default",
+                                           DoNotPlot = TRUE, labels = labels, ...),
+                 "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
+                                           DoNotPlot = TRUE, labels = labels, ...),
+                 "glasso" = qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
                                            graph = "glasso", sampleSize = info$sampleSize,
                                            DoNotPlot = TRUE, labels = labels, ...))))
    return(net)

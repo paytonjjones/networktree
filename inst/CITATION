@@ -1,9 +1,9 @@
-bibentry("TechReport",
+citEntry(entry = "Article",
   title = "Network Trees: A Method for Recursively Partitioning Covariance Structures",
   author = "Payton J. Jones and Patrick Mair and Thorsten Simon and Achim Zeileis",
   journal = "Psychometrika",
   year = "2020",
-  textVersion  = "Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network trees: A method for recursively partitioning covariance structures. Psychometrika."
+  textVersion  = "Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network trees: A method for recursively partitioning covariance structures. Psychometrika.",
   header = "To cite networktree, please use:"
 )
 

@@ -4,7 +4,7 @@
 \alias{getnetwork}
 \title{getnetwork}
 \usage{
-getnetwork(tree, id = 1L, transform = "detect", ...)
+getnetwork(tree, id = 1L, transform = "detect", verbose = FALSE, ...)
 }
 \arguments{
 \item{tree}{a networktree object}
@@ -14,6 +14,8 @@ id numbers for each split}
 
 \item{transform}{should stored correlation matrices be transformed to partial correlations 
 or graphical lasso? Can be set to "cor", "pcor", or "glasso". Defaults to automatic detection}
+
+\item{verbose}{should warnings and messages from transformation functions (qgraph) be printed?}
 
 \item{...}{arguments passed to qgraph (e.g., "tuning", "threshold")}
 }

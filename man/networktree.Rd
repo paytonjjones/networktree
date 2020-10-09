@@ -8,13 +8,26 @@
 \usage{
 networktree(...)
 
-\method{networktree}{default}(nodevars, splitvars, method = c("mob",
-  "ctree"), model = "correlation", transform = c("cor", "pcor",
-  "glasso"), na.action = na.omit, weights = NULL, ...)
+\method{networktree}{default}(
+  nodevars,
+  splitvars,
+  method = c("mob", "ctree"),
+  model = "correlation",
+  transform = c("cor", "pcor", "glasso"),
+  na.action = na.omit,
+  weights = NULL,
+  ...
+)
 
-\method{networktree}{formula}(formula, data, transform = c("cor", "pcor",
-  "glasso"), method = c("mob", "ctree"), na.action = na.omit,
-  model = "correlation", ...)
+\method{networktree}{formula}(
+  formula,
+  data,
+  transform = c("cor", "pcor", "glasso"),
+  method = c("mob", "ctree"),
+  na.action = na.omit,
+  model = "correlation",
+  ...
+)
 }
 \arguments{
 \item{...}{additional arguments passed to \code{\link[partykit]{mob_control}} (mob) 
@@ -50,9 +63,6 @@ Computes a tree model with networks at the end of branches. Can use
 model-based recursive partitioning or conditional inference.
 
 Wraps the mob() and ctree() functions from the partykit package.
-
-Note: this package is in its early stages and the interface may change
-for future versions.
 }
 \examples{
 
@@ -83,6 +93,5 @@ tree4 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2],
 }
 }
 \references{
-Jones PJ, Mair P, Simon T, Zeileis A (2019). Network Model Trees. OSF
-Preprints. https://doi.org/10.31219/osf.io/ha4cw
+Jones, P.J., Mair, P., Simon, T., Zeileis, A. (2020). Network trees: A method for recursively partitioning covariance structures. Psychometrika.
 }
