@@ -1,15 +1,15 @@
-navbar:
-    left:
-        - text: "Getting started"
-          href: index.html
-        - text: "Articles"
-          menu:
-            - text: "Exchange Rates Networks"
-              href: articles/returns.html
-        - text: "References"
-          href: reference/index.html
-        - text: "News"
-          href: news/index.html
+# navbar:
+#     left:
+#         - text: "Getting started"
+#           href: index.html
+#         - text: "Articles"
+#           menu:
+#             - text: "Exchange Rates Networks"
+#               href: articles/returns.html
+#         - text: "References"
+#           href: reference/index.html
+#         - text: "News"
+#           href: news/index.html
 
 reference:
     - title: "High-level interface"

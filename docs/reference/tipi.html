@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -41,7 +45,6 @@ in a questionnaire available through the Open Source Psychometrics
 Project (https://openpsychometrics.org/), an organization that maintains an 
 open website for the public to take psychometric tests for 
 educational and entertainment purposes" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -59,7 +62,7 @@ educational and entertainment purposes" />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +83,16 @@ educational and entertainment purposes" />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Getting started</a>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="../articles/networktree.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,14 +107,16 @@ educational and entertainment purposes" />
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">References</a>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="http://github.com/paytonjjones/networktree/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -117,7 +131,7 @@ educational and entertainment purposes" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Ten Item Personality Questionnaire</h1>
-    
+    <small class="dont-index">Source: <a href='http://github.com/paytonjjones/networktree/blob/master/R/datadocumentation.R'><code>R/datadocumentation.R</code></a></small>
     <div class="hidden name"><code>tipi.Rd</code></div>
     </div>
 
@@ -129,7 +143,7 @@ open website for the public to take psychometric tests for
 educational and entertainment purposes</p>
     </div>
 
-    <pre class="usage"><span class='no'>tipi</span></pre>
+    <pre class="usage"><span class='va'>tipi</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -156,7 +170,8 @@ and can be cited as:</p>
 <p>OpenPsychometrics (2019). Generic Conspiracist Beliefs Scale Survey. Retrieved from http://openpsychometrics.org/_rawdata/GCBS.zip</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>tipi</span>)</div><div class='output co'>#&gt;   E A_r C N O E_r A C_r N_r O_r             education    urban gender
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   E A_r C N O E_r A C_r N_r O_r             education    urban gender
 #&gt; 1 5   3 6 2 6   6 7   2   7   1     University degree     &lt;NA&gt;   Male
 #&gt; 2 6   7 6 7 6   3 7   5   1   1 Less than high school Suburban Female
 #&gt; 4 6   7 7 5 7   6 5   1   5   1     University degree    Rural   Male
@@ -186,11 +201,12 @@ and can be cited as:</p>
 #&gt; 8          3</div><div class='input'><span class='co'># \donttest{</span>
 
 <span class='co'>## Example networktree with TIPI</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tipi</span>)
-<span class='no'>nodeVars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"E"</span>,<span class='st'>"A_r"</span>,<span class='st'>"C"</span>,<span class='st'>"N"</span>,<span class='st'>"O"</span>,<span class='st'>"E_r"</span>,<span class='st'>"A"</span>,<span class='st'>"C_r"</span>,<span class='st'>"N_r"</span>,<span class='st'>"O_r"</span>)
-<span class='no'>splitVars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>,<span class='st'>"education"</span>,<span class='st'>"engnat"</span>)
-<span class='no'>myTree</span><span class='kw'>&lt;-</span><span class='fu'><a href='networktree.html'>networktree</a></span>(<span class='no'>tipi</span>[,<span class='no'>nodeVars</span>], <span class='no'>tipi</span>[,<span class='no'>splitVars</span>])
-<span class='no'>myTree</span></div><div class='output co'>#&gt; Network tree object
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span>
+<span class='va'>nodeVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"E"</span>,<span class='st'>"A_r"</span>,<span class='st'>"C"</span>,<span class='st'>"N"</span>,<span class='st'>"O"</span>,<span class='st'>"E_r"</span>,<span class='st'>"A"</span>,<span class='st'>"C_r"</span>,<span class='st'>"N_r"</span>,<span class='st'>"O_r"</span><span class='op'>)</span>
+<span class='va'>splitVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gender"</span>,<span class='st'>"education"</span>,<span class='st'>"engnat"</span><span class='op'>)</span>
+<span class='va'>myTree</span><span class='op'>&lt;-</span><span class='fu'><a href='networktree.html'>networktree</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>nodeVars</span><span class='op'>]</span>, <span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>splitVars</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>myTree</span>
+</div><div class='output co'>#&gt; Network tree object
 #&gt; 
 #&gt; Model formula:
 #&gt; E + A_r + C + N + O + E_r + A + C_r + N_r + O_r ~ gender + education + 
@@ -208,19 +224,16 @@ and can be cited as:</p>
 #&gt; Number of inner nodes:    3
 #&gt; Number of terminal nodes: 4
 #&gt; Number of parameters per node: 45
-#&gt; Objective function: 35148.69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>myTree</span>)</div><div class='img'><img src='tipi-1.png' alt='' width='700' height='433' /></div><div class='input'>
-# }
+#&gt; Objective function: 35148.69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myTree</span><span class='op'>)</span>
+</div><div class='img'><img src='tipi-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># }</span>
 
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -231,7 +244,7 @@ and can be cited as:</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

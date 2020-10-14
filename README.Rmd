@@ -1,0 +1,62 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file and run rmarkdown::render("README.Rmd") -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/README-"
+)
+
+require(networktree)
+require(qgraph)
+require(grid)
+data("dass")
+```
+
+Psychometric networks provide information about the statistical relationships between observed variables. ***networktree*** is a package for partitioning psychometric networks to reveal heterogeneity. 
+
+Consider a depression network where the nodes represent different symptoms: 
+
+```{r, echo = FALSE, fig.height=4, fig.width=4}
+
+
+# depression items from dass 21
+nodeVars <- c("dass3_D", "dass42_D", "dass10_D", "dass13_D", "dass31_D", "dass17_D", "dass38_D")
+dNames <- c("anhedonia", "initiative","lookforward","sad","unenthused","worthless","meaningless")
+colnames(dass)[colnames(dass) %in% nodeVars] <- dNames
+
+pcorDassDep <- qgraph(cor(dass[,dNames]), graph="pcor", labels=dNames, vsize=15, layout="spring", label.norm="OOOOO")
+```
+
+***networktree*** can be used to identify if this depression network is heterogeneous depending on the sample characteristics. For instance, we can test whether the network differs depending on participants' marital status.
+
+```{r, echo = FALSE}
+tree1 <- networktree(nodevars=dass[,dNames], splitvars=dass[,"married",drop=F])
+plot(tree1, transform="pcor",
+     labels=dNames, vsize=15, layout=pcorDassDep$layout, label.norm="OOOOO",
+     partyargs=list(gp=gpar(fontsize=10)))
+```
+
+We can explore multiple characteristics at once, with the more important splitting characteristics being prioritized in the tree model. Continuous partitioning variables (e.g., age) can be included, and ***networktree*** will automatically search for the ideal split point(s).
+
+```{r, echo = FALSE}
+tree_complex <- networktree(nodevars=dass[,dNames], splitvars=dass[,c("age", "race"),drop=F])
+plot(tree_complex,transform="pcor",
+     labels=dNames, vsize=15, layout=pcorDassDep$layout, label.norm="OOOOO",
+     partyargs=list(ep_args = list(justmin = 8),
+                    gp=gpar(fontsize=10)))
+```
+
+Resources:
+
+* [Home Page](https://paytonjjones.github.io/networktree/)
+* [Getting Started - Tutorial](https://paytonjjones.github.io/networktree/index.html) 
+* [CRAN documentation](https://cran.r-project.org/web/packages/networktree/index.html)  
+* [Example application](https://paytonjjones.github.io/networktree/articles/returns.html)
+* [Published paper](https://osf.io/ha4cw) for a more advanced look. 
+
+To cite ***networktree***, use:
+
+Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network trees: A method for recursively partitioning covariance structures. Psychometrika.

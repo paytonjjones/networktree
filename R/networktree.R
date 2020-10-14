@@ -175,7 +175,7 @@ networktree.formula <- function(formula, data, transform=c("cor", "pcor", "glass
 
 ## methods for networktree class
 
-#' Printing 'treenetwork' objects
+#' Printing 'networktree' objects
 #'
 #' Wraps print.modelparty to print a tree model with networks on the ends. 
 #'
@@ -195,7 +195,7 @@ print.networktree<- function(x,
   partykit::print.modelparty(x, title = "Network tree object", FUN=FUN, ...)
 }
 
-#' Plotting 'treenetwork' objects
+#' Plotting 'networktree' objects
 #'
 #' Wraps plot.party to plot a tree model with networks on the ends. Networks
 #' are plotted with qgraph, and additional arguments are passed there
@@ -205,7 +205,7 @@ print.networktree<- function(x,
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
-#' @param ... additional arguments passed qgraph
+#' @param ... additional arguments passed to qgraph
 #'
 #'@export
 plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(), ...) {
