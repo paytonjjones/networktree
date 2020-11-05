@@ -2,7 +2,7 @@
 % Please edit documentation in R/networktree.R
 \name{print.networktree}
 \alias{print.networktree}
-\title{Printing 'treenetwork' objects}
+\title{Printing 'networktree' objects}
 \usage{
 \method{print}{networktree}(x, parameters = FALSE, FUN = NULL, ...)
 }

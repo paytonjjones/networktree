@@ -2,7 +2,7 @@
 % Please edit documentation in R/networktree.R
 \name{plot.networktree}
 \alias{plot.networktree}
-\title{Plotting 'treenetwork' objects}
+\title{Plotting 'networktree' objects}
 \usage{
 \method{plot}{networktree}(x, transform = NULL, layout = "lock", partyargs = list(), ...)
 }
@@ -16,7 +16,7 @@ layout for the full sample and applies this to all graphs}
 
 \item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}}
 
-\item{...}{additional arguments passed qgraph}
+\item{...}{additional arguments passed to qgraph}
 }
 \description{
 Wraps plot.party to plot a tree model with networks on the ends. Networks

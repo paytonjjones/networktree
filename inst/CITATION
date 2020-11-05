@@ -3,7 +3,7 @@ citEntry(entry = "Article",
   author = "Payton J. Jones and Patrick Mair and Thorsten Simon and Achim Zeileis",
   journal = "Psychometrika",
   year = "2020",
-  textVersion  = "Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network trees: A method for recursively partitioning covariance structures. Psychometrika.",
+  textVersion  = "Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (2020). Network trees: A method for recursively partitioning covariance structures. Psychometrika. Advance online publication. https://doi.org/10.1007/s11336-020-09731-4",
   header = "To cite networktree, please use:"
 )
 

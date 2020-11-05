@@ -12,7 +12,7 @@ utils::globalVariables(c("na.pass"))
 #' 
 #' @references
 #'
-#' Jones, P.J., Mair, P., Simon, T., Zeileis, A. (2020). Network trees: A method for recursively partitioning covariance structures. Psychometrika. 
+#' Jones, P.J., Mair, P., Simon, T., Zeileis, A. (2020). Network trees: A method for recursively partitioning covariance structures. Psychometrika. Advance online publication. https://doi.org/10.1007/s11336-020-09731-4
 #'
 #' @examples
 #' 

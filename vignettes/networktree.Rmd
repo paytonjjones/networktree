@@ -82,7 +82,7 @@ glasso <- networktree(nodevars=workaholic[,OCD_vars],
 plot(glasso)
 ```
 
-The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the *method* argument. For more details on the differences between the two approaches, see the associated [publication](https://osf.io/ha4cw). 
+The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the *method* argument. For more details on the differences between the two approaches, see the associated [publication](https://rdcu.be/b9Kyw). 
 
 ```{r split_gender_ctree}
 cor_gender_ctree <- networktree(nodevars=workaholic[,OCD_vars],
