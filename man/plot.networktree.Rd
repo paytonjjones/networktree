@@ -4,10 +4,24 @@
 \alias{plot.networktree}
 \title{Plotting 'networktree' objects}
 \usage{
-\method{plot}{networktree}(x, transform = NULL, layout = "lock", partyargs = list(), ...)
+\method{plot}{networktree}(
+  x,
+  type = "detect",
+  transform = NULL,
+  layout = "lock",
+  partyargs = list(),
+  sdbars = NULL,
+  customplotfunction = NULL,
+  na.rm = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of type 'networktree'}
+
+\item{type}{the type of plot. The currently available options are "network" and 
+"barplot" (for means and/or variances). By default, "network" is used unless
+the correlations were not used to split in networktree.}
 
 \item{transform}{"cor", "pcor", or "glasso". If set to NULL, transform detected from x}
 
@@ -16,7 +30,14 @@ layout for the full sample and applies this to all graphs}
 
 \item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}}
 
-\item{...}{additional arguments passed to qgraph}
+\item{sdbars}{if type="barplot", should std deviation error bars be plotted?}
+
+\item{customplotfunction}{to create custom plots in the terminal nodes, provide a base R 
+plotting function that takes partitioned data as input}
+
+\item{na.rm}{should NA values be removed prior to calculating relevant parameters?}
+
+\item{...}{additional arguments passed to qgraph or barplot}
 }
 \description{
 Wraps plot.party to plot a tree model with networks on the ends. Networks

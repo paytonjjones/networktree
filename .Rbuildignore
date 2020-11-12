@@ -8,3 +8,4 @@
 ^index\.Rmd$
 ^docs
 ^_pkgdown\.yml$
+^README.Rmd

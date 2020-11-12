@@ -201,14 +201,45 @@ print.networktree<- function(x,
 #' are plotted with qgraph, and additional arguments are passed there
 #'
 #' @param x an object of type 'networktree'
+#' @param type the type of plot. The currently available options are "network" and 
+#' "barplot" (for means and/or variances). By default, "network" is used unless
+#' the correlations were not used to split in networktree. 
 #' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
+#' @param sdbars if type="barplot", should std deviation error bars be plotted?
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
-#' @param ... additional arguments passed to qgraph
+#' @param customplotfunction to create custom plots in the terminal nodes, provide a base R 
+#' plotting function that takes partitioned data as input
+#' @param na.rm should NA values be removed prior to calculating relevant parameters?
+#' @param ... additional arguments passed to qgraph or barplot
 #'
 #'@export
-plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(), ...) {
+plot.networktree <- function(x, 
+                             type="detect",
+                             transform = NULL, 
+                             layout="lock", 
+                             partyargs=list(), 
+                             sdbars = NULL,
+                             customplotfunction=NULL,
+                             na.rm=TRUE,
+                             ...) {
+  
+  if("mob_networktree" %in% class(x)){
+    model <- x[[1]]$info$dots$model
+  } else {
+    model <- class(x[[1]]$info$call)
+  }
+  
+  if(type[1]=="detect"){
+    type <- if(!is.null(customplotfunction)){
+      "custom"
+    } else if("correlation" %in% model){
+      "network"
+    } else {
+      "barplot"
+    }
+  }
   
   dots <- list(...)
   
@@ -219,42 +250,54 @@ plot.networktree <- function(x, transform = NULL, layout="lock", partyargs=list(
       warning("Type of network could not be detected, plotting glasso networks")}
   }
   
-  if("mob_networktree" %in% class(x)){
-    model <- x[[1]]$info$dots$model
-  } else {
-    model <- class(x[[1]]$info$call)
-  }
-  if("variance" %in% model | "mean" %in% model){
-    warning("Network plotting not yet implemented for splits by variance and mean.\nPlotting partykit summary.")
-    partyargs <- c(partyargs, list(x=x))
-    do.call(what=partykit::plot.party,args=partyargs)
-  } else {
+  # Set up terminal plotting function
+  if(type=="barplot"){
+    if(is.null(sdbars)){
+      sdbars <- "variance" %in% model
+    }
+    baseplotfunction <- function(x,...){
+      baseplotfunction_bar(x, sdbars=sdbars, na.rm=na.rm, ...)
+    }
+    net_terminal_inner <- function(obj, ...) {
+      terminalbase(obj, baseplotfunction=baseplotfunction, transform=transform, network=FALSE, ...)
+    }
+  } else if(type=="network"){
     if(layout[1]=="lock"){
       layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
     }
-    ## plotting network (when model == "correlation")
+    baseplotfunction <- function(x,...){
+      baseplotfunction_network(x, ...)
+    }    
     net_terminal_inner <- function(obj, ...) {
-      net_terminal(obj, transform = transform,layout = layout, ...)
+      terminalbase(obj, baseplotfunction = baseplotfunction, network=TRUE,
+                   transform = transform, layout = layout, ...)
     }
-    class(net_terminal_inner) <- "grapcon_generator"
-    needNewPlot <- tryCatch(
-      {
-        par(new=TRUE)
-        FALSE
-      }, 
-      warning=function(cond){
-        return(TRUE)
-      },
-      silent=T
-    )
-    if(needNewPlot){
-      plot.new()
-      partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots))
-      do.call(what=partykit::plot.party,args=partyargs)
-    } else {
-      partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots))
-      do.call(what=partykit::plot.party,args=partyargs)
+  } else if(type=="custom"){
+    net_terminal_inner <- function(obj, ...) {
+      terminalbase(obj, baseplotfunction = customplotfunction, network=FALSE,
+                   transform = transform, layout = layout, ...)
     }
+  }
+  
+  # Pass to partykit::plot.party
+  class(net_terminal_inner) <- "grapcon_generator"
+  needNewPlot <- tryCatch(
+    {
+      par(new=TRUE)
+      FALSE
+    }, 
+    warning=function(cond){
+      return(TRUE)
+    },
+    silent=T
+  )
+  if(needNewPlot){
+    plot.new()
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots))
+    do.call(what=partykit::plot.party,args=partyargs)
+  } else {
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots))
+    do.call(what=partykit::plot.party,args=partyargs)
   }
 }
 

@@ -1,12 +1,23 @@
 ## ---- Hidden Functions ----
 
-## net_terminal is a plotting function for the terminal nodes which is used internally in plot.networktree
-## This uses grid package (with gridBase for qgraph)
-net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, ylines = NULL,
-                          mainlab = NULL, varlab = TRUE, bg = "white", ...) {
-
+## terminalbase is a plotting function for the terminal nodes which is used internally in plot.networktree
+## In conjunction with a baseplotfunction, it is used to plot a base R plot in the terminal nodes of a networktree
+## It relies on the gridBase package
+terminalbase <- function(obj,
+                         baseplotfunction,
+                         transform = NULL,
+                         network = TRUE,
+                         which = NULL, 
+                         id = TRUE, 
+                         pop = TRUE, 
+                         ylines = NULL,
+                         mainlab = NULL, 
+                         varlab = TRUE, 
+                         bg = "white", 
+                         ...) {
+  
+  ## Initial Setup
   y <- obj$fitted[["(response)"]]
-
   if (is.null(which))
     which <- 1L:NCOL(y)
   k <- length(which)
@@ -28,14 +39,19 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
                              name   = paste("node_mvar", tid, sep = ""))
     grid::pushViewport(top_vp)
     
-    adj <- getnetwork(obj[[tid]], transform=transform)
-    dots <- list(...)
-    labels <- if(is.null(dots$labels)){colnames(adj)}else{dots$labels}
     
-    
-    ## gridBase plotting of qgraph
+    ## gridBase plotting 
     ###########################
     
+    # Get the data / network that will be passed to baseplotfunction
+    if(network){
+      terminal_info <- getnetwork(obj[[tid]], transform=transform)
+    } else {
+      terminal_info <- getterminaldata(obj, tid)
+    }
+    
+    dots <- list(...)
+
     # grid.Call() persistently fails in RStudio for Mac's default plot device
     # the detectPlotDimensions function catches this to provide a specific warning.
     #   It is adapted from gridBase::gridFIG()
@@ -79,13 +95,15 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
     
     # PLOTTING
     
-    ## plot white rectangle beneath qgraph
+    ## plot white rectangle beneath 
     grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
     
-    ## plot qgraph
+    ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
     graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
-    qgraph::qgraph(adj, noPar = TRUE, labels=labels, ...)
+
+    ## create base R plot
+    baseplotfunction(terminal_info, ...)
     
     ## reset graphics to original settings
     graphics::par(op)
@@ -128,6 +146,59 @@ net_terminal <- function (obj, transform, which = NULL, id = TRUE, pop = TRUE, y
     else grid::upViewport()
   }
   return(rval)
+}
+
+baseplotfunction_network <- function(x, ...){
+  qgraph::qgraph(x, noPar = TRUE, labels=colnames(x), ...)
+}
+
+baseplotfunction_bar <- function(x, 
+                                 sdbars = TRUE, 
+                                 na.rm=TRUE,
+                                 bar_col_func=grDevices::colorRampPalette(c("yellow","darkred")),
+                                 ...){
+  
+  graphics::par(mar = c(2.5, 2, 2, 2))
+  
+  stats <- list("mean"=colMeans(x, na.rm=na.rm),
+                "variance"=apply(x, 2, stats::var, na.rm=na.rm))
+  
+  bar_colors <- bar_col_func(100)
+  bar_color_indices <- round(99 * (stats$mean - min(stats$mean)) / max(stats$mean - min(stats$mean)), 0) + 1
+  
+  if(sdbars){
+    y_lim <- c(min(stats$mean) - max(sqrt(stats$variance)/2),
+               max(stats$mean) + max(sqrt(stats$variance)/2)) * 1.2
+  } else {
+    y_lim <- NULL
+  }
+  
+  # Produce bar plot
+  mid <- graphics::barplot(stats$mean, col=bar_colors[bar_color_indices],
+                 ylim = y_lim, ...)
+  
+  if(sdbars){
+    # Add st dev bars
+    graphics::arrows(x0=mid, x1=mid,
+                     y0=stats$mean - sqrt(stats$variance)/2, 
+                     y1=stats$mean + sqrt(stats$variance)/2, 
+                     code=3, angle=90, length=0.2*(1/length(stats$variance)))
+  }
+  
+  graphics::box()
+}
+
+
+# to get data from the terminal nodes
+getterminaldata <- function(tree, id=1L,...){
+  terminal_node <- tree[id]
+  if("ctree_networktree" %in% class(terminal_node)){
+    response_data <- terminal_node$fitted[['(response)']]
+  } else if ("mob_networktree" %in% class(terminal_node)){
+    nodevar_names <- attr(terminal_node$info$terms$response, "term.labels")
+    response_data <- terminal_node$data[,nodevar_names]
+  }
+  return(response_data)
 }
 
 ## cortrafo is a general function for transforming a set of variables y1, y2, y3...
