@@ -149,7 +149,7 @@
                       transform<span class="op">=</span><span class="st">"glasso"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span><span class="op">)</span></pre></div>
 <p><img src="networktree_files/figure-html/glasso-1.png" width="384"></p>
-<p>The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the <em>method</em> argument. For more details on the differences between the two approaches, see the associated <a href="https://osf.io/ha4cw">publication</a>.</p>
+<p>The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the <em>method</em> argument. For more details on the differences between the two approaches, see the associated <a href="https://rdcu.be/b9Kyw">publication</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="va">cor_gender_ctree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="va">OCD_vars</span><span class="op">]</span>,
                           splitvars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="st">"Gender"</span>,drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>,

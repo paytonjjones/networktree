@@ -27,17 +27,18 @@ point(s).
 
 Resources:
 
-  - [networktree Home Page](https://paytonjjones.github.io/networktree/)
+  - [Home Page](https://paytonjjones.github.io/networktree/)
   - [Getting Started -
     Tutorial](https://paytonjjones.github.io/networktree/index.html)
   - [CRAN
     documentation](https://cran.r-project.org/web/packages/networktree/index.html)  
   - [Example
     application](https://paytonjjones.github.io/networktree/articles/returns.html)
-  - [Published paper](https://osf.io/ha4cw) for a more advanced look.
+  - [Published paper](https://rdcu.be/b9Kyw) for a more advanced look.
 
 To cite ***networktree***, use:
 
-Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (in press). Network
-trees: A method for recursively partitioning covariance structures.
-Psychometrika.
+Jones, P.J., Mair, P., Simon, T., & Zeileis, A. (2020). Network trees: A
+method for recursively partitioning covariance structures.
+Psychometrika. Advance online publication.
+<https://doi.org/10.1007/s11336-020-09731-4>
