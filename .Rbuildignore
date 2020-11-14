@@ -3,9 +3,7 @@
 ^cran-comments\.md$
 ^cran-comments\.Rmd$
 ^\.travis\.yml$
-^README\.md$
 ^vignettes\.*
-^index\.Rmd$
+^(index|README)\.(Rmd|md)$
 ^docs
 ^_pkgdown\.yml$
-^README.Rmd
