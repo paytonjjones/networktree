@@ -3,11 +3,15 @@ Title: Recursive Partitioning of Network Models
 Version: 0.2.2
 Date: 2020-10-14
 Authors@R: c(person("Payton", "Jones", email = "payton_jones@g.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6513-8498")),
-             person(given = "Thorsten", family = "Simon", role = c("aut"), email = "thorsten.simon@uibk.ac.at", comment = c(ORCID = "0000-0002-3778-7738")),
+             person(given = "Thorsten", family = "Simon", role = "aut", email = "Thorsten.Simon@uibk.ac.at", comment = c(ORCID = "0000-0002-3778-7738")),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")))
-Description: Methods to create tree models with correlation-based network models (multivariate normal distributions). 
+Description: To reveal significant differences in correlation-based networks, also known as
+             psychometric networks, network trees recursively partition the data with respect
+	     to covariates and fit separate network models in the resulting subsamples. Two
+	     network tree algorithms: model-based trees based on a multivariate normal model
+	     and nonparametric trees based on covariance structures.
 Depends: R (>= 3.5.0)
-License: GPL-3
+License: GPL-2 | GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: partykit, qgraph, stats, utils, Matrix, mvtnorm, Formula, grid, graphics, gridBase, reshape2
