@@ -13,6 +13,8 @@ vignettes/16PF/*
 docs/articles/16PF.html
 docs/articles/16PF_files/
 
+index.html
+
 Makefile
 ..Rcheck/*
 networktree.Rcheck/*
