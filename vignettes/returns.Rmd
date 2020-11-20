@@ -16,6 +16,7 @@ vignette: >
 
 ```{r setup, include = FALSE}
 library("networktree")
+library("qgraph")
 # library("zoo")
 set.seed(111)
 knitr::opts_chunk$set(
@@ -53,7 +54,7 @@ returns <- fxregime::fxreturns(currencies, data = FXRatesCHF)
 returns <- na.omit(returns)
 ```
 
-```{r look-at-data, fig.height = 7, fig.width = 12, out.width = "100%"}
+```{r look-at-data, fig.height = 7, fig.width = 12, dev="svg"}
 plot(returns)
 ```
 
@@ -69,11 +70,11 @@ add a nosie variable `foo`. Obviously, one can expect that `time` will
 be selected for splitting the data, but `foo` will not be selected.
 
 ```{r data2}
-returns$year   <- as.POSIXlt(zoo::index(returns))$year
-returns$isLeap <- (returns$year %% 4) == 0
-returns$yday   <- as.POSIXlt(zoo::index(returns))$yday
-returns$time   <- 1900 + returns$year + returns$yday / ifelse(returns$isLeap, 366, 365)
-returns$foo    <- rnorm(nrow(returns))
+returns$year    <- as.POSIXlt(zoo::index(returns))$year
+returns$is_leap <- (returns$year %% 4) == 0
+returns$yday    <- as.POSIXlt(zoo::index(returns))$yday
+returns$time    <- 1900 + returns$year + returns$yday / ifelse(returns$is_leap, 366, 365)
+returns$foo     <- rnorm(nrow(returns))
 ```
 
 ## Networktree Model
@@ -115,7 +116,7 @@ Then in the second and fifth node the remaining data is splitted in
 respectively.
 
 
-```{r output2, fig.align = "left", fig.height = 16, fig.width = 24, dpi = 72, out.width = "100%"}
+```{r output2, fig.height=8, fig.width=14, dev="svg"}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
@@ -141,7 +142,7 @@ Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.
 The split in April 1994 raises the question why the coupling of CNY to USD
 was that weak before that point of time.
 
-```{r investigate-split, fig.align = "left", fig.height = 9, fig.width = 9, dpi = 144, out.width = "100%"}
+```{r investigate-split, fig.align = "left", fig.height = 9, fig.width = 9, dpi = 144, out.width = "100%", include = FALSE, eval = FALSE}
 # partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
 #   FUN = function(n){ plot(CNY ~ USD, data = n$data) })
 # 
