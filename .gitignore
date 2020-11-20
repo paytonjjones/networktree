@@ -13,3 +13,8 @@ vignettes/16PF/*
 docs/articles/16PF.html
 docs/articles/16PF_files/
 
+Makefile
+..Rcheck/*
+networktree.Rcheck/*
+networktree_*.tar.gz
+
