@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Exchange Rates Networks</h1>
                         <h4 class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 class="date">2020-11-20</h4>
+            <h4 class="date">2020-11-21</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paytonjjones/networktree/blob/master/vignettes/returns.Rmd"><code>vignettes/returns.Rmd</code></a></small>
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -98,6 +98,7 @@
 
     
     
+<p>This vignette presents another example motivating that networktree could be applied to various applications.</p>
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
@@ -150,15 +151,15 @@
 <span class="va">returns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span></code></pre></div>
-<p><img src="returns_files/figure-html/look-at-data-1.png" width="100%"></p>
+<p><img src="returns_files/figure-html/look-at-data-1.png" width="700"></p>
 <p>A quick look reveals that data are on hand from 1981-01-09 to 2010-02-12. Over the whole period the mean of each time series is around zero. Further the spread for each time series is relatively constant over time. However, the correlation structure between these seven variables might change within this period of time.</p>
 <p>Before modelling the <em>networktree</em> we compute a numeric variable for the decimal time and put it in a column <code>time</code>, and for illustration we also add a nosie variable <code>foo</code>. Obviously, one can expect that <code>time</code> will be selected for splitting the data, but <code>foo</code> will not be selected.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">returns</span><span class="op">$</span><span class="va">year</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">year</span>
-<span class="va">returns</span><span class="op">$</span><span class="va">isLeap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">returns</span><span class="op">$</span><span class="va">year</span> <span class="op">%%</span> <span class="fl">4</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>
-<span class="va">returns</span><span class="op">$</span><span class="va">yday</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">yday</span>
-<span class="va">returns</span><span class="op">$</span><span class="va">time</span>   <span class="op">&lt;-</span> <span class="fl">1900</span> <span class="op">+</span> <span class="va">returns</span><span class="op">$</span><span class="va">year</span> <span class="op">+</span> <span class="va">returns</span><span class="op">$</span><span class="va">yday</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">returns</span><span class="op">$</span><span class="va">isLeap</span>, <span class="fl">366</span>, <span class="fl">365</span><span class="op">)</span>
-<span class="va">returns</span><span class="op">$</span><span class="va">foo</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">returns</span><span class="op">$</span><span class="va">year</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">year</span>
+<span class="va">returns</span><span class="op">$</span><span class="va">is_leap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">returns</span><span class="op">$</span><span class="va">year</span> <span class="op">%%</span> <span class="fl">4</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>
+<span class="va">returns</span><span class="op">$</span><span class="va">yday</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html">index</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">yday</span>
+<span class="va">returns</span><span class="op">$</span><span class="va">time</span>    <span class="op">&lt;-</span> <span class="fl">1900</span> <span class="op">+</span> <span class="va">returns</span><span class="op">$</span><span class="va">year</span> <span class="op">+</span> <span class="va">returns</span><span class="op">$</span><span class="va">yday</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">returns</span><span class="op">$</span><span class="va">is_leap</span>, <span class="fl">366</span>, <span class="fl">365</span><span class="op">)</span>
+<span class="va">returns</span><span class="op">$</span><span class="va">foo</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="networktree-model" class="section level2">
 <h2 class="hasAnchor">
@@ -194,43 +195,11 @@
 <span class="co">## Objective function: 14073.5</span></code></pre></div>
 <p>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tr</span>, transform <span class="op">=</span> <span class="st">"pcor"</span>, posCol <span class="op">=</span> <span class="st">"#008585"</span>, negCol <span class="op">=</span> <span class="st">"#C7522B"</span>, maximum <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">## Registered S3 methods overwritten by 'huge':</span>
-<span class="co">##   method    from   </span>
-<span class="co">##   plot.sim  BDgraph</span>
-<span class="co">##   print.sim BDgraph</span></code></pre></div>
-<p><img src="returns_files/figure-html/output2-1.png" width="100%" style="display: block; margin: auto auto auto 0;"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tr</span>, transform <span class="op">=</span> <span class="st">"pcor"</span>, posCol <span class="op">=</span> <span class="st">"#008585"</span>, negCol <span class="op">=</span> <span class="st">"#C7522B"</span>, maximum <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p><img src="returns_files/figure-html/plt-1.png" width="700"></p>
 <p>The <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
 <p>The partial correlation reveals a very strong link between the Chinese Yuan and the US Dollar after April 1994, but a weaker link before that point of time.</p>
 <p>The split which was found in the second part of the data was July 2005 which coincide with an announcement of the People’s Bank of China (PBC) to shift away from a fixed exchange rate to the US Dollar to a basket of currencies with greater flexibility <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. Earlier studies also found that CNY was still strongly coupled to the USD after July 2005 <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. However, the split detected in mid 2005 by the <em>networktree</em> does not show a big change in the coupling of CNY to USD, but reveals that coupling of Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.</p>
-<!--
-The split in April 1994 raises the question why the coupling of CNY to USD
-was that weak before that point of time.
-
-
-```r
-# partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
-#   FUN = function(n){ plot(CNY ~ USD, data = n$data) })
-# 
-# partykit::nodeapply(tr, ids = c(3, 4, 6, 7),
-#   FUN = function(n){ summary(lm( CNY ~ USD, data = n$data ))$r.squared })
-
-par(mfrow = c(2, 2))
-for (i in partykit::nodeids(tr, terminal = TRUE)) {
-  sfm <- summary(fm <- lm(CNY ~ USD, data = tr[[i]]$data))
-  plot(CNY ~ USD, data = tr[[i]]$data, main = sprintf("node %d", i))
-  abline(fm, col = "darkred")
-  legend("topleft", bty = "n",
-    legend = sprintf("b0 = %.3f (%.3f)\nb1 = %.3f (%.3f)\nR2 = %.3f",
-                     sfm$coefficients[1, 1], sfm$coefficients[1, 2],
-                     sfm$coefficients[2, 1], sfm$coefficients[2, 2],
-                     sfm$r.squared))
-  
-}
-```
-
-<img src="returns_files/figure-html/investigate-split-1.png" width="100%" style="display: block; margin: auto auto auto 0;" />
--->
 </div>
 <div id="license" class="section level2">
 <h2 class="hasAnchor">
