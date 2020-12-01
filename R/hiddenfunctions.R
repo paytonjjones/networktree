@@ -240,3 +240,15 @@ useCortrafo <- function(data, weights,n,...){
   }
   matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2)
 }
+
+formatnetworktreeinput <- function(vars, prefix="var"){
+  if (!inherits(vars, "data.frame") && !inherits(vars, "matrix")) {
+    vars <- data.frame(unlist(vars))
+    colnames(vars) <- prefix
+  }
+  if (any(is.null(colnames(vars)))) {
+    colnames(vars) <- paste(prefix,1:ncol(vars),sep="")
+  }
+  vars <- as.data.frame(vars)
+  return(vars)
+}

@@ -67,25 +67,8 @@ networktree.default <- function(nodevars, splitvars,
                                 transform=c("cor", "pcor", "glasso"),
                                 na.action=na.omit,
                                 weights=NULL,...){
-  if (!inherits(nodevars, "data.frame")) {
-      if (is.vector(nodevars)) {
-	  nodevars <- matrix(nodevars, ncol = 1)
-      }
-      if (any(is.null(colnames(nodevars)))) {
-          colnames(nodevars) <- paste('nodevars',1:ncol(nodevars),sep="")
-      }
-      nodevars <- as.data.frame(nodevars)
-  }
-
-  if (!inherits(splitvars, "data.frame")) {
-      if (is.vector(splitvars)) {
-	  splitvars <- matrix(splitvars, ncol = 1)
-      }
-      if (any(is.null(colnames(splitvars)))) {
-          colnames(splitvars) <- paste('splitvars',1:ncol(splitvars),sep="")
-      }
-      splitvars <- as.data.frame(splitvars)
-  }
+  nodevars <- formatnetworktreeinput(nodevars, prefix="nodevar")
+  splitvars <- formatnetworktreeinput(splitvars, prefix="splitvar")
 
   if(method[1]=="mob"){
     d <- data.frame(nodevars,splitvars)
