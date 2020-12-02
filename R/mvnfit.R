@@ -122,7 +122,7 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
          objfun = -loglik,
          estfun = ef,
          object = vc,
-         mvn = list(mu = full_coef[1:k], sigma = full_coef[1:k + k], rho[1:(k*(k-1)/2) + 2*k])
+         mvn = list(mu = full_coef[1:k], sigma = full_coef[1:k + k], rho = Om, ynam = ynam)
 	)
 }
 

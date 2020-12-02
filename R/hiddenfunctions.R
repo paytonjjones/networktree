@@ -226,7 +226,17 @@ cortrafo <- function(data, weights,control,n,model,...){
       }
       scores
     }
-    list(estfun=ef, unweighted=TRUE)
+
+	## fit coefs
+	Sig <- cov(data) * (obs - 1)/obs
+
+    list(estfun=ef, unweighted=TRUE,
+		mvn = list(
+			mu = colMeans(data)),
+			sigma = sqrt(diag(Sig)),
+			rho = cov2cor(Sig),
+			ynam = if (is.null(colnames(data))) 1L:k else colnames(data)
+		)
   }
 }
 
