@@ -106,6 +106,7 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
     if(any("variance"    == model)) id <- c(id, 1:k + k)
     if(any("correlation" == model)) id <- c(id, 1:(k*(k-1)/2) + 2*k)
 
+	full_coef <- coef
     coef <- coef[id]
     ef   <- ef[, id]
 
@@ -120,6 +121,8 @@ mvnfit <- function(y, x = NULL, start = NULL, weights = NULL,
     list(coefficients = coef,
          objfun = -loglik,
          estfun = ef,
-         object = vc)
+         object = vc,
+         mvn = list(mu = full_coef[1:k], sigma = full_coef[1:k + k], rho[1:(k*(k-1)/2) + 2*k])
+	)
 }
 
