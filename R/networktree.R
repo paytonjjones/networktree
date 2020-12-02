@@ -199,12 +199,11 @@ print.networktree<- function(x,
 #'
 #'@export
 plot.networktree <- function(x, 
-                             type="detect",
+                             terminal_panel ="detect", 
                              transform = NULL, 
                              layout="lock", 
                              partyargs=list(), 
                              sdbars = NULL,
-                             customplotfunction=NULL,
                              na.rm=TRUE,
                              ...) {
   
@@ -214,10 +213,8 @@ plot.networktree <- function(x,
     model <- class(x[[1]]$info$call)
   }
   
-  if(type[1]=="detect"){
-    type <- if(!is.null(customplotfunction)){
-      "custom"
-    } else if("correlation" %in% model){
+  if(terminal_panel[1]=="detect"){
+    terminal_panel <- if("correlation" %in% model){
       "network"
     } else {
       "barplot"
@@ -234,32 +231,25 @@ plot.networktree <- function(x,
   }
   
   # Set up terminal plotting function
-  if(type=="barplot"){
+  # TODO: this could now be combined within the "detect" step above...
+   if(terminal_panel=="barplot"){
     if(is.null(sdbars)){
       sdbars <- "variance" %in% model
     }
-    baseplotfunction <- function(x,...){
-      baseplotfunction_bar(x, sdbars=sdbars, na.rm=na.rm, ...)
-    }
     net_terminal_inner <- function(obj, ...) {
-      terminalbase(obj, baseplotfunction=baseplotfunction, transform=transform, network=FALSE, ...)
+      ntbarplot(obj, transform=transform, sdbars = sdbars, network=FALSE, ...)
     }
-  } else if(type=="network"){
+  } else if(terminal_panel=="network"){
+    # TODO: lock should be handled internally in networkplot
     if(layout[1]=="lock"){
       layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
-    }
-    baseplotfunction <- function(x,...){
-      baseplotfunction_network(x, ...)
-    }    
+    } 
     net_terminal_inner <- function(obj, ...) {
-      terminalbase(obj, baseplotfunction = baseplotfunction, network=TRUE,
-                   transform = transform, layout = layout, ...)
+      # TODO: networkplot is a bad name
+      networkplot(obj, transform = transform, layout = layout, ...)
     }
-  } else if(type=="custom"){
-    net_terminal_inner <- function(obj, ...) {
-      terminalbase(obj, baseplotfunction = customplotfunction, network=FALSE,
-                   transform = transform, layout = layout, ...)
-    }
+  } else {
+    net_terminal_inner <- terminal_panel
   }
   
   # Pass to partykit::plot.party

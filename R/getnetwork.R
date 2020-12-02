@@ -47,14 +47,6 @@ getnetwork <- function(tree, id=1L, transform = "detect", verbose = FALSE,...){
     }
   }
   
-  verbose_switch <- function(func){
-    if(verbose){
-      return(func)
-    } else {
-      return(suppressWarnings(suppressMessages(func)))
-    }
-  }
-  
   if("ctree_networktree" %in% class(terminal_node)){
     n <- ncol(terminal_node$fitted[['(response)']])
     sampleSize <- nrow(terminal_node$fitted[['(response)']])
@@ -78,17 +70,12 @@ getnetwork <- function(tree, id=1L, transform = "detect", verbose = FALSE,...){
   dots <- list(...)
   labels <- if(is.null(dots$labels)){matnames}else{dots$labels}
   
-  net  <- verbose_switch(
-            qgraph::getWmat(
-              switch(transform[1],
-                 "cor"    = qgraph::qgraph(info$cormat, graph = "default",
-                                           DoNotPlot = TRUE, labels = labels, ...),
-                 "pcor"   = qgraph::qgraph(info$cormat, graph = "pcor",
-                                           DoNotPlot = TRUE, labels = labels, ...),
-                 "glasso" = qgraph::qgraph(Matrix::nearPD(info$cormat)$mat,
-                                           graph = "glasso", sampleSize = info$sampleSize,
-                                           DoNotPlot = TRUE, labels = labels, ...))))
-   return(net)
+  net <- nettransform(cor = info$cormat, 
+                      n = info$sampleSize, 
+                      labels = labels,
+                      transform = transform,
+                      verbose = verbose)
+  return(net)
 }
 
 
