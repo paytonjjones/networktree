@@ -80,11 +80,10 @@ networktree.default <- function(nodevars, splitvars,
     netdata <- as.data.frame(nodevars); splitvars <- as.data.frame(splitvars)
     d <- cbind(netdata, splitvars)
     f1 <- Formula::as.Formula(paste(c(paste(colnames(netdata),collapse=" + "), " ~ ", paste(colnames(splitvars), collapse=" + ")), collapse=""))
-    n <- ncol(netdata)
-    control<-NULL
-    # Need to include n so cortrafo can count vars on left hand side
     tree <- partykit::ctree(formula=f1, data=d,
-                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
+                            ytrafo=function(data, weights,control) {
+                              cortrafo(data=data, weights=weights, control=NULL, model=model)
+                              },
                              na.action=na.action, control=partykit::ctree_control(...))
     class(tree) <- c("networktree", "ctree_networktree", transform[1], class(tree))
     class(tree$info$call) <- model ## discreetly store model
@@ -142,12 +141,10 @@ networktree.formula <- function(formula, data, transform=c("cor", "pcor", "glass
     class(rval) <- c("networktree", "mob_networktree", transform[1], class(rval))
     res <- rval
   } else if(method[1]=="ctree"){
-    charformulaLHS <-   strsplit(as.character(formula), "+", fixed=T)[[2]]
-    n <- length(charformulaLHS)
-    control <- NULL
-    # Need to include n so cortrafo can count vars on left hand side
     res <- partykit::ctree(formula=formula, data=data,
-                            ytrafo=function(data, weights,control) {cortrafo(data=data, weights=weights, control=control, n=n, model=model)},
+                            ytrafo=function(data, weights,control) {
+                              cortrafo(data=data, weights=weights, control=NULL, model=model)
+                              },
                             na.action=na.action, control=partykit::ctree_control(...))
     class(res) <- c("networktree", "ctree_networktree", transform[1], class(res))
     class(res$info$call) <- model ## discreetly store model
@@ -184,15 +181,14 @@ print.networktree<- function(x,
 #' are plotted with qgraph, and additional arguments are passed there
 #'
 #' @param x an object of type 'networktree'
-#' @param type the type of plot. The currently available options are "network" and 
-#' "barplot" (for means and/or variances). By default, "network" is used unless
-#' the correlations were not used to split in networktree. 
+#' @param terminal_panel an optional panel function of the form function(node) plotting the terminal nodes. 
+#' Alternatively, a panel generating function of class "grapcon_generator" that is called with arguments x and tp_args to set up a 
+#' panel function. The default ("detect") chooses an appropriate panel function depending on the "model" argument. 
 #' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
 #' @param sdbars if type="barplot", should std deviation error bars be plotted?
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
-#' @param customplotfunction to create custom plots in the terminal nodes, provide a base R 
 #' plotting function that takes partitioned data as input
 #' @param na.rm should NA values be removed prior to calculating relevant parameters?
 #' @param ... additional arguments passed to qgraph or barplot

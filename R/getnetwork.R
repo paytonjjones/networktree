@@ -48,11 +48,18 @@ getnetwork <- function(tree, id=1L, transform = "detect", verbose = FALSE,...){
   }
   
   if("ctree_networktree" %in% class(terminal_node)){
-    n <- ncol(terminal_node$fitted[['(response)']])
-    sampleSize <- nrow(terminal_node$fitted[['(response)']])
-    node_trans <- useCortrafo(data= terminal_node$fitted[['(response)']],
-                              weights=terminal_node$fitted[['(weights)']],
-                              n=n)
+    simpleCortrafo <- function(data){
+      obs <- nrow(data)
+      n <- ncol(data)
+      mymat <- matrix(list(),n,n)
+      for(i in 1:n){
+        for(j in 1:n){
+          mymat[[i,j]] <- scale(data[[i]]) * scale(data[[j]])
+        }
+      }
+      matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2)
+    }
+    node_trans <- simpleCortrafo(data=terminal_node$fitted[['(response)']])
     cors <- apply(node_trans, 2, mean, na.rm=T)
     matnames <- names(terminal_node$fitted[['(response)']])
   } else if ("mob_networktree" %in% class(terminal_node)){

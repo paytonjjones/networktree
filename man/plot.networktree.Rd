@@ -6,12 +6,11 @@
 \usage{
 \method{plot}{networktree}(
   x,
-  type = "detect",
+  terminal_panel = "detect",
   transform = NULL,
   layout = "lock",
   partyargs = list(),
   sdbars = NULL,
-  customplotfunction = NULL,
   na.rm = TRUE,
   ...
 )
@@ -19,21 +18,19 @@
 \arguments{
 \item{x}{an object of type 'networktree'}
 
-\item{type}{the type of plot. The currently available options are "network" and 
-"barplot" (for means and/or variances). By default, "network" is used unless
-the correlations were not used to split in networktree.}
+\item{terminal_panel}{an optional panel function of the form function(node) plotting the terminal nodes. 
+Alternatively, a panel generating function of class "grapcon_generator" that is called with arguments x and tp_args to set up a 
+panel function. The default ("detect") chooses an appropriate panel function depending on the "model" argument.}
 
 \item{transform}{"cor", "pcor", or "glasso". If set to NULL, transform detected from x}
 
 \item{layout}{network layout, passed to qgraph. Default "lock" computes spring 
 layout for the full sample and applies this to all graphs}
 
-\item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}}
+\item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}
+plotting function that takes partitioned data as input}
 
 \item{sdbars}{if type="barplot", should std deviation error bars be plotted?}
-
-\item{customplotfunction}{to create custom plots in the terminal nodes, provide a base R 
-plotting function that takes partitioned data as input}
 
 \item{na.rm}{should NA values be removed prior to calculating relevant parameters?}
 

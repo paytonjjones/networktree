@@ -1,47 +1,5 @@
 ## ---- Hidden Functions ----
 
-# ---- Scoring function ----
-
-# TODO: this should be its own file and be exported
-## cortrafo is a general function for transforming a set of variables y1, y2, y3...
-## into a matrix of (n^2-n)/2 columns (e.g., the number of total correlations)
-## and i rows, where i is the # of observations of y1, where the mean of each vector
-## is equal to the correlation between y1 and y2, y1 and y3, etc.
-## used internally in ctree_net
-# new cortrafo
-cortrafo <- function(data, weights,control,n,model,...){
-  data <- as.matrix(data$data[,data$variables$y,drop=FALSE])
-  obs <- nrow(data)
-  function(subset,weights,info,estfun,object,...){
-    ef <- {
-      scores <- NULL
-      if(any("mean"        == model)) scores <- cbind(scores, data)
-      if(any("variance"    == model)) scores <- cbind(scores, (data - mean(data))^2)
-      if(any("correlation" == model)) {
-        mymat <- matrix(list(), n,n)
-        for(i in 1:n){
-          for(j in 1:n){
-            mymat[[i,j]] <- scale(data[,i]) * scale(data[,j])
-          }
-        }
-        scores <- cbind(scores, matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2))
-      }
-      scores
-    }
-    
-    ## fit coefs
-    Sig <- cov(data) * (obs - 1)/obs
-    
-    list(estfun=ef, unweighted=TRUE,
-         mvn = list(
-           mu = colMeans(data)),
-         sigma = sqrt(diag(Sig)),
-         rho = cov2cor(Sig),
-         ynam = if (is.null(colnames(data))) 1L:k else colnames(data)
-    )
-  }
-}
-
 # ---- Terminal panel functions ---- 
 
 networkplot <- function(obj,
@@ -66,8 +24,8 @@ networkplot <- function(obj,
     
     network <- nettransform(cor = coef_list$rho, 
                             n = nrow(data),
-                            labels= colnames(coef_list$rho), 
-                            transform=transform)
+                            labels = colnames(coef_list$rho), 
+                            transform = transform)
     
     # Set up viewport
     grid::pushViewport(grid::viewport())
@@ -239,16 +197,6 @@ formatnetworktreeinput <- function(vars, prefix="var"){
   return(vars)
 }
 
-# TODO: can I delete this?
-useCortrafo <- function(data, weights,n,...){
-  obs <- nrow(data)
-  mymat <- matrix(list(), n,n)
-  for(i in 1:n){
-    for(j in 1:n){
-      mymat[[i,j]] <- weights * scale(data[[i]]) * scale(data[[j]])
-    }
-  }
-  matrix(unlist(mymat[lower.tri(mymat)]), obs, (n^2-n)/2)
-}
+
 
 
