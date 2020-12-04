@@ -62,6 +62,8 @@ getnetwork <- function(tree, id=1L, transform = "detect", verbose = FALSE,...){
     node_trans <- simpleCortrafo(data=terminal_node$fitted[['(response)']])
     cors <- apply(node_trans, 2, mean, na.rm=T)
     matnames <- names(terminal_node$fitted[['(response)']])
+    n <- ncol(terminal_node$fitted[['(response)']])
+    sampleSize <- nrow(terminal_node$fitted[['(response)']])
   } else if ("mob_networktree" %in% class(terminal_node)){
     cors       <- terminal_node$node$info$coefficients
     cors       <- cors[grepl("rho", names(cors))] # select only cors, not mean/var

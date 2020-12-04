@@ -9,8 +9,9 @@
   terminal_panel = "detect",
   transform = NULL,
   layout = "lock",
-  partyargs = list(),
   sdbars = NULL,
+  tnex = 3,
+  partyargs = list(),
   na.rm = TRUE,
   ...
 )
@@ -27,10 +28,12 @@ panel function. The default ("detect") chooses an appropriate panel function dep
 \item{layout}{network layout, passed to qgraph. Default "lock" computes spring 
 layout for the full sample and applies this to all graphs}
 
+\item{sdbars}{if type="barplot", should std deviation error bars be plotted?}
+
+\item{tnex}{terminal node extension (passed to plot.party). To make the terminal plots bigger, increase this value.}
+
 \item{partyargs}{additional arguments (list format) passed to \code{partykit::plot.party}
 plotting function that takes partitioned data as input}
-
-\item{sdbars}{if type="barplot", should std deviation error bars be plotted?}
 
 \item{na.rm}{should NA values be removed prior to calculating relevant parameters?}
 

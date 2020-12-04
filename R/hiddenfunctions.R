@@ -2,26 +2,29 @@
 
 # ---- Terminal panel functions ---- 
 
-networkplot <- function(obj,
-                        transform = NULL,
-                        network = TRUE,
-                        which = NULL, 
-                        id = TRUE, 
-                        pop = TRUE, 
-                        mainlab = NULL, 
-                        varlab = TRUE, 
-                        bg = "white", 
-                        ...) {
-  # TODO:
-  # coef_max_min <- get_coef_max_mins(obj)
-  # once I have these, plug into 'maximum' and 'minimum' qgraph arguments
+ntqgraph <- function(obj,
+                     transform,
+                     layout = "lock",
+                     pop = TRUE, 
+                     bg = "white", 
+                     minimum = 0,
+                     maximum = "local",
+                     ...) {
+  
+  coef_max_min <- get_coef_max_mins(obj)
+  minimum <- ifelse(minimum[1] == "local", coef_max_min$min$edge, minimum)
+  maximum <- ifelse(maximum[1] == "local", coef_max_min$min$edge, maximum)
+
+  if(layout[1]=="lock"){
+    layout <- qgraph::qgraph(getnetwork(obj,id=1),layout="spring",DoNotPlot=T)$layout
+  } 
   
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
     data <- partykit::data_party(obj, id=tid)
     coef_list <- partykit::info_node(node)$mvn
-    
+
     network <- nettransform(cor = coef_list$rho, 
                             n = nrow(data),
                             labels = colnames(coef_list$rho), 
@@ -33,14 +36,15 @@ networkplot <- function(obj,
     # PLOTTING
     
     ## plot white rectangle beneath 
-    grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
+    grid::grid.rect(gp = grid::gpar(col = NA, fill = bg))
     
     ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
     graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
     
     ## create base R plot
-    qgraph::qgraph(network, noPar = TRUE, labels=colnames(network), ...)
+    qgraph::qgraph(network, noPar = TRUE, labels=colnames(network), layout=layout, 
+                   maximum = maximum, minimum = minimum,...)
     
     ## reset graphics to original settings
     graphics::par(op)
@@ -51,23 +55,14 @@ networkplot <- function(obj,
   }
 }
 
-# TODO: most params are not used, need to clean up here and in networkplot
 ntbarplot <- function(obj,
                       sdbars = TRUE, 
                       bar_col_func=grDevices::colorRampPalette(c("yellow","darkred")),
-                      transform = NULL,
-                      network = TRUE,
-                      which = NULL, 
-                      id = TRUE, 
                       pop = TRUE, 
-                      mainlab = NULL, 
-                      varlab = TRUE, 
                       bg = "white", 
                       ...) {
-  # TODO:
-  # coef_max_min <- get_coef_max_mins(obj)
-  # once I have these, substitute below
-  
+  coef_max_min <- get_coef_max_mins(obj)
+
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
@@ -79,8 +74,8 @@ ntbarplot <- function(obj,
     
     # PLOTTING
     
-    ## plot white rectangle beneath 
-    grid::grid.rect(gp = grid::gpar(col = NA, fill = "white"))
+    ## plot rectangle beneath 
+    grid::grid.rect(gp = grid::gpar(col = NA, fill = bg))
     
     ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
@@ -90,13 +85,17 @@ ntbarplot <- function(obj,
     graphics::par(mar = c(2.5, 2, 2, 2))
     
     bar_colors <- bar_col_func(100)
-    bar_color_indices <- round(99 * (coef_list$mu - min(coef_list$mu)) / max(coef_list$mu - min(coef_list$mu)), 0) + 1
+    bar_color_indices <- round(99 * (coef_list$mu - coef_max_min$min$mean) / 
+                                 max(coef_list$mu - coef_max_min$min$mean), 0) + 1
     
     if(sdbars){
-      y_lim <- c(min(coef_list$mu) - max(coef_list$sigma/2),
-                 max(coef_list$mu) + max(coef_list$sigma/2)) * 1.2
+      # TODO: instead of using the maximum sd (biggest possible bar), I could actually
+      # compute the lowest and highest bar length within get_coef_max_mins
+      y_lim <- c(min(1.2 * (coef_max_min$min$mean - coef_max_min$max$sd/2), 0),
+                 max(1.2 * (coef_max_min$max$mean + coef_max_min$max$sd/2), 0)) 
     } else {
-      y_lim <- NULL
+      y_lim <- c(min(1.2 * coef_max_min$min$mean, 0),
+                 max(1.2 * coef_max_min$max$mean, 0)) 
     }
     
     # Produce bar plot
@@ -123,6 +122,48 @@ ntbarplot <- function(obj,
 }
 
 # ---- Plotting helpers ---- 
+
+get_coef_max_mins <- function(obj, na.rm = TRUE){
+  if("ctree_networktree" %in% class(obj)){
+    response_data <- obj$fitted[['(response)']]
+  } else if ("mob_networktree" %in% class(obj)) {
+    response_names <- attr(obj$info$terms$response, "term.labels")
+    response_data <- obj$data[,response_names]
+  }
+  get_mean_by_terminal_node <- function(response_var){tapply(response_var, obj$fitted['(fitted)'], mean, na.rm=na.rm)}
+  means <- apply(response_data, 2, get_mean_by_terminal_node)
+  
+  get_sd_by_terminal_node <- function(response_var){tapply(response_var, obj$fitted['(fitted)'], sd, na.rm=na.rm)}
+  sds <- apply(response_data, 2, get_sd_by_terminal_node)
+  
+  terminal_node_ids <- unlist(unique(obj$fitted['(fitted)']))
+  k <- ncol(response_data)
+  edges <- matrix(NA, nrow=length(terminal_node_ids), ncol=k*(k-1)*.5)
+  for(i in 1:length(terminal_node_ids)){
+    # maxes & mins for edges default to -Inf/Inf if "correlation" is not in model
+    # TODO: add error message for if they try to plot a network without including "correlation" in model
+    net <- try(getnetwork(obj, id=terminal_node_ids[i]), silent=TRUE)
+    if(!inherits(net, "try-error")){
+      edges[i,] <- net[lower.tri(net)]
+    }
+  }
+  
+  return(
+    list(
+      min = list(
+        mean = min(means, na.rm = na.rm),
+        sd = min(sds, na.rm = na.rm),
+        edge = suppressWarnings(min(edges, na.rm = na.rm))
+      ),
+      max = list(
+        mean = max(means, na.rm = na.rm),
+        sd = max(sds, na.rm = na.rm),
+        edge = suppressWarnings(max(edges, na.rm = na.rm))
+      )
+    )
+  )
+  
+}
 
 detectPlotDimensions <- function() {
   

@@ -188,6 +188,7 @@ print.networktree<- function(x,
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
 #' @param sdbars if type="barplot", should std deviation error bars be plotted?
+#' @param tnex terminal node extension (passed to plot.party). To make the terminal plots bigger, increase this value. 
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
 #' plotting function that takes partitioned data as input
 #' @param na.rm should NA values be removed prior to calculating relevant parameters?
@@ -198,8 +199,9 @@ plot.networktree <- function(x,
                              terminal_panel ="detect", 
                              transform = NULL, 
                              layout="lock", 
-                             partyargs=list(), 
                              sdbars = NULL,
+                             tnex = 3,
+                             partyargs=list(), 
                              na.rm=TRUE,
                              ...) {
   
@@ -209,16 +211,6 @@ plot.networktree <- function(x,
     model <- class(x[[1]]$info$call)
   }
   
-  if(terminal_panel[1]=="detect"){
-    terminal_panel <- if("correlation" %in% model){
-      "network"
-    } else {
-      "barplot"
-    }
-  }
-  
-  dots <- list(...)
-  
   if(is.null(transform)) {
     transform <- if("cor" %in% class(x)) {"cor"} else if ("pcor" %in% class(x)) {"pcor"
     } else if("glasso" %in% class(x)) {"glasso"
@@ -226,30 +218,27 @@ plot.networktree <- function(x,
       warning("Type of network could not be detected, plotting glasso networks")}
   }
   
-  # Set up terminal plotting function
-  # TODO: this could now be combined within the "detect" step above...
-   if(terminal_panel=="barplot"){
-    if(is.null(sdbars)){
-      sdbars <- "variance" %in% model
+  if(terminal_panel[1]=="detect"){
+    if("correlation" %in% model){
+      net_terminal_inner <- function(obj, ...) {
+        ntqgraph(obj, transform = transform, layout = layout, ...)
+      }
+    } else {
+      if(is.null(sdbars)){
+        sdbars <- "variance" %in% model
+      }
+      net_terminal_inner <- function(obj, ...) {
+        ntbarplot(obj, sdbars = sdbars, ...)
+      }
     }
-    net_terminal_inner <- function(obj, ...) {
-      ntbarplot(obj, transform=transform, sdbars = sdbars, network=FALSE, ...)
-    }
-  } else if(terminal_panel=="network"){
-    # TODO: lock should be handled internally in networkplot
-    if(layout[1]=="lock"){
-      layout <- qgraph::qgraph(getnetwork(x,id=1),layout="spring",DoNotPlot=T)$layout
-    } 
-    net_terminal_inner <- function(obj, ...) {
-      # TODO: networkplot is a bad name
-      networkplot(obj, transform = transform, layout = layout, ...)
-    }
+    class(net_terminal_inner) <- "grapcon_generator"
   } else {
     net_terminal_inner <- terminal_panel
   }
   
+  
   # Pass to partykit::plot.party
-  class(net_terminal_inner) <- "grapcon_generator"
+  dots <- list(...)
   needNewPlot <- tryCatch(
     {
       par(new=TRUE)
@@ -262,10 +251,10 @@ plot.networktree <- function(x,
   )
   if(needNewPlot){
     plot.new()
-    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots))
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots, tnex = tnex))
     do.call(what=partykit::plot.party,args=partyargs)
   } else {
-    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots))
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots, tnex = tnex))
     do.call(what=partykit::plot.party,args=partyargs)
   }
 }
