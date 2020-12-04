@@ -46,6 +46,7 @@ cortrafo <- function(data, weights, control, model, ...){
     
     list(estfun=ef, 
          unweighted=TRUE,
+         # TODO: this info is currently inaccurate, and should not be used
          mvn = list(
            mu = colMeans(data),
            sigma = sqrt(diag(Sig)),

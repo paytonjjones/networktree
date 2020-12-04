@@ -24,12 +24,9 @@ ntqgraph <- function(obj,
     tid <- partykit::id_node(node)
     data <- partykit::data_party(obj, id=tid)
     coef_list <- partykit::info_node(node)$mvn
-
-    network <- nettransform(cor = coef_list$rho, 
-                            n = nrow(data),
-                            labels = colnames(coef_list$rho), 
-                            transform = transform)
     
+    network <- getnetwork(obj, id = tid)
+
     # Set up viewport
     grid::pushViewport(grid::viewport())
     
