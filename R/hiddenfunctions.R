@@ -174,6 +174,50 @@ ntboxplot <- function(obj, col = "lightgray", pop = TRUE,
 }
 class(ntboxplot) <- "grapcon_generator"
 
+ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
+                      rev = TRUE), pop = TRUE, bg = "white", ...) {
+
+  rval <- function(node){
+    # Set up parameters
+    tid <- partykit::id_node(node)
+    data <- partykit::data_party(obj, id = tid)
+	info <- partykit::info_node(node)
+    coef_list <- info$mvn
+	k <- length(coef_list$ynam)
+   
+    # Set up viewport
+    grid::pushViewport(grid::viewport())
+    
+    # PLOTTING
+    
+    ## plot rectangle beneath 
+    grid::grid.rect(gp = grid::gpar(col = NA, fill = bg))
+    
+    ## prep dimensions
+    op <- graphics::par(no.readonly=TRUE)
+    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
+    
+    ## create base R plot
+    graphics::par(mar = c(2.5, 2, 2, 2))
+    
+    # Produce bar plot
+    graphics::image(1:k, 1:k, z = coef_list$rho[, rev(1:k)], zlim = c(-1, 1), col = col,
+		main = paste("id = ", tid, " / n =", info$nobs), axes = FALSE, asp = 1, ...)
+	graphics::axis(1, at = 1:k, labels = as.character(1:k))
+	graphics::axis(2, 1:k, rev(1:k), las = 1)
+ 
+    graphics::box()
+    
+    ## reset graphics to original settings
+    graphics::par(op)
+    
+    if (pop)
+      grid::popViewport()
+    else grid::upViewport()
+  }
+}
+class(ntmatplot) <- "grapcon_generator"
+
 # ---- Plotting helpers ---- 
 
 get_coef_max_mins <- function(obj, na.rm = TRUE) {

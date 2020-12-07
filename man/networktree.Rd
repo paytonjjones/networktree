@@ -85,6 +85,7 @@ tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
 ## plot 
 plot(tree2)
 plot(tree2, terminal_panel = "box")
+plot(tree2, terminal_panel = "matrix")
 
 \donttest{
 ## Conditional version

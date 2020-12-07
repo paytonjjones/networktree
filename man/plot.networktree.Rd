@@ -23,7 +23,7 @@
 plotting the terminal nodes. Alternatively, a panel generating function
 of class "grapcon_generator" that is called with arguments x and tp_args
 to set up a panel function. Or, a character choosing one of the implemented
-standard plots \code{"cor"}, \code{"box"} or \code{"bar"}.
+standard plots \code{"graph"}, \code{"box"}, \code{"matrix"} or \code{"bar"}.
 The default (\code{NULL}) chooses an appropriate panel function depending
 on the "model" argument.}
 

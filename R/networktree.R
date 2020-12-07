@@ -35,6 +35,7 @@ utils::globalVariables(c("na.pass"))
 #' ## plot 
 #' plot(tree2)
 #' plot(tree2, terminal_panel = "box")
+#' plot(tree2, terminal_panel = "matrix")
 #' 
 #' \donttest{
 #' ## Conditional version
@@ -189,7 +190,7 @@ print.networktree<- function(x,
 #'        plotting the terminal nodes. Alternatively, a panel generating function
 #'        of class "grapcon_generator" that is called with arguments x and tp_args
 #'        to set up a panel function. Or, a character choosing one of the implemented
-#'        standard plots \code{"cor"}, \code{"box"} or \code{"bar"}.
+#'        standard plots \code{"graph"}, \code{"box"}, \code{"matrix"} or \code{"bar"}.
 #'        The default (\code{NULL}) chooses an appropriate panel function depending
 #'        on the "model" argument. 
 #' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
@@ -206,7 +207,7 @@ print.networktree<- function(x,
 plot.networktree <- function(x, 
                              terminal_panel = NULL, 
                              transform = NULL, 
-                             layout="lock", 
+                             layout = "lock", 
                              sdbars = NULL,
                              tnex = 3,
                              partyargs=list(), 
@@ -229,12 +230,15 @@ plot.networktree <- function(x,
   if(is.function(terminal_panel)) {
     net_terminal_inner <- terminal_panel
   } else if (is.character(terminal_panel)) {
+	terminal_panel <- match.arg(terminal_panel,
+		c("graph", "barplot", "boxplot", "matrix"))
     net_terminal_inner <- switch(terminal_panel,
-		"cor" = function(obj, ...) {
+		"graph" = function(obj, ...) {
             ntqgraph(obj, transform = transform, layout = layout, ...)
         },
-		"bar" = ntbarplot,
-		"box" = ntboxplot,
+		"barplot" = ntbarplot,
+		"boxplot" = ntboxplot,
+		"matrix" = ntmatplot,
 		stop("Undefined plotting type!")
 	)
 	class(net_terminal_inner) <- "grapcon_generator"
