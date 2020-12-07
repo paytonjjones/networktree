@@ -65,7 +65,7 @@ ntbarplot <- function(obj,
     tid <- partykit::id_node(node)
     data <- partykit::data_party(obj, id=tid)
     coef_list <- partykit::info_node(node)$mvn
-    
+
     # Set up viewport
     grid::pushViewport(grid::viewport())
     
@@ -118,6 +118,61 @@ ntbarplot <- function(obj,
   }
 }
 class(ntbarplot) <- "grapcon_generator"
+
+ntboxplot <- function(obj, col = "lightgray", pop = TRUE, 
+                      bg = "white", ...) {
+
+    coef_max_min <- get_coef_max_mins(obj)
+    ylim <- c(coef_max_min$min$mean - 3 * coef_max_min$max$sd,
+              coef_max_min$max$mean + 3 * coef_max_min$max$sd)
+    
+  rval <- function(node){
+    # Set up parameters
+    tid <- partykit::id_node(node)
+    data <- partykit::data_party(obj, id = tid)
+	info <- partykit::info_node(node)
+    coef_list <- info$mvn
+	k <- length(coef_list$ynam)
+   
+	## put together bxp summary
+	bxp_sum <- list(
+		stats = rep.int(coef_list$mu, rep.int(5, 3)) -
+                outer(c(3, 1, 0, -1, -3), unname(coef_list$sigma), `*`),
+		n = rep(info$nobs, k),
+		conf = NULL, out = NULL, group = NULL,
+		names = coef_list$ynam
+	)
+ 
+    # Set up viewport
+    grid::pushViewport(grid::viewport())
+    
+    # PLOTTING
+    
+    ## plot rectangle beneath 
+    grid::grid.rect(gp = grid::gpar(col = NA, fill = bg))
+    
+    ## prep dimensions
+    op <- graphics::par(no.readonly=TRUE)
+    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
+    
+    ## create base R plot
+    graphics::par(mar = c(2.5, 2, 2, 2))
+    
+    # Produce bar plot
+    mid <- graphics::bxp(bxp_sum, boxfill = col, ylim = ylim,
+		main = paste("id = ", tid, " / n =", info$nobs), ...)
+ 
+    graphics::box()
+    
+    ## reset graphics to original settings
+    graphics::par(op)
+    
+    if (pop)
+      grid::popViewport()
+    else grid::upViewport()
+  }
+}
+class(ntboxplot) <- "grapcon_generator"
 
 # ---- Plotting helpers ---- 
 

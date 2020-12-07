@@ -82,6 +82,10 @@ tree1 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2])
 ## Formula interface
 tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
 
+## plot 
+plot(tree2)
+plot(tree2, terminal_panel = "box")
+
 \donttest{
 ## Conditional version
 tree3 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2], 

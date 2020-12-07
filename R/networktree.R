@@ -32,6 +32,10 @@ utils::globalVariables(c("na.pass"))
 #' ## Formula interface
 #' tree2 <- networktree(y1 + y2 + y3 ~ trend + foo, data=d)
 #' 
+#' ## plot 
+#' plot(tree2)
+#' plot(tree2, terminal_panel = "box")
+#' 
 #' \donttest{
 #' ## Conditional version
 #' tree3 <- networktree(nodevars=d[,3:5], splitvars=d[,1:2], 
@@ -181,9 +185,13 @@ print.networktree<- function(x,
 #' are plotted with qgraph, and additional arguments are passed there
 #'
 #' @param x an object of type 'networktree'
-#' @param terminal_panel an optional panel function of the form function(node) plotting the terminal nodes. 
-#' Alternatively, a panel generating function of class "grapcon_generator" that is called with arguments x and tp_args to set up a 
-#' panel function. The default ("detect") chooses an appropriate panel function depending on the "model" argument. 
+#' @param terminal_panel an optional panel function of the form function(node)
+#'        plotting the terminal nodes. Alternatively, a panel generating function
+#'        of class "grapcon_generator" that is called with arguments x and tp_args
+#'        to set up a panel function. Or, a character choosing one of the implemented
+#'        standard plots \code{"cor"}, \code{"box"} or \code{"bar"}.
+#'        The default (\code{NULL}) chooses an appropriate panel function depending
+#'        on the "model" argument. 
 #' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
@@ -196,7 +204,7 @@ print.networktree<- function(x,
 #'
 #'@export
 plot.networktree <- function(x, 
-                             terminal_panel ="detect", 
+                             terminal_panel = NULL, 
                              transform = NULL, 
                              layout="lock", 
                              sdbars = NULL,
@@ -220,7 +228,17 @@ plot.networktree <- function(x,
   
   if(is.function(terminal_panel)) {
     net_terminal_inner <- terminal_panel
-  } else {	
+  } else if (is.character(terminal_panel)) {
+    net_terminal_inner <- switch(terminal_panel,
+		"cor" = function(obj, ...) {
+            ntqgraph(obj, transform = transform, layout = layout, ...)
+        },
+		"bar" = ntbarplot,
+		"box" = ntboxplot,
+		stop("Undefined plotting type!")
+	)
+	class(net_terminal_inner) <- "grapcon_generator"
+  }	else {	
     if("correlation" %in% model){
       net_terminal_inner <- function(obj, ...) {
         ntqgraph(obj, transform = transform, layout = layout, ...)

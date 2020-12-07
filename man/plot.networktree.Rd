@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{networktree}(
   x,
-  terminal_panel = "detect",
+  terminal_panel = NULL,
   transform = NULL,
   layout = "lock",
   sdbars = NULL,
@@ -19,9 +19,13 @@
 \arguments{
 \item{x}{an object of type 'networktree'}
 
-\item{terminal_panel}{an optional panel function of the form function(node) plotting the terminal nodes. 
-Alternatively, a panel generating function of class "grapcon_generator" that is called with arguments x and tp_args to set up a 
-panel function. The default ("detect") chooses an appropriate panel function depending on the "model" argument.}
+\item{terminal_panel}{an optional panel function of the form function(node)
+plotting the terminal nodes. Alternatively, a panel generating function
+of class "grapcon_generator" that is called with arguments x and tp_args
+to set up a panel function. Or, a character choosing one of the implemented
+standard plots \code{"cor"}, \code{"box"} or \code{"bar"}.
+The default (\code{NULL}) chooses an appropriate panel function depending
+on the "model" argument.}
 
 \item{transform}{"cor", "pcor", or "glasso". If set to NULL, transform detected from x}
 
