@@ -129,11 +129,11 @@ Then in the second and fifth node the remaining data is splitted in
 respectively.
 
 
-```{r plt-cmd, eval = FALSE}
+```{r plt-cmd}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
-```{r plt, echo=FALSE}
+```{r plt, eval = FALSE, include = FALSE}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1,
 	partyargs = list(tnex = 2), vsize = 17)
 ```

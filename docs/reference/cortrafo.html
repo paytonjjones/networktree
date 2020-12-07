@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • networktree</title>
+<title>cortrafo — cortrafo • networktree</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,13 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="cortrafo — cortrafo" />
+<meta property="og:description" content="An influence function that transforms the response variables (y1, y2, y3...) into scores 
+relevant to the correlations, means, and/or variances.
+For example, in the case of correlations the variables are transformed into a matrix of 
+(n^2-n)/2 columns (e.g., the number of total correlations), and i rows, where i is the # of 
+observations of y1, where the mean of each vector is equal to the correlation between y1 and y2, y1 and y3, etc.
+Used internally in when method=&quot;ctree&quot;." />
 
 
 
@@ -58,7 +64,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -125,49 +131,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='http://github.com/paytonjjones/networktree/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>cortrafo</h1>
+    <small class="dont-index">Source: <a href='http://github.com/paytonjjones/networktree/blob/master/R/cortrafo.R'><code>R/cortrafo.R</code></a></small>
+    <div class="hidden name"><code>cortrafo.Rd</code></div>
     </div>
 
-    <div id="networktree-100" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.0">
-<a href="#networktree-100" class="anchor"></a>networktree 1.0.0<small> Unreleased </small>
-</h1>
-<ul>
-<li>Enable <code>terminal_panel</code> argument for <code>networktree</code>’s <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> methods.</li>
-</ul>
-</div>
-    <div id="networktree-022" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.2">
-<a href="#networktree-022" class="anchor"></a>networktree 0.2.2<small> 2020-03-18 </small>
-</h1>
-<ul>
-<li>Specific <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method.</li>
-<li>Bug fix for plotting in new devices.</li>
-<li>
-<code><a href="../reference/comparetree.html">comparetree()</a></code> function added for easy comparison between two nodes.</li>
-<li>Suppress warnings from <code>qgraph()</code> with EBICglasso.</li>
-</ul>
-</div>
-    <div id="networktree-021" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.1">
-<a href="#networktree-021" class="anchor"></a>networktree 0.2.1<small> 2019-03-09 </small>
-</h1>
-<ul>
-<li>Bug fix for plots, fill lower triangular of matrix first.</li>
-<li>Ellipsis <code>...</code> arguments of <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method now passed to terminal layout.</li>
-<li>Fixed a bug when using different data types in <code>nodevars</code> and <code>splitvars</code>.</li>
-<li>Added <code><a href="../reference/getnetwork.html">getnetwork()</a></code> function to easily extract networks.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>An influence function that transforms the response variables (y1, y2, y3...) into scores 
+relevant to the correlations, means, and/or variances.</p>
+<p>For example, in the case of correlations the variables are transformed into a matrix of 
+(n^2-n)/2 columns (e.g., the number of total correlations), and i rows, where i is the # of 
+observations of y1, where the mean of each vector is equal to the correlation between y1 and y2, y1 and y3, etc.</p>
+<p>Used internally in when method="ctree".</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>cortrafo</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>weights</span>, <span class='va'>control</span>, <span class='va'>model</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>a matrix or data</p></td>
+    </tr>
+    <tr>
+      <th>weights</th>
+      <td><p>not currently used</p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>not currently used</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>can be any combination of c("correlation", "mean", "variance"). 
+Scores are determined based on the specified characteristics</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>not currently used</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

@@ -1,3 +1,7 @@
+# networktree 1.0.0
+
+* Enable `terminal_panel` argument for `networktree`'s `plot()` methods.
+
 # networktree 0.2.2
 
 * Specific `predict()` method.

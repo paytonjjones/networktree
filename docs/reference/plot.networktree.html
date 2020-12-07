@@ -140,12 +140,12 @@ are plotted with qgraph, and additional arguments are passed there</p>
     <pre class="usage"><span class='co'># S3 method for networktree</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>
   <span class='va'>x</span>,
-  type <span class='op'>=</span> <span class='st'>"detect"</span>,
+  terminal_panel <span class='op'>=</span> <span class='cn'>NULL</span>,
   transform <span class='op'>=</span> <span class='cn'>NULL</span>,
   layout <span class='op'>=</span> <span class='st'>"lock"</span>,
-  partyargs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   sdbars <span class='op'>=</span> <span class='cn'>NULL</span>,
-  customplotfunction <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tnex <span class='op'>=</span> <span class='fl'>3</span>,
+  partyargs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -158,10 +158,14 @@ are plotted with qgraph, and additional arguments are passed there</p>
       <td><p>an object of type 'networktree'</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>the type of plot. The currently available options are "network" and 
-"barplot" (for means and/or variances). By default, "network" is used unless
-the correlations were not used to split in networktree.</p></td>
+      <th>terminal_panel</th>
+      <td><p>an optional panel function of the form function(node)
+plotting the terminal nodes. Alternatively, a panel generating function
+of class "grapcon_generator" that is called with arguments x and tp_args
+to set up a panel function. Or, a character choosing one of the implemented
+standard plots <code>"cor"</code>, <code>"box"</code> or <code>"bar"</code>.
+The default (<code>NULL</code>) chooses an appropriate panel function depending
+on the "model" argument.</p></td>
     </tr>
     <tr>
       <th>transform</th>
@@ -173,16 +177,16 @@ the correlations were not used to split in networktree.</p></td>
 layout for the full sample and applies this to all graphs</p></td>
     </tr>
     <tr>
-      <th>partyargs</th>
-      <td><p>additional arguments (list format) passed to <code><a href='https://rdrr.io/pkg/partykit/man/party-plot.html'>partykit::plot.party</a></code></p></td>
-    </tr>
-    <tr>
       <th>sdbars</th>
       <td><p>if type="barplot", should std deviation error bars be plotted?</p></td>
     </tr>
     <tr>
-      <th>customplotfunction</th>
-      <td><p>to create custom plots in the terminal nodes, provide a base R 
+      <th>tnex</th>
+      <td><p>terminal node extension (passed to plot.party). To make the terminal plots bigger, increase this value.</p></td>
+    </tr>
+    <tr>
+      <th>partyargs</th>
+      <td><p>additional arguments (list format) passed to <code><a href='https://rdrr.io/pkg/partykit/man/party-plot.html'>partykit::plot.party</a></code>
 plotting function that takes partitioned data as input</p></td>
     </tr>
     <tr>
