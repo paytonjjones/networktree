@@ -218,7 +218,9 @@ plot.networktree <- function(x,
       warning("Type of network could not be detected, plotting glasso networks")}
   }
   
-  if(terminal_panel[1]=="detect"){
+  if(is.function(terminal_panel)) {
+    net_terminal_inner <- terminal_panel
+  } else {	
     if("correlation" %in% model){
       net_terminal_inner <- function(obj, ...) {
         ntqgraph(obj, transform = transform, layout = layout, ...)
@@ -232,8 +234,6 @@ plot.networktree <- function(x,
       }
     }
     class(net_terminal_inner) <- "grapcon_generator"
-  } else {
-    net_terminal_inner <- terminal_panel
   }
   
   

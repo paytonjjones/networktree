@@ -117,49 +117,52 @@ ntbarplot <- function(obj,
     else grid::upViewport()
   }
 }
+class(ntbarplot) <- "grapcon_generator"
 
 # ---- Plotting helpers ---- 
 
-get_coef_max_mins <- function(obj, na.rm = TRUE){
-  if("ctree_networktree" %in% class(obj)){
-    response_data <- obj$fitted[['(response)']]
-  } else if ("mob_networktree" %in% class(obj)) {
-    response_names <- attr(obj$info$terms$response, "term.labels")
-    response_data <- obj$data[,response_names]
-  }
-  get_mean_by_terminal_node <- function(response_var){tapply(response_var, obj$fitted['(fitted)'], mean, na.rm=na.rm)}
-  means <- apply(response_data, 2, get_mean_by_terminal_node)
-  
-  get_sd_by_terminal_node <- function(response_var){tapply(response_var, obj$fitted['(fitted)'], sd, na.rm=na.rm)}
-  sds <- apply(response_data, 2, get_sd_by_terminal_node)
-  
-  terminal_node_ids <- unlist(unique(obj$fitted['(fitted)']))
-  k <- ncol(response_data)
-  edges <- matrix(NA, nrow=length(terminal_node_ids), ncol=k*(k-1)*.5)
-  for(i in 1:length(terminal_node_ids)){
-    # maxes & mins for edges default to -Inf/Inf if "correlation" is not in model
-    # TODO: add error message for if they try to plot a network without including "correlation" in model
-    net <- try(getnetwork(obj, id=terminal_node_ids[i]), silent=TRUE)
-    if(!inherits(net, "try-error")){
-      edges[i,] <- net[lower.tri(net)]
+get_coef_max_mins <- function(obj, na.rm = TRUE) {
+    if("ctree_networktree" %in% class(obj)){
+        response_data <- obj$fitted[['(response)']]
+    } else if ("mob_networktree" %in% class(obj)) {
+        response_names <- attr(obj$info$terms$response, "term.labels")
+        response_data <- obj$data[,response_names]
     }
-  }
+
+    get_measure_by_terminal_node <- function(response_var, FOO = mean) {
+        tapply(response_var, obj$fitted['(fitted)'], FUN = FOO, na.rm = na.rm)
+    }
+    means <- apply(response_data, 2, get_measure_by_terminal_node, FOO = mean)
+    sds   <- apply(response_data, 2, get_measure_by_terminal_node, FOO = sd)
   
-  return(
-    list(
-      min = list(
-        mean = min(means, na.rm = na.rm),
-        sd = min(sds, na.rm = na.rm),
-        edge = suppressWarnings(min(edges, na.rm = na.rm))
-      ),
-      max = list(
-        mean = max(means, na.rm = na.rm),
-        sd = max(sds, na.rm = na.rm),
-        edge = suppressWarnings(max(edges, na.rm = na.rm))
-      )
+    terminal_node_ids <- partykit::nodeids(obj, terminal = TRUE)
+    k <- ncol(response_data)
+
+    edges <- matrix(NA, nrow=length(terminal_node_ids), ncol=k*(k-1)*.5)
+    for (i in seq_along(terminal_node_ids)) {
+        # maxes & mins for edges default to -Inf/Inf if "correlation" is not in model
+        # TODO: add error message for if they try to plot a network
+        # without including "correlation" in model
+        net <- try(getnetwork(obj, id=terminal_node_ids[i]), silent=TRUE)
+        if (!inherits(net, "try-error")) {
+            edges[i,] <- net[lower.tri(net)]
+        }
+    }
+  
+    return(
+        list(
+            min = list(
+                mean = min(means, na.rm = na.rm),
+                sd = min(sds, na.rm = na.rm),
+                edge = suppressWarnings(min(edges, na.rm = na.rm))
+            ),
+            max = list(
+                mean = max(means, na.rm = na.rm),
+                sd = max(sds, na.rm = na.rm),
+                edge = suppressWarnings(max(edges, na.rm = na.rm))
+            )
+        )
     )
-  )
-  
 }
 
 detectPlotDimensions <- function() {
