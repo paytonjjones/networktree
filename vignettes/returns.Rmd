@@ -129,13 +129,13 @@ Then in the second and fifth node the remaining data is splitted in
 respectively.
 
 
-```{r plt-cmd}
+```{r plt-cmd, eval = FALSE}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
-```{r plt, eval = FALSE, include = FALSE}
+```{r plt, echo = FALSE}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1,
-	partyargs = list(tnex = 2), vsize = 17)
+	tnex = 2, partyargs = list(vsize = 17))
 ```
 
 The `plot()` method uses `qgraph()` of the **qgraph** package [@qgraph] for
