@@ -190,18 +190,22 @@ ntboxplot <- function(obj,
 }
 class(ntboxplot) <- "grapcon_generator"
 
-# TODO: broken
 ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
                       rev = TRUE), pop = TRUE, bg = "white", ...) {
 
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
-    data <- partykit::data_party(obj, id = tid)
-	  info <- partykit::info_node(node)
-    coef_list <- info$mvn
-	  k <- length(coef_list$ynam)
-   
+    network <- getnetwork(obj, id = tid)
+    if("ctree_networktree" %in% class(obj)){
+      response_data <- obj[tid]$fitted[['(response)']]
+    } else if ("mob_networktree" %in% class(obj)) {
+      response_names <- attr(obj[tid]$info$terms$response, "term.labels")
+      response_data <- obj[tid]$data[,response_names]
+    }
+    k <- ncol(response_data)
+    obs <- nrow(response_data)
+    
     # Set up viewport
     grid::pushViewport(grid::viewport())
     
@@ -217,11 +221,11 @@ ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
     ## create base R plot
     graphics::par(mar = c(2.5, 2, 2, 2))
     
-    # Produce bar plot
-    graphics::image(1:k, 1:k, z = coef_list$rho[, rev(1:k)], zlim = c(-1, 1), col = col,
-		main = paste("id = ", tid, " / n =", info$nobs), axes = FALSE, asp = 1, ...)
-	graphics::axis(1, at = 1:k, labels = as.character(1:k))
-	graphics::axis(2, 1:k, rev(1:k), las = 1)
+    # Produce plot
+    graphics::image(1:k, 1:k, z = network[, rev(1:k)], zlim = c(-1, 1), col = col,
+		main = paste("id = ", tid, " / n =", obs), axes = FALSE, asp = 1, ...)
+    graphics::axis(1, at = 1:k, labels = as.character(1:k))
+    graphics::axis(2, 1:k, rev(1:k), las = 1)
  
     graphics::box()
     
