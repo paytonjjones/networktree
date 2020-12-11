@@ -6,10 +6,9 @@ Authors@R: c(person("Payton", "Jones", email = "paytonjjones@gmail.com", role = 
              person(given = "Thorsten", family = "Simon", role = "aut", email = "Thorsten.Simon@uibk.ac.at", comment = c(ORCID = "0000-0002-3778-7738")),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")))
 Description: Network trees recursively partition the data with respect to covariates. 
-             Two network tree algorithms are available: model-based trees based on a multivariate 
-             normal model and nonparametric trees based on covariance structures. After partitioning, 
-             correlation-based networks (psychometric networks) can be fit on the partitioned
-             data. 
+Two network tree algorithms are available: model-based trees based on a multivariate normal 
+model and nonparametric trees based on covariance structures. After partitioning, 
+correlation-based networks (psychometric networks) can be fit on the partitioned data. 
 Depends: R (>= 3.5.0)
 License: GPL-2 | GPL-3
 Encoding: UTF-8
