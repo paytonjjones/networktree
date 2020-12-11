@@ -131,7 +131,7 @@
                <span class="st">"wash2"</span>, <span class="st">"thought3"</span><span class="op">)</span>
 <span class="va">cor_OCD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">workaholic</span><span class="op">[</span>,<span class="va">OCD_vars</span><span class="op">]</span><span class="op">)</span>
 <span class="va">q1</span> <span class="op">&lt;-</span> <span class="fu">qgraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/qgraph/man/qgraph.html">qgraph</a></span><span class="op">(</span><span class="va">cor_OCD</span>, layout<span class="op">=</span><span class="st">"spring"</span>, labels<span class="op">=</span><span class="va">OCD_names</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/initial_graph-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/initial_graph-1.png" width="100%"></p>
 </div>
 <div id="using-networktree-the-basics" class="section level3">
 <h3 class="hasAnchor">
@@ -141,7 +141,7 @@
 <code class="sourceCode R"><span class="va">cor_gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="va">OCD_vars</span><span class="op">]</span>,
                           splitvars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="st">"Gender"</span>,drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cor_gender</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/split_gender-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/split_gender-1.png" width="100%"></p>
 <p>If you want to include more split variables, you can include as many as you want. The algorithm prioritizes the “biggest” splits first and always considers significance level, so you don’t need to worry too much about overfitting. We used a correlation network before, but we can also use other types of estimation by using the <em>transform</em> argument. Here we will set to “glasso” (we could also use “pcor”).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">glasso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="va">OCD_vars</span><span class="op">]</span>,
@@ -149,14 +149,14 @@
                                               <span class="st">"Workaholism_diagnosis"</span><span class="op">)</span><span class="op">]</span>,
                       transform<span class="op">=</span><span class="st">"glasso"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/glasso-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/glasso-1.png" width="100%"></p>
 <p>The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the <em>method</em> argument. For more details on the differences between the two approaches, see the associated <a href="https://rdcu.be/b9Kyw">publication</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cor_gender_ctree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="va">OCD_vars</span><span class="op">]</span>,
                           splitvars<span class="op">=</span><span class="va">workaholic</span><span class="op">[</span>,<span class="st">"Gender"</span>,drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>,
                           method<span class="op">=</span><span class="st">"ctree"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cor_gender_ctree</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/split_gender_ctree-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/split_gender_ctree-1.png" width="100%"></p>
 </div>
 <div id="understanding-the-results-comparetree-and-getnetwork" class="section level3">
 <h3 class="hasAnchor">
@@ -219,13 +219,13 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">smalltree_compare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comparetree.html">comparetree</a></span><span class="op">(</span><span class="va">smalltree</span>, id1<span class="op">=</span><span class="fl">2</span>, id2<span class="op">=</span><span class="fl">3</span>, highlights<span class="op">=</span><span class="fl">3</span>,
                                  plot<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/comparetree3-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/comparetree3-1.png" width="100%"></p>
 <p>And fourth, it allows you to plot the adjacency matrix representing the differences (green edges mean the edge was larger in id1, red edges mean the edge was larger in id2):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">smalltree_compare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comparetree.html">comparetree</a></span><span class="op">(</span><span class="va">smalltree</span>, id1<span class="op">=</span><span class="fl">2</span>, id2<span class="op">=</span><span class="fl">3</span>, highlights<span class="op">=</span><span class="fl">3</span>,
                                  plot<span class="op">=</span><span class="cn">TRUE</span>,
                                  plot.type<span class="op">=</span><span class="st">"subtract"</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/comparetree4-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/comparetree4-1.png" width="100%"></p>
 </div>
 <div id="integration-with-partykit" class="section level3">
 <h3 class="hasAnchor">
@@ -235,7 +235,7 @@
 <code class="sourceCode R"><span class="va">smalltree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span><span class="va">OCIR1</span> <span class="op">+</span> <span class="va">OCIR2</span> <span class="op">+</span> <span class="va">OCIR3</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">Workaholism_diagnosis</span>,
                                data<span class="op">=</span><span class="va">workaholic</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">smalltree</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/formula-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/formula-1.png" width="100%"></p>
 <p>The integration with <strong><em>partykit</em></strong> also provides other advantages. Additional arguments added to networktree() are passed through to mob_control() (or ctree_control()). This allows for flexibility in fitting the model. For instance, here we will pass two additional arguments to set the alpha to 0.01 and use BIC pruning (although in this case, it doesn’t seem to make a difference!).</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">add_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span><span class="va">OCIR1</span> <span class="op">+</span> <span class="va">OCIR2</span> <span class="op">+</span> <span class="va">OCIR3</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">Workaholism_diagnosis</span>,
@@ -243,13 +243,13 @@
                                alpha <span class="op">=</span> <span class="fl">0.01</span>,
                                prune <span class="op">=</span> <span class="st">"BIC"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">add_params</span><span class="op">)</span></code></pre></div>
-<p><img src="networktree_files/figure-html/partykit-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/partykit-1.png" width="100%"></p>
 <p>This also allows us to control the plotting of the tree structure. In plot.networktree(), a list-style argument named <em>partyargs</em> allows you to pass through arguments to partykit::plot.party().</p>
 <p>Here we demonstrate shrinking the tree labels:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span>,
      partyargs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># half size</span></code></pre></div>
-<p><img src="networktree_files/figure-html/plot_partykit-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/plot_partykit-1.png" width="100%"></p>
 </div>
 <div id="integration-with-qgraph" class="section level3">
 <h3 class="hasAnchor">
@@ -261,7 +261,7 @@
      theme<span class="op">=</span><span class="st">"colorblind"</span>,
      layout<span class="op">=</span><span class="st">"circle"</span>,
      labels<span class="op">=</span><span class="va">OCD_names</span><span class="op">)</span> </code></pre></div>
-<p><img src="networktree_files/figure-html/plot_qgraph-1.png" width="384"></p>
+<p><img src="networktree_files/figure-html/plot_qgraph-1.png" width="100%"></p>
 </div>
 <div id="documentation" class="section level3">
 <h3 class="hasAnchor">
