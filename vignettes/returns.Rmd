@@ -12,16 +12,6 @@ vignette: >
   %\VignetteKeywords{regression trees, networks, exchange rates}
   %\VignettePackage{networktree}
   %\VignetteEncoding{UTF-8}
-figures:
-  dev: svg
-  dpi: 96
-  dev.args: []
-  fig.ext: svg
-  fig.width: 14
-  fig.height: ~
-  fig.retina: 2
-  fig.asp: 1.618
-  bg: NA
 ---
 
 ```{r setup, include = FALSE}
@@ -67,7 +57,7 @@ returns <- fxregime::fxreturns(currencies, data = FXRatesCHF)
 returns <- na.omit(returns)
 ```
 
-```{r look-at-data}
+```{r look-at-data, fig.align = 'center', out.width = "100%"}
 plot(returns)
 ```
 
@@ -133,9 +123,9 @@ respectively.
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1)
 ```
 
-```{r plt, echo = FALSE}
+```{r plt, echo = FALSE, fig.align = 'center', out.width = "100%"}
 plot(tr, transform = "pcor", posCol = "#008585", negCol = "#C7522B", maximum = 1,
-	tnex = 2, partyargs = list(vsize = 17))
+	tnex = 2, vsize = 17)
 ```
 
 The `plot()` method uses `qgraph()` of the **qgraph** package [@qgraph] for

@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Exchange Rates Networks</h1>
                         <h4 class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 class="date">2020-12-07</h4>
+            <h4 class="date">2020-12-11</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paytonjjones/networktree/blob/master/vignettes/returns.Rmd"><code>vignettes/returns.Rmd</code></a></small>
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -151,7 +151,7 @@
 <span class="va">returns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span></code></pre></div>
-<p><img src="returns_files/figure-html/look-at-data-1.png" width="700"></p>
+<p><img src="returns_files/figure-html/look-at-data-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>A quick look reveals that data are on hand from 1981-01-09 to 2010-02-12. Over the whole period the mean of each time series is around zero. Further the spread for each time series is relatively constant over time. However, the correlation structure between these seven variables might change within this period of time.</p>
 <p>Before modelling the <em>networktree</em> we compute a numeric variable for the decimal time and put it in a column <code>time</code>, and for illustration we also add a nosie variable <code>foo</code>. Obviously, one can expect that <code>time</code> will be selected for splitting the data, but <code>foo</code> will not be selected.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -196,7 +196,7 @@
 <p>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tr</span>, transform <span class="op">=</span> <span class="st">"pcor"</span>, posCol <span class="op">=</span> <span class="st">"#008585"</span>, negCol <span class="op">=</span> <span class="st">"#C7522B"</span>, maximum <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="returns_files/figure-html/plt-cmd-1.png" width="700"></p>
+<p><img src="returns_files/figure-html/plt-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>The <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
 <p>The partial correlation reveals a very strong link between the Chinese Yuan and the US Dollar after April 1994, but a weaker link before that point of time.</p>
 <p>The split which was found in the second part of the data was July 2005 which coincide with an announcement of the People’s Bank of China (PBC) to shift away from a fixed exchange rate to the US Dollar to a basket of currencies with greater flexibility <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. Earlier studies also found that CNY was still strongly coupled to the USD after July 2005 <span class="citation">(Zeileis, Shah, and Patnaik 2010)</span>. However, the split detected in mid 2005 by the <em>networktree</em> does not show a big change in the coupling of CNY to USD, but reveals that coupling of Indian Rupee, Chinese Yuan, and South African Rand to the Euro increased.</p>
