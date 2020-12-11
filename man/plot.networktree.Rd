@@ -9,7 +9,7 @@
   terminal_panel = NULL,
   transform = NULL,
   layout = "lock",
-  sdbars = NULL,
+  sdbars = FALSE,
   tnex = 3,
   partyargs = list(),
   na.rm = TRUE,
@@ -32,7 +32,7 @@ on the "model" argument.}
 \item{layout}{network layout, passed to qgraph. Default "lock" computes spring 
 layout for the full sample and applies this to all graphs}
 
-\item{sdbars}{if type="barplot", should std deviation error bars be plotted?}
+\item{sdbars}{if using a barplot, should std deviation error bars be plotted?}
 
 \item{tnex}{terminal node extension (passed to plot.party). To make the terminal plots bigger, increase this value.}
 

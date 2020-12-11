@@ -22,9 +22,7 @@ ntqgraph <- function(obj,
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
-    data <- partykit::data_party(obj, id=tid)
-    coef_list <- partykit::info_node(node)$mvn
-    
+
     network <- getnetwork(obj, id = tid)
 
     # Set up viewport
@@ -37,7 +35,7 @@ ntqgraph <- function(obj,
     
     ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
-    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
+    try(graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE), silent = TRUE)
     
     ## create base R plot
     qgraph::qgraph(network, noPar = TRUE, labels=colnames(network), layout=layout, 
@@ -57,14 +55,21 @@ ntbarplot <- function(obj,
                       bar_col_func=grDevices::colorRampPalette(c("yellow","darkred")),
                       pop = TRUE, 
                       bg = "white", 
+                      na.rm = TRUE,
                       ...) {
   coef_max_min <- get_coef_max_mins(obj)
 
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
-    data <- partykit::data_party(obj, id=tid)
-    coef_list <- partykit::info_node(node)$mvn
+    if("ctree_networktree" %in% class(obj)){
+      response_data <- obj[tid]$fitted[['(response)']]
+    } else if ("mob_networktree" %in% class(obj)) {
+      response_names <- attr(obj[tid]$info$terms$response, "term.labels")
+      response_data <- obj[tid]$data[,response_names]
+    }
+    means <- apply(response_data, 2, mean, na.rm=na.rm)
+    sds <- apply(response_data, 2, sd, na.rm=na.rm)
 
     # Set up viewport
     grid::pushViewport(grid::viewport())
@@ -76,14 +81,14 @@ ntbarplot <- function(obj,
     
     ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
-    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
+    try(graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE), silent = TRUE)
     
     ## create base R plot
     graphics::par(mar = c(2.5, 2, 2, 2))
     
     bar_colors <- bar_col_func(100)
-    bar_color_indices <- round(99 * (coef_list$mu - coef_max_min$min$mean) / 
-                                 max(coef_list$mu - coef_max_min$min$mean), 0) + 1
+    bar_color_indices <- round(99 * (means - coef_max_min$min$mean) / 
+                                 max(means - coef_max_min$min$mean), 0) + 1
     
     if(sdbars){
       # TODO: instead of using the maximum sd (biggest possible bar), I could actually
@@ -96,15 +101,15 @@ ntbarplot <- function(obj,
     }
     
     # Produce bar plot
-    mid <- graphics::barplot(coef_list$mu, col=bar_colors[bar_color_indices],
+    mid <- graphics::barplot(means, col=bar_colors[bar_color_indices],
                              ylim = y_lim, ...)
     
     if(sdbars){
       # Add st dev bars
       graphics::arrows(x0=mid, x1=mid,
-                       y0=coef_list$mu - coef_list$sigma/2, 
-                       y1=coef_list$mu + coef_list$sigma/2, 
-                       code=3, angle=90, length=0.2*(1/length(coef_list$sigma)))
+                       y0=means - sds/2, 
+                       y1=means + sds/2, 
+                       code=3, angle=90, length=0.2*(1/length(sds)))
     }
     
     graphics::box()
@@ -119,30 +124,41 @@ ntbarplot <- function(obj,
 }
 class(ntbarplot) <- "grapcon_generator"
 
-ntboxplot <- function(obj, col = "lightgray", pop = TRUE, 
-                      bg = "white", ...) {
+ntboxplot <- function(obj, 
+                      col = "lightgray", 
+                      pop = TRUE, 
+                      bg = "white", 
+                      na.rm = TRUE,
+                      ...) {
 
-    coef_max_min <- get_coef_max_mins(obj)
-    ylim <- c(coef_max_min$min$mean - 3 * coef_max_min$max$sd,
-              coef_max_min$max$mean + 3 * coef_max_min$max$sd)
+  coef_max_min <- get_coef_max_mins(obj)
+  ylim <- c(coef_max_min$min$mean - 3 * coef_max_min$max$sd,
+            coef_max_min$max$mean + 3 * coef_max_min$max$sd)
     
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
     data <- partykit::data_party(obj, id = tid)
-	info <- partykit::info_node(node)
-    coef_list <- info$mvn
-	k <- length(coef_list$ynam)
+    if("ctree_networktree" %in% class(obj)){
+      response_data <- obj[tid]$fitted[['(response)']]
+    } else if ("mob_networktree" %in% class(obj)) {
+      response_names <- attr(obj[tid]$info$terms$response, "term.labels")
+      response_data <- obj[tid]$data[,response_names]
+    }
+    means <- apply(response_data, 2, mean, na.rm=na.rm)
+    sds <- apply(response_data, 2, sd, na.rm=na.rm)
+	  k <- ncol(response_data)
+	  obs <- nrow(response_data)
    
-	## put together bxp summary
-	bxp_sum <- list(
-		stats = rep.int(coef_list$mu, rep.int(5, 3)) -
-                outer(c(3, 1, 0, -1, -3), unname(coef_list$sigma), `*`),
-		n = rep(info$nobs, k),
-		conf = NULL, out = NULL, group = NULL,
-		names = coef_list$ynam
-	)
- 
+  	## put together bxp summary
+  	bxp_sum <- list(
+  		stats = rep.int(means, rep.int(5, k)) -
+                  outer(c(3, 1, 0, -1, -3), unname(sds), `*`),
+  		n = rep(obs, k),
+  		conf = NULL, out = NULL, group = NULL,
+  		names = colnames(response_data)
+  	)
+   
     # Set up viewport
     grid::pushViewport(grid::viewport())
     
@@ -153,14 +169,14 @@ ntboxplot <- function(obj, col = "lightgray", pop = TRUE,
     
     ## prep dimensions
     op <- graphics::par(no.readonly=TRUE)
-    graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE)
+    try(graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE), silent = TRUE)
     
     ## create base R plot
     graphics::par(mar = c(2.5, 2, 2, 2))
     
     # Produce bar plot
     mid <- graphics::bxp(bxp_sum, boxfill = col, ylim = ylim,
-		main = paste("id = ", tid, " / n =", info$nobs), ...)
+		main = paste("id = ", tid, " / n =", obs), ...)
  
     graphics::box()
     
@@ -180,11 +196,16 @@ ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
-    data <- partykit::data_party(obj, id = tid)
-	info <- partykit::info_node(node)
-    coef_list <- info$mvn
-	k <- length(coef_list$ynam)
-   
+    network <- getnetwork(obj, id = tid)
+    if("ctree_networktree" %in% class(obj)){
+      response_data <- obj[tid]$fitted[['(response)']]
+    } else if ("mob_networktree" %in% class(obj)) {
+      response_names <- attr(obj[tid]$info$terms$response, "term.labels")
+      response_data <- obj[tid]$data[,response_names]
+    }
+    k <- ncol(response_data)
+    obs <- nrow(response_data)
+    
     # Set up viewport
     grid::pushViewport(grid::viewport())
     
@@ -200,11 +221,11 @@ ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
     ## create base R plot
     graphics::par(mar = c(2.5, 2, 2, 2))
     
-    # Produce bar plot
-    graphics::image(1:k, 1:k, z = coef_list$rho[, rev(1:k)], zlim = c(-1, 1), col = col,
-		main = paste("id = ", tid, " / n =", info$nobs), axes = FALSE, asp = 1, ...)
-	graphics::axis(1, at = 1:k, labels = as.character(1:k))
-	graphics::axis(2, 1:k, rev(1:k), las = 1)
+    # Produce plot
+    graphics::image(1:k, 1:k, z = network[, rev(1:k)], zlim = c(-1, 1), col = col,
+		main = paste("id = ", tid, " / n =", obs), axes = FALSE, asp = 1, ...)
+    graphics::axis(1, at = 1:k, labels = as.character(1:k))
+    graphics::axis(2, 1:k, rev(1:k), las = 1)
  
     graphics::box()
     

@@ -196,7 +196,7 @@ print.networktree<- function(x,
 #' @param transform "cor", "pcor", or "glasso". If set to NULL, transform detected from x
 #' @param layout network layout, passed to qgraph. Default "lock" computes spring 
 #' layout for the full sample and applies this to all graphs
-#' @param sdbars if type="barplot", should std deviation error bars be plotted?
+#' @param sdbars if using a barplot, should std deviation error bars be plotted?
 #' @param tnex terminal node extension (passed to plot.party). To make the terminal plots bigger, increase this value. 
 #' @param partyargs additional arguments (list format) passed to \code{partykit::plot.party}
 #' plotting function that takes partitioned data as input
@@ -208,7 +208,7 @@ plot.networktree <- function(x,
                              terminal_panel = NULL, 
                              transform = NULL, 
                              layout = "lock", 
-                             sdbars = NULL,
+                             sdbars = FALSE,
                              tnex = 3,
                              partyargs=list(), 
                              na.rm=TRUE,
@@ -248,16 +248,16 @@ plot.networktree <- function(x,
         ntqgraph(obj, transform = transform, layout = layout, ...)
       }
     } else {
-      if(is.null(sdbars)){
-        sdbars <- "variance" %in% model
-      }
-      net_terminal_inner <- function(obj, ...) {
-        ntbarplot(obj, sdbars = sdbars, ...)
+      if("variance" %in% model){
+        net_terminal_inner <- ntboxplot
+      } else {
+        net_terminal_inner <- function(obj, ...) {
+          ntbarplot(obj, sdbars = sdbars, ...)
+        }
       }
     }
     class(net_terminal_inner) <- "grapcon_generator"
   }
-  
   
   # Pass to partykit::plot.party
   dots <- list(...)
