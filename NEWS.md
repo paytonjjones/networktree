@@ -1,6 +1,8 @@
 # networktree 1.0.0
 
 * Enable `terminal_panel` argument for `networktree`'s `plot()` methods.
+* New default plots (`"bar"`, `"box"`) when splitting on mean or variance
+* New pkgdown homepage (https://paytonjjones.github.io/networktree/)
 
 # networktree 0.2.2
 

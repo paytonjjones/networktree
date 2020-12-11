@@ -10,6 +10,8 @@ vignettes/16PF/*
 .RData
 .Ruserdata
 
+.DS_Store
+
 docs/articles/16PF.html
 docs/articles/16PF_files/
 
