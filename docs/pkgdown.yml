@@ -1,8 +1,8 @@
-pandoc: 2.11.1.1
+pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   networktree: networktree.html
   returns: returns.html
-last_built: 2020-12-07T13:57Z
+last_built: 2020-12-12T14:54Z
 

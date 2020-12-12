@@ -1,7 +1,7 @@
 ---
 title: "networktree: Partitioning of network models"
 author: "Payton Jones, Thorsten Simon, Achim Zeileis"
-date: "last modified: 2020-10-14"
+date: "last modified: 2020-12-12"
 output:
   html_document:
     toc: true

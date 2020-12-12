@@ -8,3 +8,4 @@
 ^index_files\.*
 ^docs
 ^_pkgdown\.yml$
+^CRAN-RELEASE$

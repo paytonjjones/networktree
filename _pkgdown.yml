@@ -21,6 +21,7 @@ reference:
     - title: "Fitter"
       contents:
         - mvnfit
+        - cortrafo
     - title: "Tools"
       contents:
         - comparetree

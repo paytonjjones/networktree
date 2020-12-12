@@ -38,7 +38,7 @@ ntqgraph <- function(obj,
     try(graphics::par(fig = detectPlotDimensions(), mar = rep(0, 4), new = TRUE), silent = TRUE)
     
     ## create base R plot
-    qgraph::qgraph(network, noPar = TRUE, labels=colnames(network), layout=layout, 
+    qgraph::qgraph(network, noPar = TRUE, layout=layout, 
                    maximum = maximum, minimum = minimum,...)
     
     ## reset graphics to original settings

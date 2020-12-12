@@ -73,7 +73,7 @@ are plotted with qgraph, and additional arguments are passed there" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">networktree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@ are plotted with qgraph, and additional arguments are passed there" />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="http://github.com/paytonjjones/networktree/">
+  <a href="https://github.com/paytonjjones/networktree/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -128,7 +128,7 @@ are plotted with qgraph, and additional arguments are passed there" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plotting 'networktree' objects</h1>
-    <small class="dont-index">Source: <a href='http://github.com/paytonjjones/networktree/blob/master/R/networktree.R'><code>R/networktree.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/paytonjjones/networktree/blob/master/R/networktree.R'><code>R/networktree.R</code></a></small>
     <div class="hidden name"><code>plot.networktree.Rd</code></div>
     </div>
 
@@ -143,7 +143,7 @@ are plotted with qgraph, and additional arguments are passed there</p>
   terminal_panel <span class='op'>=</span> <span class='cn'>NULL</span>,
   transform <span class='op'>=</span> <span class='cn'>NULL</span>,
   layout <span class='op'>=</span> <span class='st'>"lock"</span>,
-  sdbars <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sdbars <span class='op'>=</span> <span class='cn'>FALSE</span>,
   tnex <span class='op'>=</span> <span class='fl'>3</span>,
   partyargs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -163,7 +163,7 @@ are plotted with qgraph, and additional arguments are passed there</p>
 plotting the terminal nodes. Alternatively, a panel generating function
 of class "grapcon_generator" that is called with arguments x and tp_args
 to set up a panel function. Or, a character choosing one of the implemented
-standard plots <code>"cor"</code>, <code>"box"</code> or <code>"bar"</code>.
+standard plots <code>"graph"</code>, <code>"box"</code>, <code>"matrix"</code> or <code>"bar"</code>.
 The default (<code>NULL</code>) chooses an appropriate panel function depending
 on the "model" argument.</p></td>
     </tr>
@@ -178,7 +178,7 @@ layout for the full sample and applies this to all graphs</p></td>
     </tr>
     <tr>
       <th>sdbars</th>
-      <td><p>if type="barplot", should std deviation error bars be plotted?</p></td>
+      <td><p>if using a barplot, should std deviation error bars be plotted?</p></td>
     </tr>
     <tr>
       <th>tnex</th>
