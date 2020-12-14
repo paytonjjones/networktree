@@ -191,6 +191,5 @@ plot(glasso,
 
 ### Documentation
 
-For more details on ***networktree***, please refer to the CRAN documentation. 
+For more details on ***networktree***, please refer to the [reference manual](https://paytonjjones.github.io/networktree/reference/).
 
-[CRAN package documentation](https://cran.r-project.org/web/packages/networktree/index.html)
