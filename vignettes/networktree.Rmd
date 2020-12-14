@@ -62,7 +62,7 @@ cor_OCD <- cor(workaholic[,OCD_vars])
 q1 <- qgraph::qgraph(cor_OCD, layout="spring", labels=OCD_names)
 ```
 
-### Using networktree(): The Basics
+### Using networktree(): The basics
 
 Now we can try out the networktree() function. For now, let’s just look to see if there is a split by gender. All we have to do is enter the network-related variables in the nodevars argument, and the split variables in the splitvars argument.
 
@@ -91,7 +91,7 @@ cor_gender_ctree <- networktree(nodevars=workaholic[,OCD_vars],
 plot(cor_gender_ctree)
 ```
 
-### Understanding the Results: comparetree() and getnetwork()
+### Understanding the results: comparetree() and getnetwork()
 
 As you have likely already noticed, interpreting the results can difficult when you have a large network or many splits in your tree. Everything becomes small so quickly! Luckily, there are a couple of tools to help you.
 
