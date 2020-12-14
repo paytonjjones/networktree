@@ -1,5 +1,5 @@
 ---
-title: "networktree: Partitioning of network models"
+title: "networktree: Recursive partitioning of network models"
 author: "Payton Jones, Thorsten Simon, Achim Zeileis"
 date: "last modified: 2020-12-12"
 output:
@@ -8,7 +8,7 @@ output:
     toc_float: true
     theme: flatly
 vignette: >
-  %\VignetteIndexEntry{networktree: Partitioning of network models}
+  %\VignetteIndexEntry{networktree: Recursive partitioning of network models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteDepends{networktree, qgraph}
   %\VignetteKeywords{tree-models, network-analysis, psychometrics}
@@ -32,7 +32,7 @@ Let's take a look at how to use the package.
 
 ### Installation
 
-Install **networktree** from CRAN
+Install ***networktree*** from CRAN
 
 ```r
 install.package("networktree")
@@ -46,48 +46,47 @@ devtools::install_github("paytonjjones/networktree")
 
 ### Load data
 
-We can try out some examples with the *workaholic* dataset that is included in the package. It includes items from the Obsessive-Compulsive Inventory – Revised (OCIR) which we can use to form a network (for more info, see ?workaholic).
+We can try out some examples with the *workaholic* dataset that is included in the package. It includes items from the Obsessive-Compulsive Inventory - Revised (OCIR) which we can use to form a network (for more info, see ?workaholic).
 
 ```{r initial_graph}
 require(networktree)
 
 data(workaholic)
-OCD_vars <- paste("OCIR", 1:18, sep="")
+OCD_vars <- paste("OCIR", 1:18, sep = "")
 OCD_names <- c("hoard1","check1","arrange1","count","contaminate",
                "thought1","hoard2","check2",
                "arrange2","numbers1","wash1","thought2",
                "hoard3", "check3", "arrange3", "numbers2",
                "wash2", "thought3")
 cor_OCD <- cor(workaholic[,OCD_vars])
-q1 <- qgraph::qgraph(cor_OCD, layout="spring", labels=OCD_names)
+q1 <- qgraph::qgraph(cor_OCD, layout = "spring", labels = OCD_names)
 ```
 
 ### Using networktree(): The basics
 
-Now we can try out the networktree() function. For now, let’s just look to see if there is a split by gender. All we have to do is enter the network-related variables in the nodevars argument, and the split variables in the splitvars argument.
+Now we can try out the `networktree()` function. For now, let's just look to see if there is a split by gender. All we have to do is enter the network-related variables in the `nodevars` argument, and the split variables in the `splitvars` argument.
 
 ```{r split_gender}
-cor_gender <- networktree(nodevars=workaholic[,OCD_vars],
-                          splitvars=workaholic[,"Gender",drop=FALSE])
+cor_gender <- networktree(nodevars = workaholic[,OCD_vars],
+                          splitvars = workaholic[, "Gender", drop = FALSE])
 plot(cor_gender)
 ```
 
-If you want to include more split variables, you can include as many as you want. The algorithm prioritizes the “biggest” splits first and always considers significance level, so you don’t need to worry too much about overfitting. We used a correlation network before, but we can also use other types of estimation by using the *transform* argument. Here we will set to "glasso" (we could also use "pcor").
+If you want to include more split variables, you can include as many as you want. The algorithm prioritizes the "biggest" splits first and always considers significance level, so you don't need to worry too much about overfitting. We used a correlation network before, but we can also use other types of estimation by using the `transform` argument. Here we will set to "glasso" (we could also use "pcor").
 
 ```{r glasso}
-glasso <- networktree(nodevars=workaholic[,OCD_vars],
-                      splitvars=workaholic[,c("Gender",
-                                              "Workaholism_diagnosis")],
-                      transform="glasso")
+glasso <- networktree(nodevars = workaholic[, OCD_vars],
+                      splitvars = workaholic[, c("Gender", "Workaholism_diagnosis")],
+                      transform = "glasso")
 plot(glasso)
 ```
 
-The default of networktree() is to use model-based recursive partitioning (?mob). However, it can also use conditional inference trees (?ctree). This can be controlled using the *method* argument. For more details on the differences between the two approaches, see the associated [publication](https://rdcu.be/b9Kyw). 
+The default of `networktree()` is to use model-based recursive partitioning (`?mob`). However, it can also use conditional inference trees (`?ctree`). This can be controlled using the `method` argument. For more details on the differences between the two approaches, see the associated [publication](https://rdcu.be/b9Kyw). 
 
 ```{r split_gender_ctree}
-cor_gender_ctree <- networktree(nodevars=workaholic[,OCD_vars],
-                          splitvars=workaholic[,"Gender",drop=FALSE],
-                          method="ctree")
+cor_gender_ctree <- networktree(nodevars = workaholic[, OCD_vars],
+                          splitvars = workaholic[, "Gender", drop = FALSE],
+                          method = "ctree")
 plot(cor_gender_ctree)
 ```
 
@@ -95,11 +94,11 @@ plot(cor_gender_ctree)
 
 As you have likely already noticed, interpreting the results can difficult when you have a large network or many splits in your tree. Everything becomes small so quickly! Luckily, there are a couple of tools to help you.
 
-Each part of the tree is given a label. You can most easily see these labels with the print.networktree() method.
+Each part of the tree is given a label. You can most easily see these labels with the `print()` method for `networktree` objects.
 
 ```{r print}
-smalltree <- networktree(nodevars=workaholic[,c("OCIR1","OCIR2","OCIR3")],
-                          splitvars=workaholic[,c("Gender","Workaholism_diagnosis")])
+smalltree <- networktree(nodevars = workaholic[, c("OCIR1", "OCIR2", "OCIR3")],
+                          splitvars = workaholic[, c("Gender", "Workaholism_diagnosis")])
 print(smalltree)
 ```
 
@@ -111,18 +110,18 @@ You can access the specific partition of the data:
 head(smalltree[2]$data)
 ```
 
-The getnetwork() function allows you to get the network (adjacency matrix) using the ID.
+The `getnetwork()` function allows you to get the network (adjacency matrix) using the ID.
 
 ```{r getnetwork}
-getnetwork(smalltree, id=3)
+getnetwork(smalltree, id = 3)
 ```
 
-Another common goal is to understand the differences between the networks. This is made easy with the comparetree() function. 
+Another common goal is to understand the differences between the networks. This is made easy with the `comparetree()` function. 
 
 First, comparetree provides a list of "highlights": edges in the network that had large differences between the two partitions. It gives the value of the edge in each partition, as well as the difference between the two edgs.
 
 ```{r comparetree}
-smalltree_compare <- comparetree(smalltree, id1=2, id2=3, highlights=3)
+smalltree_compare <- comparetree(smalltree, id1 = 2, id2 = 3, highlights = 3)
 smalltree_compare$highlights
 ```
 
@@ -135,58 +134,50 @@ smalltree_compare$matrix
 Third, it allows you to easily plot those two networks side by side:
 
 ```{r comparetree3}
-smalltree_compare <- comparetree(smalltree, id1=2, id2=3, highlights=3,
-                                 plot=TRUE)
+smalltree_compare <- comparetree(smalltree, id1 = 2, id2 = 3, highlights = 3, plot = TRUE)
 ```
 
 And fourth, it allows you to plot the adjacency matrix representing the differences (green edges mean the edge was larger in id1, red edges mean the edge was larger in id2):
 
 ```{r comparetree4}
-smalltree_compare <- comparetree(smalltree, id1=2, id2=3, highlights=3,
-                                 plot=TRUE,
-                                 plot.type="subtract")
+smalltree_compare <- comparetree(smalltree, id1 = 2, id2 = 3, highlights = 3,
+                                 plot = TRUE, plot.type = "subtract")
 ```
 
 ### Integration with partykit
 
-***networktree*** uses ***partykit*** as a foundation. For those familiar with the ***partykit*** package, you may find the "nodevars" and "splitvars" arguments unintuitive. If you prefer, you can also use a formula implementation:
+***networktree*** uses ***partykit*** as a foundation. For those familiar with the ***partykit*** package, you may find the `nodevars` and `splitvars` arguments unintuitive. If you prefer, you can also use a formula implementation:
 
 ```{r formula}
 smalltree <- networktree(OCIR1 + OCIR2 + OCIR3 ~ Gender + Workaholism_diagnosis,
-                               data=workaholic)
+                         data = workaholic)
 plot(smalltree)
 ```
 
-The integration with ***partykit*** also provides other advantages. Additional arguments added to networktree() are passed through to mob_control() (or ctree_control()). This allows for flexibility in fitting the model. For instance, here we will pass two additional arguments to set the alpha to 0.01 and use BIC pruning (although in this case, it doesn't seem to make a difference!).
+The integration with ***partykit*** also provides other advantages. Additional arguments added to `networktree()` are passed through to `mob_control()` (or `ctree_control()`). This allows for flexibility in fitting the model. For instance, here we will pass two additional arguments to set the alpha to 0.01 and use BIC pruning (although in this case, it doesn't seem to make a difference!).
 
 ```{r partykit}
 add_params <- networktree(OCIR1 + OCIR2 + OCIR3 ~ Gender + Workaholism_diagnosis,
-                               data=workaholic,
-                               alpha = 0.01,
-                               prune = "BIC")
+                               data = workaholic, alpha = 0.01, prune = "BIC")
 plot(add_params)
 ```
 
-This also allows us to control the plotting of the tree structure. In plot.networktree(), a list-style argument named *partyargs* allows you to pass through arguments to partykit::plot.party(). 
+This also allows us to control the plotting of the tree structure. In the `plot()` method, a list-style argument named `partyargs` allows you to pass through arguments to `partykit::plot.party()`. 
 
 Here we demonstrate shrinking the tree labels:
 
 ```{r plot_partykit}
-plot(glasso,
-     partyargs=list(gp = grid::gpar(cex = .5))) # half size
+plot(glasso, partyargs = list(gp = grid::gpar(cex = .5))) # half size
 ```
 
 ### Integration with qgraph
 
-***networktree*** uses ***qgraph*** to plot the networks. When using plot.networktree(), any additional arguments are passed through directly to ***qgraph***. 
+***networktree*** uses ***qgraph*** to plot the networks. When using the `plot()` method, any additional arguments are passed through directly to ***qgraph***. 
 
 Let's use qgraph to make the network colorblind-friendly with the nodes laid out in a circle and labeled.  
 
 ```{r plot_qgraph}
-plot(glasso,
-     theme="colorblind",
-     layout="circle",
-     labels=OCD_names) 
+plot(glasso, theme = "colorblind", layout = "circle", labels = OCD_names) 
 ```
 
 ### Documentation
