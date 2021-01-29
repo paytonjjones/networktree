@@ -6,7 +6,9 @@ bibentry(bibtype = "Article",
                     person(given = "Achim", family = "Zeileis")),
          journal     = "Psychometrika",
          year        = "2020",
-	 note        = "Advance online publication",
+	 volume      = "85",
+	 number      = "4",
+	 pages       = "926--945",
          doi         = "10.1007/s11336-020-09731-4",
 
          header      = "To cite networktree in publications use:"
