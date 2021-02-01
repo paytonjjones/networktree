@@ -261,6 +261,12 @@ plot.networktree <- function(x,
   
   # Pass to partykit::plot.party
   dots <- list(...)
+  if(!is.null(partyargs$tnex)){
+    tnex <- partyargs$tnex
+    message("The default tnex argument has been overwritten by input to partyargs")
+  } else {
+    partyargs$tnex <- tnex
+  }
   needNewPlot <- tryCatch(
     {
       par(new=TRUE)
@@ -269,14 +275,14 @@ plot.networktree <- function(x,
     warning=function(cond){
       return(TRUE)
     },
-    silent=T
+    silent=TRUE
   )
   if(needNewPlot){
     plot.new()
-    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots, tnex = tnex))
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=FALSE, tp_args = dots))
     do.call(what=partykit::plot.party,args=partyargs)
   } else {
-    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots, tnex = tnex))
+    partyargs <- c(partyargs, list(x=x, terminal_panel = net_terminal_inner, newpage=TRUE, tp_args = dots))
     do.call(what=partykit::plot.party,args=partyargs)
   }
 }
