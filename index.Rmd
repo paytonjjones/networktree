@@ -38,7 +38,7 @@ nodeVars <- c("dass3_D", "dass42_D", "dass10_D", "dass13_D",
 dNames <- c("anhedonia", "initiative", "lookforward", "sad",
 	"unenthused", "worthless", "meaningless")
 dNames <- abbrev(dNames, n = 8L)
-colnames(dass)[colnames(dass) %in% nodeVars] <- dNames
+colnames(dass)[match(nodeVars, colnames(dass))] <- dNames
 
 tree_complex <- networktree(
 	nodevars  = dass[,dNames],
@@ -47,7 +47,8 @@ tree_complex <- networktree(
 
 plot(tree_complex, transform = "pcor",
 	labels = dNames, vsize = 20, label.norm = "OOOOO",
-	partyargs = list(ep_args = list(justmin = 8), tnex = 2.75),
+	tnex = 2.75,
+	partyargs = list(ep_args = list(justmin = 8)),
 	posCol = "#008585", negCol = "#C7522B")  ## from hcl.colors(2, "Geyser") 
 ```
 
