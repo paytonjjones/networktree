@@ -17,5 +17,5 @@ trees based on covariance structures.
 
 **Reference:** Jones, P.J., Mair, P., Simon, T., Zeileis, A. (2020).
 Network trees: A method for recursively partitioning covariance
-structures. *Psychometrika*, **85**(4), 926-945.
+structures. *Psychometrika*. **85**(4), 926-945.
 [doi:10.1007/s11336-020-09731-4](https://doi.org/10.1007/s11336-020-09731-4)

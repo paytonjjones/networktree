@@ -48,7 +48,7 @@ tree_complex <- networktree(
 plot(tree_complex, transform = "pcor",
 	labels = dNames, vsize = 20, label.norm = "OOOOO",
 	tnex = 2.75,
-	partyargs = list(ep_args = list(justmin = 8)),
+	partyargs = list(gp = gpar(fontsize=11)),
 	posCol = "#008585", negCol = "#C7522B")  ## from hcl.colors(2, "Geyser") 
 ```
 
