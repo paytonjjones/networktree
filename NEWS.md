@@ -1,3 +1,8 @@
+# networktree 1.0.1
+
+* Bug fix, transform argument in plot.networktree now passes through to submethods
+* Bug fix, node labels now customizable
+
 # networktree 1.0.0
 
 * Enable `terminal_panel` argument for `networktree`'s `plot()` methods.
