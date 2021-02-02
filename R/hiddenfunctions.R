@@ -23,7 +23,7 @@ ntqgraph <- function(obj,
     # Set up parameters
     tid <- partykit::id_node(node)
 
-    network <- getnetwork(obj, id = tid)
+    network <- getnetwork(obj, id = tid, transform = transform)
 
     # Set up viewport
     grid::pushViewport(grid::viewport())
@@ -190,13 +190,13 @@ ntboxplot <- function(obj,
 }
 class(ntboxplot) <- "grapcon_generator"
 
-ntmatplot <- function(obj, col = grDevices::hcl.colors(11, "Blue-Red 3",
+ntmatplot <- function(obj, transform, col = grDevices::hcl.colors(11, "Blue-Red 3",
                       rev = TRUE), pop = TRUE, bg = "white", ...) {
 
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
-    network <- getnetwork(obj, id = tid)
+    network <- getnetwork(obj, id = tid, transform = transform)
     if("ctree_networktree" %in% class(obj)){
       response_data <- obj[tid]$fitted[['(response)']]
     } else if ("mob_networktree" %in% class(obj)) {

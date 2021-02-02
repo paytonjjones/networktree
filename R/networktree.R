@@ -236,9 +236,11 @@ plot.networktree <- function(x,
 		"graph" = function(obj, ...) {
             ntqgraph(obj, transform = transform, layout = layout, ...)
         },
+		"matrix" = function(obj, ...) {
+		  ntmatplot(obj, transform = transform)
+		},
 		"barplot" = ntbarplot,
 		"boxplot" = ntboxplot,
-		"matrix" = ntmatplot,
 		stop("Undefined plotting type!")
 	)
 	class(net_terminal_inner) <- "grapcon_generator"
