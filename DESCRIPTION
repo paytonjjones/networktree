@@ -1,7 +1,7 @@
 Package: networktree
 Title: Recursive Partitioning of Network Models
 Version: 1.0.1
-Date: 2020-2-2
+Date: 2021-2-2
 Authors@R: c(person("Payton", "Jones", email = "paytonjjones@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6513-8498")),
              person(given = "Thorsten", family = "Simon", role = "aut", email = "Thorsten.Simon@uibk.ac.at", comment = c(ORCID = "0000-0002-3778-7738")),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")))
