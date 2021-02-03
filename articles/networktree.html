@@ -82,7 +82,7 @@
       <h1 data-toc-skip>networktree: Recursive partitioning of network models</h1>
                         <h4 class="author">Payton Jones, Thorsten Simon, Achim Zeileis</h4>
             
-            <h4 class="date">last modified: 2020-12-12</h4>
+            <h4 class="date">last modified: 2021-2-3</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paytonjjones/networktree/blob/master/vignettes/networktree.Rmd"><code>vignettes/networktree.Rmd</code></a></small>
       <div class="hidden name"><code>networktree.Rmd</code></div>
@@ -140,7 +140,7 @@
 <code class="sourceCode R"><span class="va">glasso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="va">OCD_vars</span><span class="op">]</span>,
                       splitvars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Workaholism_diagnosis"</span><span class="op">)</span><span class="op">]</span>,
                       transform <span class="op">=</span> <span class="st">"glasso"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span>, labels <span class="op">=</span> <span class="va">OCD_names</span><span class="op">)</span></code></pre></div>
 <p><img src="networktree_files/figure-html/glasso-1.png" width="100%"></p>
 <p>The default of <code><a href="../reference/networktree.html">networktree()</a></code> is to use model-based recursive partitioning (<code>?mob</code>). However, it can also use conditional inference trees (<code>?ctree</code>). This can be controlled using the <code>method</code> argument. For more details on the differences between the two approaches, see the associated <a href="https://rdcu.be/b9Kyw">publication</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -235,7 +235,8 @@
 <p>This also allows us to control the plotting of the tree structure. In the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method, a list-style argument named <code>partyargs</code> allows you to pass through arguments to <code><a href="https://rdrr.io/pkg/partykit/man/party-plot.html">partykit::plot.party()</a></code>.</p>
 <p>Here we demonstrate shrinking the tree labels:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span>, partyargs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># half size</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">glasso</span>, labels <span class="op">=</span> <span class="va">OCD_names</span>,
+     partyargs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># half size</span></code></pre></div>
 <p><img src="networktree_files/figure-html/plot_partykit-1.png" width="100%"></p>
 </div>
 <div id="integration-with-qgraph" class="section level3">
