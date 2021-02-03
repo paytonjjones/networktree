@@ -76,14 +76,23 @@ comparetree <- function(tree, id1=2L, id2=3L,
       layout <- plot0$layout
       }
     }
+    # manage qgraph args
+    dots <- list(...)
+    if(is.null(dots$theme) & is.null(dots$posCol)){
+      dots$posCol <- "#008585"
+    }
+    if(is.null(dots$theme) & is.null(dots$negCol)){
+      dots$negCol <- "#C7522B"
+    }
     if(match.arg(plot.type)=="compare"){
       op <- par(mfrow=c(1,2))
-      plot1 <- qgraph::qgraph(part1, layout=layout,...)
-      plot2 <- qgraph::qgraph(part2, layout=layout,...)
+      do.call(what = qgraph::qgraph, args = c(dots, list(input=part1, layout=layout)))
+      do.call(what = qgraph::qgraph, args = c(dots, list(input=part2, layout=layout)))
       par(op)
     } else if (match.arg(plot.type)=="subtract"){
-      qgraph::qgraph(part1-part2, layout=layout,
-                     title=paste("Node ",id1, " - Node ", id2, sep=""),...)
+      do.call(what = qgraph::qgraph, args = c(dots, list(input=part1-part2, 
+                                                         layout=layout,
+                                                         title=paste("Node ",id1, " - Node ", id2, sep=""))))
     }
   }
   return(res)

@@ -1,5 +1,6 @@
 # networktree 1.0.1
 
+* Changed color defaults for plot.networktree and comparetree 
 * Bug fix, transform argument in plot.networktree now passes through to submethods
 * Bug fix, node labels now customizable
 

@@ -1,7 +1,7 @@
 ---
 title: "networktree: Recursive partitioning of network models"
 author: "Payton Jones, Thorsten Simon, Achim Zeileis"
-date: "last modified: 2020-12-12"
+date: "last modified: 2021-2-3"
 output:
   html_document:
     toc: true
@@ -78,7 +78,7 @@ If you want to include more split variables, you can include as many as you want
 glasso <- networktree(nodevars = workaholic[, OCD_vars],
                       splitvars = workaholic[, c("Gender", "Workaholism_diagnosis")],
                       transform = "glasso")
-plot(glasso)
+plot(glasso, labels = OCD_names)
 ```
 
 The default of `networktree()` is to use model-based recursive partitioning (`?mob`). However, it can also use conditional inference trees (`?ctree`). This can be controlled using the `method` argument. For more details on the differences between the two approaches, see the associated [publication](https://rdcu.be/b9Kyw). 
@@ -167,7 +167,8 @@ This also allows us to control the plotting of the tree structure. In the `plot(
 Here we demonstrate shrinking the tree labels:
 
 ```{r plot_partykit}
-plot(glasso, partyargs = list(gp = grid::gpar(cex = .5))) # half size
+plot(glasso, labels = OCD_names,
+     partyargs = list(gp = grid::gpar(cex = .5))) # half size
 ```
 
 ### Integration with qgraph
