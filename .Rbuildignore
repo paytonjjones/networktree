@@ -3,6 +3,7 @@
 ^cran-comments\.md$
 ^cran-comments\.Rmd$
 ^\.travis\.yml$
+^\.github
 ^vignettes\.*
 ^(index|README)\.(Rmd|md)$
 ^index_files\.*
