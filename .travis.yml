@@ -1,5 +1,12 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
+r:
+  - oldrel
+  - release
+  - devel
+env:
+  global:
+    - R_CHECK_ARGS="--run-donttest"
 sudo: false
 cache: packages

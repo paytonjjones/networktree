@@ -12,6 +12,12 @@ Encoding: UTF-8
 LazyData: true
 Imports: partykit, qgraph, stats, utils, Matrix, mvtnorm, Formula, grid, graphics, gridBase, reshape2
 RoxygenNote: 7.1.1
-Suggests: R.rsp, knitr, rmarkdown, fxregime, zoo
+Suggests: 
+    R.rsp,
+    knitr,
+    rmarkdown,
+    fxregime,
+    zoo,
+    testthat
 URL: https://paytonjjones.github.io/networktree/
 BugReports: https://github.com/paytonjjones/networktree/issues 
