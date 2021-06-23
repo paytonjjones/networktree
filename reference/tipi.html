@@ -62,9 +62,15 @@ educational and entertainment purposes" />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -139,7 +145,7 @@ open website for the public to take psychometric tests for
 educational and entertainment purposes</p>
     </div>
 
-    <pre class="usage"><span class='va'>tipi</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>tipi</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -166,65 +172,68 @@ and can be cited as:</p>
 <p>OpenPsychometrics (2019). Generic Conspiracist Beliefs Scale Survey. Retrieved from http://openpsychometrics.org/_rawdata/GCBS.zip</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   E A_r C N O E_r A C_r N_r O_r             education    urban gender
-#&gt; 1 5   3 6 2 6   6 7   2   7   1     University degree     &lt;NA&gt;   Male
-#&gt; 2 6   7 6 7 6   3 7   5   1   1 Less than high school Suburban Female
-#&gt; 4 6   7 7 5 7   6 5   1   5   1     University degree    Rural   Male
-#&gt; 5 1   3 7 2 6   4 5   5   5   3           High school Suburban   Male
-#&gt; 7 2   5 4 2 5   6 2   3   5   5           High school Suburban   Male
-#&gt; 8 4   5 6 2 7   4 5   5   3   1           High school    Rural   Male
-#&gt;                       engnat age religion  orientation
-#&gt; 1 Non-native English Speaker  28  Atheist Heterosexual
-#&gt; 2     Native English Speaker  14 Agnostic     Bisexual
-#&gt; 4     Native English Speaker  25    Other Heterosexual
-#&gt; 5     Native English Speaker  37  Atheist     Bisexual
-#&gt; 7     Native English Speaker  17 Agnostic Heterosexual
-#&gt; 8     Native English Speaker  23  Atheist Heterosexual
-#&gt;                                               race voted           married
-#&gt; 1                                            Other    No     Never married
-#&gt; 2 Indigenous Australian, Native American, or White    No     Never married
-#&gt; 4 Indigenous Australian, Native American, or White   Yes     Never married
-#&gt; 5 Indigenous Australian, Native American, or White    No Currently married
-#&gt; 7 Indigenous Australian, Native American, or White    No     Never married
-#&gt; 8 Indigenous Australian, Native American, or White    No     Never married
-#&gt;   familysize
-#&gt; 1          1
-#&gt; 2          1
-#&gt; 4          3
-#&gt; 5          2
-#&gt; 7          2
-#&gt; 8          3</div><div class='input'><span class='co'># \donttest{</span>
-
-<span class='co'>## Example networktree with TIPI</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span>
-<span class='va'>nodeVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"E"</span>,<span class='st'>"A_r"</span>,<span class='st'>"C"</span>,<span class='st'>"N"</span>,<span class='st'>"O"</span>,<span class='st'>"E_r"</span>,<span class='st'>"A"</span>,<span class='st'>"C_r"</span>,<span class='st'>"N_r"</span>,<span class='st'>"O_r"</span><span class='op'>)</span>
-<span class='va'>splitVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gender"</span>,<span class='st'>"education"</span>,<span class='st'>"engnat"</span><span class='op'>)</span>
-<span class='va'>myTree</span><span class='op'>&lt;-</span><span class='fu'><a href='networktree.html'>networktree</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>nodeVars</span><span class='op'>]</span>, <span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>splitVars</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>myTree</span>
-</div><div class='output co'>#&gt; Network tree object
-#&gt; 
-#&gt; Model formula:
-#&gt; E + A_r + C + N + O + E_r + A + C_r + N_r + O_r ~ gender + education + 
-#&gt;     engnat
-#&gt; 
-#&gt; Fitted party:
-#&gt; [1] root
-#&gt; |   [2] engnat in Native English Speaker
-#&gt; |   |   [3] education &lt;= High school
-#&gt; |   |   [4] education &gt; High school
-#&gt; |   |   |   [5] gender in Female
-#&gt; |   |   |   [6] gender in Male, Other
-#&gt; |   [7] engnat in Non-native English Speaker
-#&gt; 
-#&gt; Number of inner nodes:    3
-#&gt; Number of terminal nodes: 4
-#&gt; Number of parameters per node: 45
-#&gt; Objective function: 35148.69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myTree</span><span class='op'>)</span>
-</div><div class='img'><img src='tipi-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># }</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   E A_r C N O E_r A C_r N_r O_r             education    urban gender</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 5   3 6 2 6   6 7   2   7   1     University degree     &lt;NA&gt;   Male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 6   7 6 7 6   3 7   5   1   1 Less than high school Suburban Female</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 6   7 7 5 7   6 5   1   5   1     University degree    Rural   Male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 1   3 7 2 6   4 5   5   5   3           High school Suburban   Male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7 2   5 4 2 5   6 2   3   5   5           High school Suburban   Male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8 4   5 6 2 7   4 5   5   3   1           High school    Rural   Male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       engnat age religion  orientation</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 Non-native English Speaker  28  Atheist Heterosexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     Native English Speaker  14 Agnostic     Bisexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     Native English Speaker  25    Other Heterosexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     Native English Speaker  37  Atheist     Bisexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7     Native English Speaker  17 Agnostic Heterosexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8     Native English Speaker  23  Atheist Heterosexual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                               race voted           married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                            Other    No     Never married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 Indigenous Australian, Native American, or White    No     Never married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 Indigenous Australian, Native American, or White   Yes     Never married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 Indigenous Australian, Native American, or White    No Currently married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7 Indigenous Australian, Native American, or White    No     Never married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8 Indigenous Australian, Native American, or White    No     Never married</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   familysize</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4          3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5          2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7          2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8          3</span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Example networktree with TIPI</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nodeVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"E"</span>,<span class='st'>"A_r"</span>,<span class='st'>"C"</span>,<span class='st'>"N"</span>,<span class='st'>"O"</span>,<span class='st'>"E_r"</span>,<span class='st'>"A"</span>,<span class='st'>"C_r"</span>,<span class='st'>"N_r"</span>,<span class='st'>"O_r"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>splitVars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gender"</span>,<span class='st'>"education"</span>,<span class='st'>"engnat"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>myTree</span><span class='op'>&lt;-</span><span class='fu'><a href='networktree.html'>networktree</a></span><span class='op'>(</span><span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>nodeVars</span><span class='op'>]</span>, <span class='va'>tipi</span><span class='op'>[</span>,<span class='va'>splitVars</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>myTree</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Network tree object</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Model formula:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> E + A_r + C + N + O + E_r + A + C_r + N_r + O_r ~ gender + education + </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     engnat</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Fitted party:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] root</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   [2] engnat in Native English Speaker</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   |   [3] education &lt;= High school</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   |   [4] education &gt; High school</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   |   |   [5] gender in Female</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   |   |   [6] gender in Male, Other</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |   [7] engnat in Non-native English Speaker</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of inner nodes:    3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of terminal nodes: 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of parameters per node: 45</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Objective function: 35148.69</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myTree</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tipi-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -236,11 +245,11 @@ and can be cited as:</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Payton Jones, Thorsten Simon, Achim Zeileis.</p>
+  <p><p>Developed by Payton Jones, Thorsten Simon, Achim Zeileis.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -248,6 +257,8 @@ and can be cited as:</p>
 
   
 
+
+  
 
   </body>
 </html>

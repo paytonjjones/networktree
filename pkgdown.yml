@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: c931fe24c135c6ca704ae9f300470e9c66d8bfe7
+pkgdown: 1.6.1.9001
+pkgdown_sha: 51268b0d9cb0588d7a6404a2b8ef4ee19c435e89
 articles:
   networktree: networktree.html
   returns: returns.html
-last_built: 2021-02-04T18:28Z
+last_built: 2021-06-23T18:12Z
 
