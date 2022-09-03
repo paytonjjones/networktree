@@ -7,7 +7,7 @@ ntqgraph <- function(obj,
                      layout = "lock",
                      pop = TRUE, 
                      bg = "white", 
-                     minimum = 0,
+                     minimum = "local",
                      maximum = "local",
                      ...) {
   
@@ -23,8 +23,8 @@ ntqgraph <- function(obj,
   } 
   coef_max_min <- get_coef_max_mins(obj)
   minimum <- ifelse(minimum[1] == "local", coef_max_min$min$edge, minimum)
-  maximum <- ifelse(maximum[1] == "local", coef_max_min$min$edge, maximum)
-  
+  maximum <- ifelse(maximum[1] == "local", coef_max_min$max$edge, maximum)
+
   rval <- function(node){
     # Set up parameters
     tid <- partykit::id_node(node)
