@@ -143,12 +143,9 @@
 <span>                      splitvars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Workaholism_diagnosis"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>                      transform <span class="op">=</span> <span class="st">"glasso"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glasso</span>, labels <span class="op">=</span> <span class="va">OCD_names</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
 <p><img src="networktree_files/figure-html/glasso-1.png" width="100%"></p>
 <p>The default of <code><a href="../reference/networktree.html">networktree()</a></code> is to use model-based recursive partitioning (<code>?mob</code>). However, it can also use conditional inference trees (<code>?ctree</code>). This can be controlled using the <code>method</code> argument. For more details on the differences between the two approaches, see the associated <a href="https://rdcu.be/b9Kyw" class="external-link">publication</a>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cor_gender_ctree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="va">OCD_vars</span><span class="op">]</span>,</span>
 <span>                          splitvars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="st">"Gender"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>,</span>
 <span>                          method <span class="op">=</span> <span class="st">"ctree"</span><span class="op">)</span></span>
@@ -160,7 +157,7 @@
 </h3>
 <p>As you have likely already noticed, interpreting the results can difficult when you have a large network or many splits in your tree. Everything becomes small so quickly! Luckily, there are a couple of tools to help you.</p>
 <p>Each part of the tree is given a label. You can most easily see these labels with the <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method for <code>networktree</code> objects.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span>nodevars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OCIR1"</span>, <span class="st">"OCIR2"</span>, <span class="st">"OCIR3"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>                          splitvars <span class="op">=</span> <span class="va">workaholic</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Workaholism_diagnosis"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">smalltree</span><span class="op">)</span></span></code></pre></div>
@@ -180,7 +177,7 @@
 <span><span class="co">## Objective function: 69250.49</span></span></code></pre>
 <p>Under the ‘Fitted party’ section, you can see that the branches have the IDs [2] and [3]. The root, with ID [1], allows you to access the full data. We can use the IDs of the branches to access them.</p>
 <p>You can access the specific partition of the data:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">smalltree</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   OCIR1 OCIR2 OCIR3 Gender Workaholism_diagnosis</span></span>
 <span><span class="co">## 1     0     0     0   Male                     0</span></span>
@@ -190,7 +187,7 @@
 <span><span class="co">## 5     0     1     0 Female                     0</span></span>
 <span><span class="co">## 6     0     0     0 Female                     0</span></span></code></pre>
 <p>The <code><a href="../reference/getnetwork.html">getnetwork()</a></code> function allows you to get the network (adjacency matrix) using the ID.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getnetwork.html">getnetwork</a></span><span class="op">(</span><span class="va">smalltree</span>, id <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##           OCIR1     OCIR2     OCIR3</span></span>
 <span><span class="co">## OCIR1 0.0000000 0.3225396 0.1787196</span></span>
@@ -198,7 +195,7 @@
 <span><span class="co">## OCIR3 0.1787196 0.3981457 0.0000000</span></span></code></pre>
 <p>Another common goal is to understand the differences between the networks. This is made easy with the <code><a href="../reference/comparetree.html">comparetree()</a></code> function.</p>
 <p>First, comparetree provides a list of “highlights”: edges in the network that had large differences between the two partitions. It gives the value of the edge in each partition, as well as the difference between the two edgs.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree_compare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comparetree.html">comparetree</a></span><span class="op">(</span><span class="va">smalltree</span>, id1 <span class="op">=</span> <span class="fl">2</span>, id2 <span class="op">=</span> <span class="fl">3</span>, highlights <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">smalltree_compare</span><span class="op">$</span><span class="va">highlights</span></span></code></pre></div>
 <pre><code><span><span class="co">##   node1 node2       id1       id2 (id1 - id2)</span></span>
@@ -206,18 +203,18 @@
 <span><span class="co">## 2 OCIR2 OCIR3 0.3419148 0.3981457 -0.05623092</span></span>
 <span><span class="co">## 3 OCIR1 OCIR3 0.1436213 0.1787196 -0.03509838</span></span></code></pre>
 <p>Second, it gives you an adjacency matrix that represents the differences for each edge (id1 - id2).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree_compare</span><span class="op">$</span><span class="va">matrix</span></span></code></pre></div>
 <pre><code><span><span class="co">##             OCIR1       OCIR2       OCIR3</span></span>
 <span><span class="co">## OCIR1  0.00000000 -0.07923887 -0.03509838</span></span>
 <span><span class="co">## OCIR2 -0.07923887  0.00000000 -0.05623092</span></span>
 <span><span class="co">## OCIR3 -0.03509838 -0.05623092  0.00000000</span></span></code></pre>
 <p>Third, it allows you to easily plot those two networks side by side:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree_compare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comparetree.html">comparetree</a></span><span class="op">(</span><span class="va">smalltree</span>, id1 <span class="op">=</span> <span class="fl">2</span>, id2 <span class="op">=</span> <span class="fl">3</span>, highlights <span class="op">=</span> <span class="fl">3</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="networktree_files/figure-html/comparetree3-1.png" width="100%"></p>
 <p>And fourth, it allows you to plot the adjacency matrix representing the differences (green edges mean the edge was larger in id1, red edges mean the edge was larger in id2):</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree_compare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comparetree.html">comparetree</a></span><span class="op">(</span><span class="va">smalltree</span>, id1 <span class="op">=</span> <span class="fl">2</span>, id2 <span class="op">=</span> <span class="fl">3</span>, highlights <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                 plot <span class="op">=</span> <span class="cn">TRUE</span>, plot.type <span class="op">=</span> <span class="st">"subtract"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="networktree_files/figure-html/comparetree4-1.png" width="100%"></p>
@@ -226,25 +223,22 @@
 <h3 id="integration-with-partykit">Integration with partykit<a class="anchor" aria-label="anchor" href="#integration-with-partykit"></a>
 </h3>
 <p><strong><em>networktree</em></strong> uses <strong><em>partykit</em></strong> as a foundation. For those familiar with the <strong><em>partykit</em></strong> package, you may find the <code>nodevars</code> and <code>splitvars</code> arguments unintuitive. If you prefer, you can also use a formula implementation:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smalltree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span><span class="va">OCIR1</span> <span class="op">+</span> <span class="va">OCIR2</span> <span class="op">+</span> <span class="va">OCIR3</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">Workaholism_diagnosis</span>,</span>
 <span>                         data <span class="op">=</span> <span class="va">workaholic</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">smalltree</span><span class="op">)</span></span></code></pre></div>
 <p><img src="networktree_files/figure-html/formula-1.png" width="100%"></p>
 <p>The integration with <strong><em>partykit</em></strong> also provides other advantages. Additional arguments added to <code><a href="../reference/networktree.html">networktree()</a></code> are passed through to <code>mob_control()</code> (or <code>ctree_control()</code>). This allows for flexibility in fitting the model. For instance, here we will pass two additional arguments to set the alpha to 0.01 and use BIC pruning (although in this case, it doesn’t seem to make a difference!).</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">add_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/networktree.html">networktree</a></span><span class="op">(</span><span class="va">OCIR1</span> <span class="op">+</span> <span class="va">OCIR2</span> <span class="op">+</span> <span class="va">OCIR3</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">Workaholism_diagnosis</span>,</span>
 <span>                               data <span class="op">=</span> <span class="va">workaholic</span>, alpha <span class="op">=</span> <span class="fl">0.01</span>, prune <span class="op">=</span> <span class="st">"BIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">add_params</span><span class="op">)</span></span></code></pre></div>
 <p><img src="networktree_files/figure-html/partykit-1.png" width="100%"></p>
 <p>This also allows us to control the plotting of the tree structure. In the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method, a list-style argument named <code>partyargs</code> allows you to pass through arguments to <code><a href="https://rdrr.io/pkg/partykit/man/party-plot.html" class="external-link">partykit::plot.party()</a></code>.</p>
 <p>Here we demonstrate shrinking the tree labels:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glasso</span>, labels <span class="op">=</span> <span class="va">OCD_names</span>,</span>
 <span>     partyargs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># half size</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
 <p><img src="networktree_files/figure-html/plot_partykit-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -252,11 +246,8 @@
 </h3>
 <p><strong><em>networktree</em></strong> uses <strong><em>qgraph</em></strong> to plot the networks. When using the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method, any additional arguments are passed through directly to <strong><em>qgraph</em></strong>.</p>
 <p>Let’s use qgraph to make the network colorblind-friendly with the nodes laid out in a circle and labeled.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">glasso</span>, theme <span class="op">=</span> <span class="st">"colorblind"</span>, layout <span class="op">=</span> <span class="st">"circle"</span>, labels <span class="op">=</span> <span class="va">OCD_names</span><span class="op">)</span> </span></code></pre></div>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
 <p><img src="networktree_files/figure-html/plot_qgraph-1.png" width="100%"></p>
 </div>
 <div class="section level3">

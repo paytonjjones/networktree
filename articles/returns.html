@@ -84,7 +84,7 @@
       <h1 data-toc-skip>Exchange Rates Networks</h1>
                         <h4 data-toc-skip class="author">Thorsten Simon, Payton J. Jones, Patrick Mair, and Achim Zeileis</h4>
             
-            <h4 data-toc-skip class="date">2022-09-03</h4>
+            <h4 data-toc-skip class="date">2022-09-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paytonjjones/networktree/blob/HEAD/vignettes/returns.Rmd" class="external-link"><code>vignettes/returns.Rmd</code></a></small>
       <div class="hidden name"><code>returns.Rmd</code></div>
@@ -191,10 +191,6 @@
 <p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method gives the partitioning of the data and the fitted coefficients which are the correlations between the exchange return rates of the different currencies. As expected only <code>time</code> was selected for splitting the data. In the first node the data are splitted in April 1994. Then in the second and fifth node the remaining data is splitted in December 1989 and July 2005, respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tr</span>, transform <span class="op">=</span> <span class="st">"pcor"</span>, posCol <span class="op">=</span> <span class="st">"#008585"</span>, negCol <span class="op">=</span> <span class="st">"#C7522B"</span>, maximum <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span>
-<span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span>
-<span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span>
-<span><span class="co">## Warning in (function (input, ...) : 'minimum' set to absolute value</span></span></code></pre>
 <p><img src="returns_files/figure-html/plt-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>The <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method uses <code>qgraph()</code> of the <strong>qgraph</strong> package <span class="citation">(Epskamp et al. 2012)</span> for visualizing the networks in the terminal nodes. Thus we can choose between looking at the correlations <code>type = "cor"</code> or at the partial correlations <code>type = "pcor"</code>.</p>
 <p>The partial correlation reveals a very strong link between the Chinese Yuan and the US Dollar after April 1994, but a weaker link before that point of time.</p>
