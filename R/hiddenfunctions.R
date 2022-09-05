@@ -7,7 +7,7 @@ ntqgraph <- function(obj,
                      layout = "lock",
                      pop = TRUE, 
                      bg = "white", 
-                     minimum = "local",
+                     minimum = 0,
                      maximum = "local",
                      ...) {
   
@@ -22,7 +22,6 @@ ntqgraph <- function(obj,
     layout <- qgraph::qgraph(getnetwork(obj,id=1),layout="spring",DoNotPlot=T)$layout
   } 
   coef_max_min <- get_coef_max_mins(obj)
-  minimum <- ifelse(minimum[1] == "local", coef_max_min$min$edge, minimum)
   maximum <- ifelse(maximum[1] == "local", coef_max_min$max$edge, maximum)
 
   rval <- function(node){
